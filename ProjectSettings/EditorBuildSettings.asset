@@ -11,6 +11,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: 42e24c1ca6864d745a4dc8d2ede23be7
+  - enabled: 1
+    path: Assets/Scenes/Options.unity
+    guid: 0e687cc091f60d948b44eb622fed0195
+  - enabled: 1
+    path: Assets/Scenes/CardsScene.unity
+    guid: 5af4d20bbfc8c4e4893257dc4168ec3b
+  - enabled: 1
+    path: Assets/Scenes/PlantCardScene.unity
+    guid: d6da0fa0aab9e8c479327f362ede5dab
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: bcee3b5cddf6b164082f1f22e9f9eb22, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 8671e6bb6a702f64db285d30e4c55e97, type: 2}
