@@ -32,11 +32,13 @@ public class PlayerProfileManager : MonoBehaviour
         if (File.Exists(savePath))
         {
             File.Delete(savePath);
-            Debug.Log("Save deleted: " + savePath);
+            Debug.Log("Save deleted.");
         }
-        else
-        {
-            Debug.Log("No save file found.");
-        }
+    }
+
+    public void ResetPlantData()
+    {
+        DeleteSave();
+        Debug.Log("Plant inventory reset.");
     }
 }

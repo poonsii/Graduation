@@ -8,4 +8,7 @@ public class PlantData : ScriptableObject
     public Sprite icon;
     public GameObject cardPrefab;
     public GameObject roomItemPrefab;
+
+    public GameObject healthyModel;
+    public GameObject unhealthyModel;
 }
