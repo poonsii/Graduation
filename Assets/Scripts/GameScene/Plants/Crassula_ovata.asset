@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03bc6c7ced5693b4a9c74e16c7bcca22, type: 3}
+  m_Name: Crassula_ovata
+  m_EditorClassIdentifier: Assembly-CSharp::PlantData
+  id: crassula_ovata
+  displayName: Crassula ovata
+  icon: {fileID: 0}
+  cardPrefab: {fileID: 0}
+  roomItemPrefab: {fileID: 0}
