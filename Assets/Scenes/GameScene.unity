@@ -1151,6 +1151,10 @@ PrefabInstance:
       value: MDL_BlockoutPlantUnhealthy
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b9728650ca671c540980ce9ed61d476a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b9728650ca671c540980ce9ed61d476a, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -1482,6 +1486,10 @@ PrefabInstance:
       value: MDL_BlockoutPlant
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b9728650ca671c540980ce9ed61d476a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b9728650ca671c540980ce9ed61d476a, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -1691,9 +1699,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3635001a0015204888afbe5d86caa63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwipeRotate
-  horizontalSpeed: 0.25
+  horizontalSpeed: 0.16
   verticalSpeed: 0.08
   smoothDamp: 12.9
+  targetCamera: {fileID: 1171574392}
+  zoomSpeedMouse: 5
+  zoomSpeedTouch: 0.01
+  minDistance: 0.2
+  maxDistance: 25
+  panSpeedMouse: 0.01
+  panSpeedTouch: 0.01
 --- !u!4 &698909347 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: caac7c293761add44930764a28aa5559, type: 3}
@@ -2451,6 +2466,7 @@ GameObject:
   - component: {fileID: 1171574392}
   - component: {fileID: 1171574391}
   - component: {fileID: 1171574394}
+  - component: {fileID: 1171574395}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2576,6 +2592,22 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &1171574395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171574390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65e1b75fa3fd386408198a12031f99b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoverOutlineRaycaster
+  cam: {fileID: 1171574392}
+  hoverMask:
+    m_Bits: 4294967295
+  currentTarget: {fileID: 0}
 --- !u!1 &1220622483
 GameObject:
   m_ObjectHideFlags: 0
@@ -3593,6 +3625,13 @@ MonoBehaviour:
   horizontalSpeed: 0.25
   verticalSpeed: 0.08
   smoothDamp: 5
+  targetCamera: {fileID: 0}
+  zoomSpeedMouse: 5
+  zoomSpeedTouch: 0.01
+  minDistance: 2
+  maxDistance: 10
+  panSpeedMouse: 0.01
+  panSpeedTouch: 0.01
 --- !u!136 &1756083813
 CapsuleCollider:
   m_ObjectHideFlags: 0

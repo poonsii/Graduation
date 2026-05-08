@@ -21,6 +21,7 @@ EditorBuildSettings:
     path: Assets/Scenes/PlantCardScene.unity
     guid: d6da0fa0aab9e8c479327f362ede5dab
   m_configObjects:
+    com.unity.adaptivePerformance.basic.provider_settings: {fileID: 11400000, guid: fdfee13d945bb954187a05faadea9c17, type: 2}
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: bcee3b5cddf6b164082f1f22e9f9eb22, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 8671e6bb6a702f64db285d30e4c55e97, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 7cf57e602ccd5e943a2dd01a5cda405c, type: 2}
