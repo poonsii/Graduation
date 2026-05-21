@@ -1,64 +1,45 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlantRegistrationUI : MonoBehaviour
 {
-    [Header("Popup")]
-    [SerializeField] private GameObject popupRoot;
-    [SerializeField] private Button confirmButton;
+    [SerializeField] private GameObject panelRoot;
+    [SerializeField] private List<PlantToggleBinding> plantToggles;
 
-    [Header("List")]
-    [SerializeField] private Transform contentParent;
-    [SerializeField] private GameObject rowPrefab;
-    [SerializeField] private List<PlantData> selectablePlants;
+    private Action<List<string>> onConfirm;
 
-    private List<PlantSelectionEntry> spawnedEntries = new List<PlantSelectionEntry>();
-    private Action<List<string>> onConfirmCallback;
-
-    private void Awake()
+    public void Show(Action<List<string>> confirmCallback)
     {
-        popupRoot.SetActive(false);
-        confirmButton.onClick.AddListener(ConfirmSelection);
-    }
+        onConfirm = confirmCallback;
+        panelRoot.SetActive(true);
 
-    public void Show(Action<List<string>> onConfirm)
-    {
-        onConfirmCallback = onConfirm;
-        popupRoot.SetActive(true);
-
-        foreach (Transform child in contentParent)
-            Destroy(child.gameObject);
-
-        spawnedEntries.Clear();
-
-        foreach (PlantData plant in selectablePlants)
+        foreach (PlantToggleBinding entry in plantToggles)
         {
-            GameObject rowObj = Instantiate(rowPrefab, contentParent);
-            PlantSelectionEntry entry = rowObj.GetComponent<PlantSelectionEntry>();
-            entry.Setup(plant);
-            spawnedEntries.Add(entry);
+            if (entry != null && entry.toggle != null)
+                entry.toggle.isOn = false;
         }
     }
 
-    private void ConfirmSelection()
+    public void ConfirmSelection()
     {
         List<string> selectedPlantIds = new List<string>();
 
-        foreach (PlantSelectionEntry entry in spawnedEntries)
+        foreach (PlantToggleBinding entry in plantToggles)
         {
-            if (entry.IsSelected())
-                selectedPlantIds.Add(entry.GetPlantId());
+            if (entry != null && entry.IsSelected())
+            {
+                selectedPlantIds.Add(entry.plantId);
+            }
         }
 
         if (selectedPlantIds.Count == 0)
         {
-            Debug.Log("Player must select at least one plant.");
+            Debug.LogWarning("Select at least one plant.");
             return;
         }
 
-        popupRoot.SetActive(false);
-        onConfirmCallback?.Invoke(selectedPlantIds);
+        panelRoot.SetActive(false);
+        onConfirm?.Invoke(selectedPlantIds);
     }
 }

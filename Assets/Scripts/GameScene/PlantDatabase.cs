@@ -26,4 +26,9 @@ public class PlantDatabase : MonoBehaviour
         Debug.LogWarning("Plant ID not found: " + id);
         return null;
     }
+
+    public List<PlantData> GetAllPlants()
+    {
+        return allPlants;
+    }
 }
