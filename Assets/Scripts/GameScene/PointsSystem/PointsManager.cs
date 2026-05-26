@@ -1,131 +1,94 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
 
 public class PointsManager : MonoBehaviour
 {
     public static PointsManager Instance;
 
     [Header("Current Points")]
-    [SerializeField] private int leafPoints = 0;
-    [SerializeField] private int decorationPoints = 0;
+    [SerializeField] private int points = 0;
 
     [Header("UI Text")]
-    [SerializeField] private TMP_Text[] leafTexts;
-    [SerializeField] private TMP_Text[] decorationTexts;
+    [SerializeField] private TMP_Text[] pointTexts;
 
-    private const string LeafKey = "LeafPoints";
-    private const string DecorationKey = "DecorationPoints";
+    private const string PointsKey = "Points";
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-            LoadPoints();
-            Debug.Log("PointsManager created.");
-        }
-        else
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+        LoadPoints();
     }
 
-    private void OnEnable()
+    public void RegisterUI(TMP_Text[] newPointTexts)
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        Debug.Log("Scene loaded: " + scene.name);
-        UpdateUI();
-    }
-
-    public void RegisterUI(TMP_Text[] newLeafTexts, TMP_Text[] newDecorationTexts)
-    {
-        leafTexts = newLeafTexts;
-        decorationTexts = newDecorationTexts;
-
-        Debug.Log("PointsManager RegisterUI called. Leaf texts: " +
-                  (leafTexts != null ? leafTexts.Length : 0) +
-                  ", Decoration texts: " +
-                  (decorationTexts != null ? decorationTexts.Length : 0));
-
+        pointTexts = newPointTexts;
+        Debug.Log("RegisterUI on manager: " + gameObject.name + " | refs = " + pointTexts.Length, this);
         UpdateUI();
     }
 
     public void AddPlantCareReward(bool wasUnhealthy)
     {
-        if (wasUnhealthy)
-        {
-            leafPoints += 5;
-            decorationPoints += 10;
-        }
-        else
-        {
-            leafPoints += 10;
-            decorationPoints += 50;
-        }
+        points += wasUnhealthy ? 15 : 60;
+        SavePoints();
+        Debug.Log("AddPlantCareReward on manager: " + gameObject.name + " | points = " + points, this);
+        UpdateUI();
+    }
 
+    public void AddPoints(int amount)
+    {
+        points += amount;
         SavePoints();
         UpdateUI();
     }
 
+    public void ResetPoints()
+    {
+        points = 0;
+        SavePoints();
+        UpdateUI();
+    }
+
+    public int GetPoints()
+    {
+        return points;
+    }
+
     public void UpdateUI()
     {
-        Debug.Log("UpdateUI called. Leafs: " + leafPoints + ", Decoration: " + decorationPoints);
-
-        if (leafTexts != null)
+        if (pointTexts == null || pointTexts.Length == 0)
         {
-            foreach (TMP_Text text in leafTexts)
-            {
-                if (text != null)
-                    text.text = leafPoints + " leafs";
-            }
+            Debug.Log("UpdateUI skipped, no point text references registered.", this);
+            return;
         }
 
-        if (decorationTexts != null)
+        string value = points + " points";
+
+        foreach (TMP_Text text in pointTexts)
         {
-            foreach (TMP_Text text in decorationTexts)
+            if (text != null)
             {
-                if (text != null)
-                    text.text = decorationPoints + " points";
+                text.text = value;
+                text.ForceMeshUpdate();
+                Debug.Log("Updated text: " + text.gameObject.name + " -> " + value, text);
             }
         }
     }
 
     private void SavePoints()
     {
-        PlayerPrefs.SetInt(LeafKey, leafPoints);
-        PlayerPrefs.SetInt(DecorationKey, decorationPoints);
+        PlayerPrefs.SetInt(PointsKey, points);
         PlayerPrefs.Save();
     }
 
     private void LoadPoints()
     {
-        leafPoints = PlayerPrefs.GetInt(LeafKey, 0);
-        decorationPoints = PlayerPrefs.GetInt(DecorationKey, 0);
-    }
-
-    public void ResetPoints()
-    {
-        leafPoints = 0;
-        decorationPoints = 0;
-
-        PlayerPrefs.SetInt(LeafKey, 0);
-        PlayerPrefs.SetInt(DecorationKey, 0);
-        PlayerPrefs.Save();
-
-        Debug.Log("Points reset.");
-
-        UpdateUI();
+        points = PlayerPrefs.GetInt(PointsKey, 0);
     }
 }

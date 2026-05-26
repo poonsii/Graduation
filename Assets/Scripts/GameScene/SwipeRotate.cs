@@ -30,15 +30,29 @@ public class SwipeRotate : MonoBehaviour
     public float panSpeedMouse = 0.002f;
     public float panSpeedTouch = 0.002f;
 
+    [Header("Invert Controls")]
+    public bool invertMovement = false;
+
     private float targetDistance;
     private Vector3 focusPoint;
     private Vector3 cameraDirection;
+
+    private float startX;
+    private float startY;
+    private float startDistance;
+    private Vector3 startFocusPoint;
+    private Vector3 startCameraDirection;
+
+    private float InputDirection => invertMovement ? -1f : 1f;
 
     void Start()
     {
         Vector3 startRot = transform.eulerAngles;
         targetX = startRot.x;
         targetY = startRot.y;
+
+        startX = targetX;
+        startY = targetY;
 
         if (targetCamera == null)
             targetCamera = Camera.main;
@@ -49,6 +63,10 @@ public class SwipeRotate : MonoBehaviour
             Vector3 offset = targetCamera.transform.position - focusPoint;
             targetDistance = offset.magnitude;
             cameraDirection = offset.normalized;
+
+            startFocusPoint = focusPoint;
+            startDistance = targetDistance;
+            startCameraDirection = cameraDirection;
         }
     }
 
@@ -100,8 +118,8 @@ public class SwipeRotate : MonoBehaviour
                 Vector2 delta = touch.position - lastPointerPos;
                 lastPointerPos = touch.position;
 
-                targetY -= delta.x * horizontalSpeed;
-                targetX -= delta.y * verticalSpeed;
+                targetY -= delta.x * horizontalSpeed * InputDirection;
+                targetX -= delta.y * verticalSpeed * InputDirection;
             }
             else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
             {
@@ -147,8 +165,8 @@ public class SwipeRotate : MonoBehaviour
             Vector2 delta = mousePos - lastPointerPos;
             lastPointerPos = mousePos;
 
-            targetY -= delta.x * horizontalSpeed;
-            targetX -= delta.y * verticalSpeed;
+            targetY -= delta.x * horizontalSpeed * InputDirection;
+            targetX -= delta.y * verticalSpeed * InputDirection;
         }
         else if (Input.GetMouseButtonUp(0))
         {
@@ -181,8 +199,43 @@ public class SwipeRotate : MonoBehaviour
         Vector3 move =
             (-right * screenDelta.x - up * screenDelta.y) *
             speed *
-            panScale;
+            panScale *
+            InputDirection;
 
         focusPoint += move;
+    }
+
+    public void ResetView()
+    {
+        isDragging = false;
+
+        targetX = startX;
+        targetY = startY;
+        focusPoint = startFocusPoint;
+        targetDistance = startDistance;
+        cameraDirection = startCameraDirection;
+    }
+
+    public void ResetViewInstant()
+    {
+        ResetView();
+
+        transform.rotation = Quaternion.Euler(targetX, targetY, 0f);
+
+        if (targetCamera != null)
+        {
+            targetCamera.transform.position = focusPoint + cameraDirection * targetDistance;
+            targetCamera.transform.LookAt(focusPoint);
+        }
+    }
+
+    public void ToggleInvertMovement()
+    {
+        invertMovement = !invertMovement;
+    }
+
+    public void SetInvertMovement(bool value)
+    {
+        invertMovement = value;
     }
 }

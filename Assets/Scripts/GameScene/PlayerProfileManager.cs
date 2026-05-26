@@ -46,7 +46,16 @@ public class PlayerProfileManager : MonoBehaviour
     public void ResetPlantData()
     {
         DeleteSave();
-        Debug.Log("Plant inventory reset.");
+
+        RoomPlant[] roomPlants = FindObjectsOfType<RoomPlant>(true);
+
+        foreach (RoomPlant roomPlant in roomPlants)
+        {
+            if (roomPlant != null)
+                roomPlant.ResetPlantState();
+        }
+
+        Debug.Log("Plant inventory and timers reset.");
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

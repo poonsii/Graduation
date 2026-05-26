@@ -1,0 +1,226 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Game Scene_en
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 20368b44c85066a40862699898fc8f2c, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 1352283350861611389
+  m_TableData:
+  - m_Id: 35313197056
+    m_Localized: Day {0}
+    m_Metadata:
+      m_Items:
+      - rid: 1352283350861611389
+  - m_Id: 856520171520
+    m_Localized: SETTINGS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 872110399488
+    m_Localized: "INVERT \nMOVEMENT"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 951923810304
+    m_Localized: RESET PLANTS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 965299445760
+    m_Localized: RESET POINTS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 978956099584
+    m_Localized: LANGUAGE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 995720732672
+    m_Localized: REMINDERS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2698067091456
+    m_Localized: Made by Roxane Hendriks
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4216921038848
+    m_Localized: SELECT YOUR PLANTS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4239549308928
+    m_Localized: CONFIRM
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4708552187904
+    m_Localized: ORCHID
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4728663875584
+    m_Localized: "SNAKE \nPLANT"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5194516832256
+    m_Localized: CARDS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6211270647808
+    m_Localized: SNAKE PLANT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23702151667712
+    m_Localized: WATERING
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23764411916288
+    m_Localized: LIGHT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23880673828864
+    m_Localized: HUMIDITY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23884075409408
+    m_Localized: SOIL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23884608086016
+    m_Localized: FERTILIZER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23994343661568
+    m_Localized: ADDITIONAL INFO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24037784068096
+    m_Localized: PESTS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24013780066304
+    m_Localized: TENDED?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24083887857664
+    m_Localized: TOXIC TO PETS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29848300199936
+    m_Localized: "Water every 2\u20136 weeks, letting the soil dry out completely
+      between waterings. "
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29914985439232
+    m_Localized: 'Prefers bright, indirect light but can tolerate some direct sun. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29916612829184
+    m_Localized: 'Prefers neutral humidity. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29917904674816
+    m_Localized: 'Use a well-draining succulent mix.  '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29919112634368
+    m_Localized: Diluted fertilizer.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29920333176832
+    m_Localized: 'Very low susceptibility. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29922241585152
+    m_Localized: 'Mildly toxic. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30013861961728
+    m_Localized: 'Snake plants are very low-maintenance, prefer to stay slightly
+      root-bound, and should be kept warm with good drainage. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32395714928640
+    m_Localized: "Water every 7\u201310 days, allowing the soil to dry slightly between
+      waterings. "
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32397140992000
+    m_Localized: 'Prefers bright, indirect light. Avoid direct sunlight. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32398437031936
+    m_Localized: 'Thrives in high humidity. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32399875678208
+    m_Localized: 'Use a well-draining potting mix.  '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32401154940928
+    m_Localized: Balanced liquid fertilizer.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32402522284032
+    m_Localized: 'Medium-high susceptibility. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32403847684096
+    m_Localized: 'Non toxic. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32541261471744
+    m_Localized: 'Orchids do best in airy pots or containers with excellent drainage,
+      and they often need more airflow than typical houseplants. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34277606858752
+    m_Localized: Water every 7-10 days, allowing the top of the soil to dry out between
+      waterings.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34301803798528
+    m_Localized: 'Prefers bright, indirect light, but can handle medium light. Avoid
+      direct sunlight. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34303099838464
+    m_Localized: 'Thrives in high humidity. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34304135831552
+    m_Localized: Use a well-draining potting mix.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34305331208192
+    m_Localized: Balanced liquid fertilizer.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34306610470912
+    m_Localized: 'High susceptibility. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34307961036800
+    m_Localized: Mildly toxic.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34309361934336
+    m_Localized: 'As climbers, they require a stake or moss pole as they grow to
+      encourage larger, fenestrated (split) leaves. '
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 1352283350861611389
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 35313197056

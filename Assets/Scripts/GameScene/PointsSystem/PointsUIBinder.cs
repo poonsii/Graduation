@@ -3,19 +3,33 @@ using TMPro;
 
 public class PointsUIBinder : MonoBehaviour
 {
-    [SerializeField] private TMP_Text[] leafTexts;
-    [SerializeField] private TMP_Text[] decorationTexts;
+    private TMP_Text pointsText;
 
-    private void OnEnable()
+    private void Awake()
     {
-        if (PointsManager.Instance != null)
+        pointsText = GetComponent<TMP_Text>();
+
+        if (pointsText == null)
         {
-            PointsManager.Instance.RegisterUI(leafTexts, decorationTexts);
-            Debug.Log("GameScenePointsUI registered UI.");
+            Debug.LogError("PointsUIBinder must be on the same object as the TMP_Text.", this);
+        }
+    }
+
+    private void Start()
+    {
+        Register();
+    }
+
+    public void Register()
+    {
+        if (PointsManager.Instance != null && pointsText != null)
+        {
+            PointsManager.Instance.RegisterUI(new TMP_Text[] { pointsText });
+            Debug.Log("Registered points text in Start: " + pointsText.gameObject.name, this);
         }
         else
         {
-            Debug.LogWarning("PointsManager.Instance is null.");
+            Debug.LogWarning("PointsManager or pointsText missing in Register().", this);
         }
     }
 }

@@ -4,6 +4,8 @@ using UnityEngine.EventSystems;
 public class ClickObject : MonoBehaviour
 {
     public GameObject plantCardUI;
+    public LayerMask tapMask; // Set this in Inspector to include Walls + Plants
+    public float maxDistance = 100f;
 
     private Camera mainCam;
 
@@ -39,9 +41,8 @@ public class ClickObject : MonoBehaviour
     private void TryOpen(Vector3 screenPosition)
     {
         Ray ray = mainCam.ScreenPointToRay(screenPosition);
-        RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, tapMask, QueryTriggerInteraction.Ignore))
         {
             if (hit.collider.transform == transform || hit.collider.transform.IsChildOf(transform))
             {

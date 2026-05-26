@@ -1,0 +1,229 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Game Scene_nl
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: nl
+  m_SharedData: {fileID: 11400000, guid: 20368b44c85066a40862699898fc8f2c, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 1352283350861611388
+  m_TableData:
+  - m_Id: 35313197056
+    m_Localized: Dag {0}
+    m_Metadata:
+      m_Items:
+      - rid: 1352283350861611388
+  - m_Id: 856520171520
+    m_Localized: OPTIES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 872110399488
+    m_Localized: "OMGEKEERDE \nBEWEGING"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 951923810304
+    m_Localized: "RESET \nPLANTEN"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 965299445760
+    m_Localized: RESET PUNTEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 978956099584
+    m_Localized: TAAL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 995720732672
+    m_Localized: REMINDERS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2698067091456
+    m_Localized: Gemaakt door Roxane Hendriks
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4216921038848
+    m_Localized: SELECTEER PLANTEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4239549308928
+    m_Localized: BEVESTIG
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4708552187904
+    m_Localized: ORCHIDEE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4728663875584
+    m_Localized: VROUWENTONG
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5194516832256
+    m_Localized: KAARTEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6211270647808
+    m_Localized: VROUWENTONG
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23702151667712
+    m_Localized: WATER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23764411916288
+    m_Localized: LICHT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23880673828864
+    m_Localized: 'VOCHTIG
+
+      HEID'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23884075409408
+    m_Localized: GROND
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23884608086016
+    m_Localized: MESTSTOF
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23994343661568
+    m_Localized: AANVULLENDE INFORMATIE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24013780066304
+    m_Localized: VERZORGD?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24083887857664
+    m_Localized: GIFTIG VOOR DIEREN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24037784068096
+    m_Localized: PLAGEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29848300199936
+    m_Localized: "Geef elke 2\u20136 weken water en laat de grond tussen de waterbeurten
+      volledig\nuitdrogen. "
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29914985439232
+    m_Localized: 'Geeft de voorkeur aan helder, indirect licht maar kan wel wat direct
+      zonlicht verdragen. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29916612829184
+    m_Localized: 'Doet het goed in neutrale luchtvochtigheid. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29917904674816
+    m_Localized: 'Gebruik een goed doorlatende vetplantenmix. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29919112634368
+    m_Localized: Verdunde meststof.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29920333176832
+    m_Localized: 'Hele lage aanvalgevoeligheid. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29922241585152
+    m_Localized: 'Licht giftig. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30013861961728
+    m_Localized: 'Vrouwentongen zijn zeer onderhoudsarm, blijven liever licht wortelgebonden
+      en moeten warm worden gehouden. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32395714928640
+    m_Localized: "Geef elke 7\u201310 dagen water, zodat de grond tussen de waterbeurten
+      iets droog wordt. "
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32397140992000
+    m_Localized: 'Geeft de voorkeur aan helder, indirect licht. Vermijd direct zonlicht. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32399875678208
+    m_Localized: 'Gebruik een goed doorlatende potgrond. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32398437031936
+    m_Localized: 'Doet het goed in hoge luchtvochtigheid. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32401154940928
+    m_Localized: Gebalanceerde vloeibare meststof.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32402522284032
+    m_Localized: 'Middelmatige aanvalgevoeligheid. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32403847684096
+    m_Localized: 'Niet-giftig. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32541261471744
+    m_Localized: "Orchidee\xEBn doen het beste in luchtige potten of potten met uitstekende
+      drainage, en ze hebben vaak meer luchtcirculatie nodig."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34277606858752
+    m_Localized: 'Geef elke 7-10 dagen water, zodat de bovenkant van de grond tussen
+      de waterbeurten kan uitdrogen. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34301803798528
+    m_Localized: 'Geeft de voorkeur aan fel, indirect licht, maar kan gemiddeld licht
+      aan. Vermijd direct zonlicht. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34303099838464
+    m_Localized: 'Doet het goed in hoge luchtvochtigheid. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34304135831552
+    m_Localized: 'Gebruik een goed doorlatende potgrond. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34305331208192
+    m_Localized: Gebalanceerde vloeibare meststof.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34306610470912
+    m_Localized: 'Hoge aanvalgevoeligheid. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34307961036800
+    m_Localized: 'Licht giftig. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34309361934336
+    m_Localized: 'Als klimmers hebben ze een paal of mosstok nodig om grotere, gespleten
+      bladeren te stimuleren. '
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 1352283350861611388
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 35313197056
