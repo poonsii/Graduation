@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerProfileManager : MonoBehaviour
 {
@@ -15,7 +16,13 @@ public class PlayerProfileManager : MonoBehaviour
         if (File.Exists(savePath))
         {
             string json = File.ReadAllText(savePath);
-            return JsonUtility.FromJson<PlayerData>(json);
+
+            if (!string.IsNullOrEmpty(json))
+            {
+                PlayerData loadedData = JsonUtility.FromJson<PlayerData>(json);
+                if (loadedData != null)
+                    return loadedData;
+            }
         }
 
         return new PlayerData();
@@ -39,6 +46,17 @@ public class PlayerProfileManager : MonoBehaviour
     public void ResetPlantData()
     {
         DeleteSave();
-        Debug.Log("Plant inventory reset.");
+
+        RoomPlant[] roomPlants = FindObjectsOfType<RoomPlant>(true);
+
+        foreach (RoomPlant roomPlant in roomPlants)
+        {
+            if (roomPlant != null)
+                roomPlant.ResetPlantState();
+        }
+
+        Debug.Log("Plant inventory and timers reset.");
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

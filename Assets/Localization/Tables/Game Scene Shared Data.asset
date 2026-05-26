@@ -1,0 +1,224 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Game Scene Shared Data
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
+  m_TableCollectionName: Game Scene
+  m_TableCollectionNameGuidString: 20368b44c85066a40862699898fc8f2c
+  m_Entries:
+  - m_Id: 35313197056
+    m_Key: days
+    m_Metadata:
+      m_Items: []
+  - m_Id: 856520171520
+    m_Key: opties
+    m_Metadata:
+      m_Items: []
+  - m_Id: 872110399488
+    m_Key: invertmovement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 951923810304
+    m_Key: resetplants
+    m_Metadata:
+      m_Items: []
+  - m_Id: 965299445760
+    m_Key: resetpoints
+    m_Metadata:
+      m_Items: []
+  - m_Id: 978956099584
+    m_Key: language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 995720732672
+    m_Key: reminder
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2698067091456
+    m_Key: MADEBYME
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4216921038848
+    m_Key: Select your plants
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4239549308928
+    m_Key: Confirm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4708552187904
+    m_Key: orchid
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4728663875584
+    m_Key: snake plant
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5194516832256
+    m_Key: Cards
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6211270647808
+    m_Key: snakeplant card
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23702151667712
+    m_Key: Water
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23764411916288
+    m_Key: LIGHT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23880673828864
+    m_Key: HUMIDITY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23884075409408
+    m_Key: SOIL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23884608086016
+    m_Key: FERTILIZER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23994343661568
+    m_Key: ADDITIONAL INFO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24013780066304
+    m_Key: TENDED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24037784068096
+    m_Key: PESTS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24083887857664
+    m_Key: TOXIC TO PETS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29848300199936
+    m_Key: snakewater
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29914985439232
+    m_Key: snakelight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29916612829184
+    m_Key: snakehumidity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29917904674816
+    m_Key: snakesoil
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29919112634368
+    m_Key: snakefertilizer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29920333176832
+    m_Key: snakepests
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29922241585152
+    m_Key: snaketoxic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30013861961728
+    m_Key: snakeadditional
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32395714928640
+    m_Key: orchidwater
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32397140992000
+    m_Key: orchidlight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32398437031936
+    m_Key: orchidhumidity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32399875678208
+    m_Key: orchidsoil
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32401154940928
+    m_Key: orchidfertilizer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32402522284032
+    m_Key: orchidpests
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32403847684096
+    m_Key: orchidtoxic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32541261471744
+    m_Key: orchidadditional
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34277606858752
+    m_Key: monsterawater
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34301803798528
+    m_Key: monsteralight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34303099838464
+    m_Key: monsterahumidity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34304135831552
+    m_Key: monsterasoil
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34305331208192
+    m_Key: monsterafertilizer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34306610470912
+    m_Key: monsterapests
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34307961036800
+    m_Key: monsteratoxic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34309361934336
+    m_Key: monsteraadditional
+    m_Metadata:
+      m_Items: []
+  - m_Id: 38577150140416
+    m_Key: New Entry
+    m_Metadata:
+      m_Items: []
+  - m_Id: 38580694327296
+    m_Key: New Entry 1
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 1352283350861611326
+  references:
+    version: 2
+    RefIds:
+    - rid: 1352283350861611326
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1779790912039

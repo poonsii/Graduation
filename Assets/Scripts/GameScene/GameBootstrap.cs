@@ -8,14 +8,17 @@ public class GameBootstrap : MonoBehaviour
     [SerializeField] private InventoryManager inventoryManager;
     [SerializeField] private PlantCardSpawner cardSpawner;
     [SerializeField] private PlantRegistrationUI registrationUI;
+    [SerializeField] private PlantWorldDisplay plantWorldDisplay;
+
+    private bool registrationRequired;
 
     private void Start()
     {
         PlayerData data = profileManager.Load();
 
-        if (!data.hasFinishedPlantRegistration)
+        if (!data.hasFinishedPlantRegistration || data.ownedPlantIds == null || data.ownedPlantIds.Count == 0)
         {
-            registrationUI.Show(OnPlantsChosen);
+            ForcePlantRegistration();
         }
         else
         {
@@ -25,11 +28,19 @@ public class GameBootstrap : MonoBehaviour
 
     private void OnPlantsChosen(List<string> selectedPlantIds)
     {
+        if (selectedPlantIds == null || selectedPlantIds.Count == 0)
+        {
+            Debug.LogWarning("You must select at least one plant.");
+            ForcePlantRegistration();
+            return;
+        }
+
         PlayerData data = new PlayerData();
         data.hasFinishedPlantRegistration = true;
         data.ownedPlantIds = selectedPlantIds;
 
         profileManager.Save(data);
+        registrationRequired = false;
         LoadOwnedPlants(data);
     }
 
@@ -46,14 +57,26 @@ public class GameBootstrap : MonoBehaviour
             }
         }
 
+        inventoryManager.RefreshRoomPlants();
+        inventoryManager.RefreshPlantCards();
         cardSpawner.SpawnCards(data.ownedPlantIds);
+
+        if (plantWorldDisplay != null)
+            plantWorldDisplay.ShowOwnedPlants(data.ownedPlantIds);
     }
-    private void Update()
+
+    public void ResetPlantsAndRequireRegistration()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            profileManager.DeleteSave();
-            Debug.Log("Save reset. Press Play again.");
-        }
+        profileManager.DeleteSave();
+        inventoryManager.Clear();
+        registrationRequired = true;
+
+        ForcePlantRegistration();
+    }
+
+    private void ForcePlantRegistration()
+    {
+        registrationRequired = true;
+        registrationUI.Show(OnPlantsChosen);
     }
 }
