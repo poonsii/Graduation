@@ -6,22 +6,22 @@ public class PlantWorldDisplay : MonoBehaviour
     [System.Serializable]
     public class PlantWorldBinding
     {
-        public string plantId;
-        public GameObject worldObject;
+        public string plantId; 
+        public GameObject worldObject; 
     }
 
-    [SerializeField] private List<PlantWorldBinding> plantBindings = new List<PlantWorldBinding>();
+    [SerializeField] private List<PlantWorldBinding> plantBindings = new List<PlantWorldBinding>(); // all plant and world object pairs.
 
     public void ShowOwnedPlants(List<string> ownedPlantIds)
     {
         foreach (PlantWorldBinding binding in plantBindings)
         {
             if (binding.worldObject != null)
-                binding.worldObject.SetActive(false);
+                binding.worldObject.SetActive(false); // hide all plants first.
         }
 
         if (ownedPlantIds == null)
-            return;
+            return; // stop if there are no owned plants.
 
         foreach (string ownedPlantId in ownedPlantIds)
         {
@@ -29,7 +29,7 @@ public class PlantWorldDisplay : MonoBehaviour
             {
                 if (binding.plantId == ownedPlantId && binding.worldObject != null)
                 {
-                    binding.worldObject.SetActive(true);
+                    binding.worldObject.SetActive(true); // show the plant if the player owns it.
                 }
             }
         }

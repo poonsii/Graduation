@@ -218,6 +218,22 @@ MonoBehaviour:
       bladeren te stimuleren. '
     m_Metadata:
       m_Items: []
+  - m_Id: 119518430273536
+    m_Localized: Vergeet niet om je monstera te verzorgen.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 119656326406144
+    m_Localized: Vergeet niet om je orchidee te verzorgen.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 119682251399168
+    m_Localized: Vergeet niet om je vrouwentong te verzorgen.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2250904993832960
+    m_Localized: WINKEL
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class OptionsMenuUI : MonoBehaviour
 {
-    [SerializeField] private GameObject optionsPanel;
+    [SerializeField] private GameObject optionsPanel; 
 
     private void Start()
     {
@@ -11,7 +11,7 @@ public class OptionsMenuUI : MonoBehaviour
             optionsPanel.SetActive(false);
     }
 
-    public void OpenOptions()
+    public void OpenOptions() // open the options panel.
     {
         if (EventSystem.current != null)
             EventSystem.current.SetSelectedGameObject(null);
@@ -20,7 +20,7 @@ public class OptionsMenuUI : MonoBehaviour
             optionsPanel.SetActive(true);
     }
 
-    public void CloseOptions()
+    public void CloseOptions() // close the options panel.
     {
         if (EventSystem.current != null)
             EventSystem.current.SetSelectedGameObject(null);
