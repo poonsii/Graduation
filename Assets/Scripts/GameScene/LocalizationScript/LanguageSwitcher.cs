@@ -7,15 +7,15 @@ public class LanguageSwitcher : MonoBehaviour
 {
     private IEnumerator Start()
     {
-        yield return LocalizationSettings.InitializationOperation;
+        yield return LocalizationSettings.InitializationOperation; 
     }
 
     public void NextLanguage()
     {
-        var locales = LocalizationSettings.AvailableLocales.Locales;
+        var locales = LocalizationSettings.AvailableLocales.Locales; // get the list of available languages
 
         if (locales == null || locales.Count == 0)
-            return;
+            return; 
 
         int currentIndex = 0;
 
@@ -23,28 +23,28 @@ public class LanguageSwitcher : MonoBehaviour
         {
             if (LocalizationSettings.SelectedLocale == locales[i])
             {
-                currentIndex = i;
+                currentIndex = i; // find the index of the currently selected language.
                 break;
             }
         }
 
-        int nextIndex = (currentIndex + 1) % locales.Count;
-        LocalizationSettings.SelectedLocale = locales[nextIndex];
+        int nextIndex = (currentIndex + 1) % locales.Count; 
+        LocalizationSettings.SelectedLocale = locales[nextIndex]; // apply the new language.
     }
 
     public void SetLanguageByIndex(int index)
     {
-        var locales = LocalizationSettings.AvailableLocales.Locales;
+        var locales = LocalizationSettings.AvailableLocales.Locales; // get the list of available languages.
 
         if (locales == null || index < 0 || index >= locales.Count)
-            return;
+            return; 
 
-        LocalizationSettings.SelectedLocale = locales[index];
+        LocalizationSettings.SelectedLocale = locales[index]; 
     }
 
     public void SetLanguage(Locale locale)
     {
         if (locale != null)
-            LocalizationSettings.SelectedLocale = locale;
+            LocalizationSettings.SelectedLocale = locale; //set the language directly from a locale object.
     }
 }

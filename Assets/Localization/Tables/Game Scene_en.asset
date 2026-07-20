@@ -215,6 +215,22 @@ MonoBehaviour:
       encourage larger, fenestrated (split) leaves. '
     m_Metadata:
       m_Items: []
+  - m_Id: 119518430273536
+    m_Localized: Don't forget to tend to your monstera.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 119656326406144
+    m_Localized: Don't forget to tend to your orchid.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 119682251399168
+    m_Localized: Don't forget to tend to your snake plant.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2250904993832960
+    m_Localized: SHOP
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

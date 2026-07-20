@@ -6,7 +6,7 @@ public class OptionsActions : MonoBehaviour
     {
         if (PointsManager.Instance != null)
         {
-            PointsManager.Instance.ResetPoints();
+            PointsManager.Instance.ResetPoints(); // reset all points from the options menu.
         }
     }
 }

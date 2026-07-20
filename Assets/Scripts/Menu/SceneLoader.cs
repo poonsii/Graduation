@@ -3,27 +3,27 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    public void LoadGameScene()
+    public void LoadGameScene() 
     {
         SceneManager.LoadScene("GameScene");
     }
 
-    public void LoadOptions()
+    public void LoadOptions() //options opens.
     {
         SceneManager.LoadScene("Options");
     }
 
-    public void LoadMenuScene()
+    public void LoadMenuScene() //menu opens.
     {
         SceneManager.LoadScene("MenuScene");
     }
 
-    public void LoadPlantCardScene()
+    public void LoadPlantCardScene() //not used anymore.
     {
         SceneManager.LoadScene("PlantCardScene");
     }
 
-    public void LoadCardsScene()
+    public void LoadCardsScene() //not used anymore.
     {
         SceneManager.LoadScene("CardsScene");
     }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
@@ -10,90 +11,107 @@ public class RoomPlant : MonoBehaviour
     [SerializeField] private string plantId = "RoomPlant_1";
 
     [Header("Plant Setup")]
-    [SerializeField] private PlantVisualController visualController;
-    [SerializeField] private float unhealthyAfterSeconds = 20f;
+    [SerializeField] private PlantVisualController visualController; // switches between healthy and unhealthy looks.
+    [SerializeField] private float unhealthyAfterSeconds = 20f; // how long before the plant becomes unhealthy.
 
     [Header("Day Settings")]
-    [SerializeField] private float secondsPerDay = 60f;
+    [SerializeField] private float secondsPerDay = 60f; // how many seconds count as one day
 
     [Header("UI")]
     [SerializeField] private GameObject plantUiPanel;
     [SerializeField] private TMP_Text[] dayTexts;
     [SerializeField] private ClickObject[] clickObjects;
 
+    [Header("Reminder UI")]
+    [SerializeField] private GameObject reminderPopup; // reminder message box
+    [SerializeField] private TMP_Text reminderText;
+    [SerializeField] private float reminderBeforeUnhealthySeconds = 5f; // when the reminder should appear
+    [SerializeField] private float reminderPopupDuration = 3f;
+
+    [Header("Plant Display")]
+    [SerializeField] private string plantDisplayName = "plant_1";
+
     [Header("Localization")]
     [SerializeField] private LocalizedString dayLocalizedString;
+    [SerializeField] private LocalizedString reminderLocalizedString;
 
     private float neglectTimer = 0f;
     private bool isUnhealthy = false;
     private int currentDay = 1;
     private bool isOwned = true;
 
+    private bool reminderShown = false;
+    private Coroutine reminderCoroutine;
+
     private string TimerKey => plantId + "_NeglectTimer";
     private string UnhealthyKey => plantId + "_IsUnhealthy";
     private string SaveTimeKey => plantId + "_LastSaveTime";
+
 
     private void Awake()
     {
         LoadPlantState();
         UpdatePlantState();
+        HideReminderPopupImmediate();
     }
 
     private void OnEnable()
     {
         if (dayLocalizedString != null)
-            dayLocalizedString.StringChanged += UpdateLocalizedDayText;
+            dayLocalizedString.StringChanged += UpdateLocalizedDayText; // update day text when language changes.
+
+        if (reminderLocalizedString != null)
+            reminderLocalizedString.StringChanged += UpdateLocalizedReminderText; // update reminder text when language changes.
     }
 
     private void OnDisable()
     {
         if (dayLocalizedString != null)
-            dayLocalizedString.StringChanged -= UpdateLocalizedDayText;
+            dayLocalizedString.StringChanged -= UpdateLocalizedDayText; // stop listening for day text changes.
+
+        if (reminderLocalizedString != null)
+            reminderLocalizedString.StringChanged -= UpdateLocalizedReminderText; // stop listening for reminder text changes.
 
         SavePlantState();
     }
 
     private void Start()
     {
-        RefreshDayString();
+        RefreshDayString(); // show the correct day text.
     }
 
     private void Update()
     {
         if (!isOwned)
-            return;
+            return; // do nothing if the plant is not owned.
 
-        neglectTimer += Time.deltaTime;
-        UpdatePlantState();
+        neglectTimer += Time.deltaTime; // count time passing.
+
+        UpdatePlantState(); // check if the plant is still healthy.
+        CheckReminder(); // see if the reminder should show.
     }
 
     public string GetPlantId()
     {
-        return plantId;
+        return plantId; // give back the plant id
     }
 
     public void SetOwned(bool owned)
     {
-        isOwned = owned;
+        isOwned = owned; // remember if the player owns it.
 
-        Debug.Log($"{plantId} SetOwned called: {owned}", this);
-
-        gameObject.SetActive(owned);
+        gameObject.SetActive(owned); // hide or show the plant.
 
         if (plantUiPanel != null)
         {
-            plantUiPanel.SetActive(owned);
-            Debug.Log($"{plantId} UI panel set active: {owned} -> {plantUiPanel.name}", plantUiPanel);
-        }
-        else
-        {
-            Debug.LogWarning($"{plantId} has no plantUiPanel assigned.", this);
+            plantUiPanel.SetActive(owned); // hide or show the ui panel too.
         }
 
         if (owned)
         {
             LoadPlantState();
             UpdatePlantState();
+            HideReminderPopupImmediate();
         }
     }
 
@@ -103,34 +121,117 @@ public class RoomPlant : MonoBehaviour
             return;
 
         if (EventSystem.current != null)
-            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(null); // clear selected ui.
 
-        Debug.Log("CareForPlant called on: " + plantId, gameObject);
-
-        bool wasUnhealthy = isUnhealthy;
+        bool wasUnhealthy = isUnhealthy; // remember if the plant was bad before caring.
 
         neglectTimer = 0f;
         currentDay = 1;
         isUnhealthy = false;
+        reminderShown = false;
 
         if (visualController != null)
-            visualController.SetHealthy(true);
+            visualController.SetHealthy(true); // switch to healthy loo
 
         RefreshDayString();
+        HideReminderPopupImmediate();
         SavePlantState();
 
         if (PointsManager.Instance != null)
         {
-            PointsManager.Instance.AddPlantCareReward(wasUnhealthy);
+            PointsManager.Instance.AddPlantCareReward(wasUnhealthy); // give points for caring
         }
-        else
+
+        CloseAllPlantCards(); // close plant cards.
+    }
+
+    public void ResetPlantState()
+    {
+        neglectTimer = 0f;
+        currentDay = 1;
+        isUnhealthy = false;
+        reminderShown = false;
+
+        PlayerPrefs.DeleteKey(TimerKey);
+        PlayerPrefs.DeleteKey(UnhealthyKey);
+        PlayerPrefs.DeleteKey(SaveTimeKey);
+        PlayerPrefs.Save();
+
+        if (visualController != null)
+            visualController.SetHealthy(true); // show healthy plant.
+
+        RefreshDayString(); // update text
+        HideReminderPopupImmediate(); // hide reminder popup
+    }
+
+    private void UpdatePlantState()
+    {
+        currentDay = Mathf.FloorToInt(neglectTimer / secondsPerDay) + 1; // convert time into days.
+        isUnhealthy = neglectTimer >= unhealthyAfterSeconds; // check if the plant is unhealthy.
+
+        if (visualController != null)
+            visualController.SetHealthy(!isUnhealthy); // switch plant look.
+
+        RefreshDayString();
+    }
+
+    private void CheckReminder()
+    {
+        if (!isOwned || !PlantReminderSettings.RemindersEnabled || isUnhealthy || reminderShown)
+            return; // stop if reminder should not show.
+
+        float timeLeft = unhealthyAfterSeconds - neglectTimer; // check how much time is left.
+
+        if (timeLeft <= reminderBeforeUnhealthySeconds && timeLeft > 0f)
         {
-            Debug.LogWarning("PointsManager.Instance is null");
+            reminderShown = true; // remember that i already showed it.
+            ShowReminderPopup(); // show reminder popup.
+        }
+    }
+
+    private void ShowReminderPopup()
+    {
+        if (reminderPopup == null)
+            return;
+
+        string shownName = string.IsNullOrWhiteSpace(plantDisplayName) ? plantId : plantDisplayName; // pick the name to show.
+
+        if (reminderLocalizedString != null)
+        {
+            reminderLocalizedString.Arguments = new object[] { shownName }; // give the name to the translation text.
+            reminderLocalizedString.RefreshString(); // refresh the localized message.
+        }
+        else if (reminderText != null)
+        {
+            reminderText.text = $"Don't forget to tend to your \"{shownName}\".";
         }
 
-        CloseAllPlantCards();
+        if (reminderCoroutine != null)
+            StopCoroutine(reminderCoroutine); // stop old popup timer if one exists.
 
-        Debug.Log(plantId + " is healthy again.");
+        reminderCoroutine = StartCoroutine(ReminderPopupRoutine());
+    }
+
+    private IEnumerator ReminderPopupRoutine()
+    {
+        reminderPopup.SetActive(true); // show the reminder.
+
+        yield return new WaitForSeconds(reminderPopupDuration); // wait a little while.
+
+        reminderPopup.SetActive(false); // hide the reminder again.
+        reminderCoroutine = null;
+    }
+
+    private void HideReminderPopupImmediate()
+    {
+        if (reminderCoroutine != null)
+        {
+            StopCoroutine(reminderCoroutine);
+            reminderCoroutine = null; // clear timer reference.
+        }
+
+        if (reminderPopup != null)
+            reminderPopup.SetActive(false); // hide popup now.
     }
 
     private void CloseAllPlantCards()
@@ -143,7 +244,7 @@ public class RoomPlant : MonoBehaviour
             {
                 if (clickObject != null)
                 {
-                    clickObject.ClosePlantCard();
+                    clickObject.ClosePlantCard(); // close the card.
                     closedAny = true;
                 }
             }
@@ -151,117 +252,96 @@ public class RoomPlant : MonoBehaviour
 
         if (!closedAny && plantUiPanel != null)
         {
-            plantUiPanel.SetActive(false);
+            plantUiPanel.SetActive(false); // hide the ui panel 
         }
-    }
-
-    public void ResetPlantState()
-    {
-        neglectTimer = 0f;
-        currentDay = 1;
-        isUnhealthy = false;
-
-        PlayerPrefs.DeleteKey(TimerKey);
-        PlayerPrefs.DeleteKey(UnhealthyKey);
-        PlayerPrefs.DeleteKey(SaveTimeKey);
-        PlayerPrefs.Save();
-
-        if (visualController != null)
-            visualController.SetHealthy(true);
-
-        RefreshDayString();
-
-        Debug.Log($"{plantId} state reset.");
-    }
-
-    private void UpdatePlantState()
-    {
-        currentDay = Mathf.FloorToInt(neglectTimer / secondsPerDay) + 1;
-        isUnhealthy = neglectTimer >= unhealthyAfterSeconds;
-
-        if (visualController != null)
-        {
-            visualController.SetHealthy(!isUnhealthy);
-        }
-
-        RefreshDayString();
     }
 
     private void RefreshDayString()
     {
         if (dayLocalizedString != null)
         {
-            dayLocalizedString.Arguments = new object[] { currentDay };
-            dayLocalizedString.RefreshString();
+            dayLocalizedString.Arguments = new object[] { currentDay }; // give the day number to the localization text.
+            dayLocalizedString.RefreshString(); // refresh the text.
         }
         else
         {
-            UpdateFallbackDayText();
+            UpdateFallbackDayText(); // use normal text if localization is missing.
         }
     }
 
     private void UpdateLocalizedDayText(string value)
     {
-        if (dayTexts == null) return;
+        if (dayTexts == null)
+            return;
 
         foreach (TMP_Text text in dayTexts)
         {
             if (text != null)
-                text.text = value;
+                text.text = value; // show the localized day text
         }
+    }
+
+    private void UpdateLocalizedReminderText(string value)
+    {
+        if (reminderText != null)
+            reminderText.text = value; // show the localized reminder text
     }
 
     private void UpdateFallbackDayText()
     {
-        if (dayTexts == null) return;
+        if (dayTexts == null)
+            return;
 
         foreach (TMP_Text text in dayTexts)
         {
             if (text != null)
-                text.text = "Day " + currentDay;
+                text.text = "Day " + currentDay; // show simple day text
         }
     }
 
     private void SavePlantState()
     {
-        if (!isOwned) return;
+        if (!isOwned)
+            return;
 
-        PlayerPrefs.SetFloat(TimerKey, neglectTimer);
-        PlayerPrefs.SetInt(UnhealthyKey, isUnhealthy ? 1 : 0);
-        PlayerPrefs.SetString(SaveTimeKey, DateTime.Now.Ticks.ToString());
-        PlayerPrefs.Save();
-
-        Debug.Log($"Saved {plantId} | Timer={neglectTimer} | Unhealthy={isUnhealthy}");
+        PlayerPrefs.SetFloat(TimerKey, neglectTimer); // save timer
+        PlayerPrefs.SetInt(UnhealthyKey, isUnhealthy ? 1 : 0); // save unhealthy state
+        PlayerPrefs.SetString(SaveTimeKey, DateTime.Now.Ticks.ToString()); // save current time
+        PlayerPrefs.Save(); // write data to disk
     }
 
     private void LoadPlantState()
     {
-        neglectTimer = PlayerPrefs.GetFloat(TimerKey, 0f);
-        isUnhealthy = PlayerPrefs.GetInt(UnhealthyKey, 0) == 1;
+        neglectTimer = PlayerPrefs.GetFloat(TimerKey, 0f); // load time
+        isUnhealthy = PlayerPrefs.GetInt(UnhealthyKey, 0) == 1; // load unhealthy state
+        reminderShown = false; // reset reminder flag.
 
         if (PlayerPrefs.HasKey(SaveTimeKey))
         {
-            string ticksString = PlayerPrefs.GetString(SaveTimeKey, "0");
+            string ticksString = PlayerPrefs.GetString(SaveTimeKey, "0"); // get saved time
 
             if (long.TryParse(ticksString, out long savedTicks) && savedTicks > 0)
             {
-                DateTime savedTime = new DateTime(savedTicks);
-                TimeSpan elapsed = DateTime.Now - savedTime;
-                neglectTimer += (float)elapsed.TotalSeconds;
+                DateTime savedTime = new DateTime(savedTicks); // turn saved ticks into time.
+                TimeSpan elapsed = DateTime.Now - savedTime; // work out how much time passed.
+                neglectTimer += (float)elapsed.TotalSeconds; // add missed time to the timer.
             }
         }
-
-        Debug.Log($"Loaded {plantId} | Timer={neglectTimer} | Unhealthy={isUnhealthy}");
     }
 
     private void OnApplicationPause(bool pauseStatus)
     {
         if (pauseStatus)
-            SavePlantState();
+            SavePlantState(); // save when the app is paused.
     }
 
     private void OnApplicationQuit()
     {
-        SavePlantState();
+        SavePlantState(); // save when the app closes.
+    }
+
+    public void HideReminderPopupFromSettings()
+    {
+        HideReminderPopupImmediate(); // hide the reminder from settings.
     }
 }
