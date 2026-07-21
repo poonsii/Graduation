@@ -28,9 +28,8 @@ public class PlantLocationConfirmPanel : MonoBehaviour
         currentSpot = spot;
 
         PlantData plant = plantDatabase.GetById(plantId);
-
-        plantNameText.text = plant != null ? plant.displayName : plantId;
-        locationNameText.text = spot.GetDisplayName();
+        string plantName = plant != null ? plant.displayName : plantId;
+        string locationName = spot.GetDisplayName();
 
         if (plant != null)
         {
@@ -39,13 +38,19 @@ public class PlantLocationConfirmPanel : MonoBehaviour
                 spot.GetLocationType()
             );
 
-            adviceText.text = GetAdviceText(currentAdviceResult);
+            plantNameText.text = $"Your {plantName} is placed in {locationName}, which {GetAdviceFragment(currentAdviceResult)}.";
         }
         else
         {
             currentAdviceResult = LightAdviceResult.Unknown;
-            adviceText.text = "Could not read plant data.";
+            plantNameText.text = "Could not read plant data.";
         }
+
+        if (locationNameText != null)
+            locationNameText.text = "";
+
+        if (adviceText != null)
+            adviceText.text = "";
 
         gameBootstrap.PreviewPlantLocation(plantId, spot.transform); // show the plant at this spot while the player decides.
 
@@ -82,18 +87,18 @@ public class PlantLocationConfirmPanel : MonoBehaviour
         selector.EnableSelectionAgain();
     }
 
-    private string GetAdviceText(LightAdviceResult result)
+    private string GetAdviceFragment(LightAdviceResult result)
     {
         switch (result)
         {
             case LightAdviceResult.Good:
-                return "This location fits the plant well.";
+                return "fits it well";
             case LightAdviceResult.Warning:
-                return "This location may work, but it is not ideal.";
+                return "may work, but is not ideal";
             case LightAdviceResult.Bad:
-                return "This location does not match the plant's needs very well.";
+                return "does not match its needs very well";
             default:
-                return "No advice available.";
+                return "has no advice available";
         }
     }
 }
