@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 
 public class OwnedPlantCardUI : MonoBehaviour
 {
@@ -14,6 +15,21 @@ public class OwnedPlantCardUI : MonoBehaviour
     [SerializeField] private TMP_Text locationInfoText;
     [SerializeField] private TMP_Text soilInfoText;
     [SerializeField] private TMP_Text humidityInfoText;
+
+    private void OnEnable()
+    {
+        LocalizationSettings.SelectedLocaleChanged += OnLocaleChanged;
+    }
+
+    private void OnDisable()
+    {
+        LocalizationSettings.SelectedLocaleChanged -= OnLocaleChanged;
+    }
+
+    private void OnLocaleChanged(UnityEngine.Localization.Locale locale)
+    {
+        Refresh(); // re-run so the card's text updates immediately on a language switch.
+    }
 
     public string GetPlantId() // get the plant id.
     {
@@ -54,15 +70,16 @@ public class OwnedPlantCardUI : MonoBehaviour
 
         if (state.selectedLightLocation == LightLocationType.Unknown)
         {
-            locationInfoText.text = "Location: not placed yet.";
+            locationInfoText.text = LocalizedText.Get("card_location_not_set");
             return;
         }
 
         string ignoredNote = state.lightAdviceResult == LightAdviceResult.Bad && state.playerAcceptedMismatch
-            ? " (kept anyway)"
+            ? LocalizedText.Get("card_kept_anyway")
             : "";
 
-        locationInfoText.text = $"Location: {state.selectedLightLocation} - {PlantAdviceText.GetLabel(state.lightAdviceResult)}{ignoredNote}";
+        locationInfoText.text = LocalizedText.Get(
+            "card_location", state.selectedLightLocation.ToString(), PlantAdviceText.GetLabel(state.lightAdviceResult)) + ignoredNote;
     }
 
     private void UpdateSoilText(SavedPlantState state)
@@ -72,15 +89,16 @@ public class OwnedPlantCardUI : MonoBehaviour
 
         if (state.potSoilType == PotSoilType.Unknown)
         {
-            soilInfoText.text = "Soil: not set yet.";
+            soilInfoText.text = LocalizedText.Get("card_soil_not_set");
             return;
         }
 
         string ignoredNote = state.potSoilAdviceResult == PotSoilAdviceResult.Bad && state.playerAcceptedSoilMismatch
-            ? " (kept anyway)"
+            ? LocalizedText.Get("card_kept_anyway")
             : "";
 
-        soilInfoText.text = $"Soil: {state.potSoilType} - {PlantAdviceText.GetLabel(state.potSoilAdviceResult)}{ignoredNote}";
+        soilInfoText.text = LocalizedText.Get(
+            "card_soil", state.potSoilType.ToString(), PlantAdviceText.GetLabel(state.potSoilAdviceResult)) + ignoredNote;
     }
 
     private void UpdateHumidityText(SavedPlantState state)
@@ -90,14 +108,15 @@ public class OwnedPlantCardUI : MonoBehaviour
 
         if (state.humidityLevel == HumidityLevel.Unknown)
         {
-            humidityInfoText.text = "Humidity: not set yet.";
+            humidityInfoText.text = LocalizedText.Get("card_humidity_not_set");
             return;
         }
 
         string ignoredNote = state.humidityAdviceResult == HumidityAdviceResult.Bad && state.playerAcceptedHumidityMismatch
-            ? " (kept anyway)"
+            ? LocalizedText.Get("card_kept_anyway")
             : "";
 
-        humidityInfoText.text = $"Humidity: {state.humidityLevel} - {PlantAdviceText.GetLabel(state.humidityAdviceResult)}{ignoredNote}";
+        humidityInfoText.text = LocalizedText.Get(
+            "card_humidity", state.humidityLevel.ToString(), PlantAdviceText.GetLabel(state.humidityAdviceResult)) + ignoredNote;
     }
 }

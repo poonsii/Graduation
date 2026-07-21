@@ -77,7 +77,7 @@ public class PlantLocationSelector : MonoBehaviour
         {
             PlantData plant = plantDatabase != null ? plantDatabase.GetById(plantId) : null;
             string plantName = plant != null ? plant.displayName : plantId;
-            promptText.text = $"Choose the location closest to your real life {plantName}.";
+            promptText.text = LocalizedText.Get("location_prompt", plantName);
         }
 
         promptRoot.SetActive(true);

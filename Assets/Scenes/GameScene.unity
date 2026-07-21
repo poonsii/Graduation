@@ -1683,6 +1683,7 @@ GameObject:
   - component: {fileID: 82210609}
   - component: {fileID: 82210611}
   - component: {fileID: 82210610}
+  - component: {fileID: 82210612}
   m_Layer: 5
   m_Name: Choose plant location text
   m_TagString: Untagged
@@ -1809,6 +1810,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 82210608}
   m_CullTransparentMesh: 1
+--- !u!114 &82210612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82210608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:20368b44c85066a40862699898fc8f2c
+    m_TableEntryReference:
+      m_KeyId: 20447754951368704
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 82210610}
+        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &97038356
 GameObject:
   m_ObjectHideFlags: 0
@@ -2548,12 +2589,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b247a0b082b5b44380039cab574a380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlantLocationSpot
-  displayName: a spot with direct sun
+  displayName: 
   lightLocationType: 1
   highlightRenderers:
   - {fileID: 2096291144}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  selectedColor: {r: 0, g: 1, b: 0, a: 1}
+  selectedColor: {r: 0.6627451, g: 0.98039216, b: 0.41960785, a: 1}
   markerVisual: {fileID: 2096291141}
 --- !u!1 &165548719
 GameObject:
@@ -2940,12 +2981,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b247a0b082b5b44380039cab574a380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlantLocationSpot
-  displayName: a spot with indirect brightness
+  displayName: 
   lightLocationType: 2
   highlightRenderers:
   - {fileID: 1386600595}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  selectedColor: {r: 0, g: 1, b: 0, a: 1}
+  selectedColor: {r: 0.6627451, g: 0.98039216, b: 0.41960785, a: 1}
   markerVisual: {fileID: 1386600592}
 --- !u!1 &187404671
 GameObject:
@@ -3555,7 +3596,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 211366376}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bed5eb021314ff844ba9a14b53f62cea, type: 3}
   m_Name: 
@@ -5945,7 +5986,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 429416210}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bed5eb021314ff844ba9a14b53f62cea, type: 3}
   m_Name: 
@@ -7399,7 +7440,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 512419152}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bed5eb021314ff844ba9a14b53f62cea, type: 3}
   m_Name: 
@@ -13061,7 +13102,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 907636083}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bed5eb021314ff844ba9a14b53f62cea, type: 3}
   m_Name: 
@@ -14604,12 +14645,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b247a0b082b5b44380039cab574a380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlantLocationSpot
-  displayName: a spot with medium light
+  displayName: 
   lightLocationType: 3
   highlightRenderers:
   - {fileID: 752200380}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  selectedColor: {r: 0, g: 1, b: 0, a: 1}
+  selectedColor: {r: 0.6627451, g: 0.98039216, b: 0.41960785, a: 1}
   markerVisual: {fileID: 752200377}
 --- !u!1 &1048832775
 GameObject:
@@ -19280,12 +19321,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b247a0b082b5b44380039cab574a380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlantLocationSpot
-  displayName: a spot with low light
+  displayName: 
   lightLocationType: 4
   highlightRenderers:
   - {fileID: 1945124019}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  selectedColor: {r: 0, g: 1, b: 0, a: 1}
+  selectedColor: {r: 0.66114026, g: 0.9811321, b: 0.42114633, a: 1}
   markerVisual: {fileID: 1945124016}
 --- !u!1 &1391421324
 GameObject:
@@ -23494,7 +23535,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 399668477}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bed5eb021314ff844ba9a14b53f62cea, type: 3}
   m_Name: 
@@ -23515,8 +23556,9 @@ GameObject:
   - component: {fileID: 1646225878}
   - component: {fileID: 1646225880}
   - component: {fileID: 1646225879}
+  - component: {fileID: 1646225881}
   m_Layer: 5
-  m_Name: Plant name
+  m_Name: Plant info
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23641,6 +23683,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1646225877}
   m_CullTransparentMesh: 1
+--- !u!114 &1646225881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646225877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:20368b44c85066a40862699898fc8f2c
+    m_TableEntryReference:
+      m_KeyId: 20447870332477440
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1646225879}
+        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1656966884
 GameObject:
   m_ObjectHideFlags: 0
@@ -25205,9 +25287,9 @@ RectTransform:
   - {fileID: 1554592782}
   - {fileID: 1583964414}
   - {fileID: 512692972}
+  - {fileID: 41340937}
   - {fileID: 576393366}
   - {fileID: 360959117}
-  - {fileID: 41340937}
   - {fileID: 1379681179}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -26363,7 +26445,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1838417784}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bed5eb021314ff844ba9a14b53f62cea, type: 3}
   m_Name: 
@@ -28560,12 +28642,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b247a0b082b5b44380039cab574a380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlantLocationSpot
-  displayName: a spot with indirect brightness
+  displayName: 
   lightLocationType: 2
   highlightRenderers:
   - {fileID: 1640101357}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  selectedColor: {r: 0, g: 1, b: 0, a: 1}
+  selectedColor: {r: 0.6627451, g: 0.98039216, b: 0.41960785, a: 1}
   markerVisual: {fileID: 1640101354}
 --- !u!136 &1971704658
 CapsuleCollider:

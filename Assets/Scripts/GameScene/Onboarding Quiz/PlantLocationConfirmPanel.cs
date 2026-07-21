@@ -38,12 +38,13 @@ public class PlantLocationConfirmPanel : MonoBehaviour
                 spot.GetLocationType()
             );
 
-            plantNameText.text = $"Your {plantName} is placed in {locationName}, which {GetAdviceFragment(currentAdviceResult)}.";
+            string adviceWord = PlantAdviceText.GetLabel(currentAdviceResult);
+            plantNameText.text = LocalizedText.Get("location_confirm", plantName, locationName, adviceWord);
         }
         else
         {
             currentAdviceResult = LightAdviceResult.Unknown;
-            plantNameText.text = "Could not read plant data.";
+            plantNameText.text = LocalizedText.Get("location_confirm_no_data");
         }
 
         if (locationNameText != null)
@@ -85,20 +86,5 @@ public class PlantLocationConfirmPanel : MonoBehaviour
         gameBootstrap.HidePlantPreview(currentPlantId); // hide it again until a new spot is picked.
         Hide();
         selector.EnableSelectionAgain();
-    }
-
-    private string GetAdviceFragment(LightAdviceResult result)
-    {
-        switch (result)
-        {
-            case LightAdviceResult.Good:
-                return "fits it well";
-            case LightAdviceResult.Warning:
-                return "may work, but is not ideal";
-            case LightAdviceResult.Bad:
-                return "does not match its needs very well";
-            default:
-                return "has no advice available";
-        }
     }
 }

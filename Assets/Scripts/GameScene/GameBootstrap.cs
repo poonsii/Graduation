@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 
 public class GameBootstrap : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class GameBootstrap : MonoBehaviour
 
     private void Start()
     {
+        LocalizationSettings.InitializationOperation.WaitForCompletion(); // make sure locales/tables are ready before any onboarding text is requested.
+
         currentData = profileManager.Load(); // load saved data.
 
         if (currentData == null)

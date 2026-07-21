@@ -231,6 +231,62 @@ MonoBehaviour:
     m_Localized: SHOP
     m_Metadata:
       m_Items: []
+  - m_Id: 20447446368034816
+    m_Localized: a good fit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20447502533959680
+    m_Localized: an okay fit, but not ideal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20447505860042752
+    m_Localized: not a good fit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20447508846387200
+    m_Localized: not available
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20447754951368704
+    m_Localized: Choose the location closest to your real life {0}.
+    m_Metadata:
+      m_Items:
+      - rid: 1352283350861611389
+  - m_Id: 20447870332477440
+    m_Localized: Your {0} is placed in {1}, which is {2}.
+    m_Metadata:
+      m_Items:
+      - rid: 1352283350861611389
+  - m_Id: 20447956156325888
+    m_Localized: Could not read plant data.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20448001781964800
+    m_Localized: This soil type is {0} for your plant.
+    m_Metadata:
+      m_Items:
+      - rid: 1352283350861611389
+  - m_Id: 20448071088644096
+    m_Localized: This humidity level is {0} for your plant.
+    m_Metadata:
+      m_Items:
+      - rid: 1352283350861611389
+  - m_Id: 20460614192504832
+    m_Localized: a spot with direct sun
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20460649789562880
+    m_Localized: a spot with indirect brightness
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20460664138276864
+    m_Localized: a spot with medium light
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20460665677586432
+    m_Localized: a spot with low light
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -240,3 +296,7 @@ MonoBehaviour:
         m_Entries: 
         m_SharedEntries:
         - id: 35313197056
+        - id: 20447754951368704
+        - id: 20447870332477440
+        - id: 20448001781964800
+        - id: 20448071088644096

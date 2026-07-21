@@ -135,7 +135,7 @@ public class PlantCareQuizPanel : MonoBehaviour
         soilAdviceResult = PlantSoilAdvisor.GetAdvice(recommended, type);
 
         if (soilAdviceText != null)
-            soilAdviceText.text = GetSoilAdviceText(soilAdviceResult);
+            soilAdviceText.text = LocalizedText.Get("care_soil_advice", PlantAdviceText.GetLabel(soilAdviceResult));
 
         if (soilAdviceRoot != null)
             soilAdviceRoot.SetActive(true);
@@ -149,7 +149,7 @@ public class PlantCareQuizPanel : MonoBehaviour
         humidityAdviceResult = PlantHumidityAdvisor.GetAdvice(recommended, level);
 
         if (humidityAdviceText != null)
-            humidityAdviceText.text = GetHumidityAdviceText(humidityAdviceResult);
+            humidityAdviceText.text = LocalizedText.Get("care_humidity_advice", PlantAdviceText.GetLabel(humidityAdviceResult));
 
         if (humidityAdviceRoot != null)
             humidityAdviceRoot.SetActive(true);
@@ -205,35 +205,5 @@ public class PlantCareQuizPanel : MonoBehaviour
 
         if (humidityAdviceRoot != null)
             humidityAdviceRoot.SetActive(false);
-    }
-
-    private string GetSoilAdviceText(PotSoilAdviceResult result)
-    {
-        switch (result)
-        {
-            case PotSoilAdviceResult.Good:
-                return "This soil type suits your plant well.";
-            case PotSoilAdviceResult.Warning:
-                return "This soil type may work, but it is not ideal.";
-            case PotSoilAdviceResult.Bad:
-                return "This soil type does not match your plant's needs very well.";
-            default:
-                return "No advice available.";
-        }
-    }
-
-    private string GetHumidityAdviceText(HumidityAdviceResult result)
-    {
-        switch (result)
-        {
-            case HumidityAdviceResult.Good:
-                return "This humidity level suits your plant well.";
-            case HumidityAdviceResult.Warning:
-                return "This humidity level may work, but it is not ideal.";
-            case HumidityAdviceResult.Bad:
-                return "This humidity level does not match your plant's needs very well.";
-            default:
-                return "No advice available.";
-        }
     }
 }

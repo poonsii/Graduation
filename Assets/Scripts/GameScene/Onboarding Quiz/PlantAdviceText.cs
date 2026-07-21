@@ -6,12 +6,16 @@ public static class PlantAdviceText
 
     private static string GetLabel(int adviceValue)
     {
+        string key;
+
         switch (adviceValue)
         {
-            case 1: return "Good fit";
-            case 2: return "Not ideal";
-            case 3: return "Poor fit";
-            default: return "Not set";
+            case 1: key = "advice_good"; break;
+            case 2: key = "advice_warning"; break;
+            case 3: key = "advice_bad"; break;
+            default: key = "advice_unknown"; break;
         }
+
+        return LocalizedText.Get(key);
     }
 }
