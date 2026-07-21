@@ -58,6 +58,32 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    public void SetRoomPlantVisible(string plantId, bool visible)
+    {
+        foreach (RoomPlant roomPlant in roomPlants)
+        {
+            if (roomPlant != null && roomPlant.GetPlantId() == plantId)
+            {
+                roomPlant.SetOwned(visible);
+                return;
+            }
+        }
+    }
+
+    public void MovePlantToSpot(string plantId, Transform spotTransform)
+    {
+        foreach (RoomPlant roomPlant in roomPlants)
+        {
+            if (roomPlant != null && roomPlant.GetPlantId() == plantId)
+            {
+                roomPlant.MoveToSpot(spotTransform);
+                return;
+            }
+        }
+
+        Debug.LogWarning("Could not find RoomPlant to move for plant id: " + plantId);
+    }
+
     public void RefreshPlantCards()
     {
         Debug.Log("Refreshing plant cards. Total cards: " + plantCards.Count); // check card count.

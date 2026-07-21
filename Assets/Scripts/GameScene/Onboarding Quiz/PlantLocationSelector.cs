@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -7,6 +8,7 @@ public class PlantLocationSelector : MonoBehaviour
     [SerializeField] private Camera mainCamera;
     [SerializeField] private LayerMask locationLayerMask;
     [SerializeField] private PlantLocationConfirmPanel confirmPanel;
+    [SerializeField] private List<PlantLocationSpot> allSpots; // every pickable spot - shown only while choosing a location.
 
     [Header("Choose-a-location Prompt")]
     [SerializeField] private GameObject promptRoot;
@@ -32,7 +34,17 @@ public class PlantLocationSelector : MonoBehaviour
             confirmPanel.Hide();
 
         ShowPrompt(plantId);
+        SetMarkersVisible(true);
         ClearCurrentSelection();
+    }
+
+    private void SetMarkersVisible(bool visible)
+    {
+        foreach (PlantLocationSpot spot in allSpots)
+        {
+            if (spot != null)
+                spot.SetMarkerVisible(visible);
+        }
     }
 
     private void ShowPrompt(string plantId)
@@ -127,12 +139,14 @@ public class PlantLocationSelector : MonoBehaviour
             confirmPanel.Hide();
 
         ShowPrompt(currentPlantId);
+        SetMarkersVisible(true);
     }
 
     public void FinishSelection()
     {
         selectionActive = false;
         HidePrompt();
+        SetMarkersVisible(false);
         onSelectionFinished?.Invoke(currentPlantInstanceId, currentPlantId); // let a listener (e.g. the onboarding flow) know this plant's location step is done.
     }
 

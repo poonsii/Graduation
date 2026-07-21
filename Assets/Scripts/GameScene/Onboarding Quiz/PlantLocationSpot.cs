@@ -9,6 +9,9 @@ public class PlantLocationSpot : MonoBehaviour
     [SerializeField] private Color normalColor = Color.white;
     [SerializeField] private Color selectedColor = Color.green;
 
+    [Header("Marker Visual")]
+    [SerializeField] private GameObject markerVisual; // the visible marker (e.g. a sphere) - separate from the collider, which stays active for raycasting.
+
     public LightLocationType GetLocationType() => lightLocationType;
     public string GetDisplayName() => string.IsNullOrEmpty(displayName) ? lightLocationType.ToString() : displayName;
 
@@ -21,5 +24,11 @@ public class PlantLocationSpot : MonoBehaviour
             if (r != null)
                 r.material.color = target;
         }
+    }
+
+    public void SetMarkerVisible(bool visible)
+    {
+        if (markerVisual != null)
+            markerVisual.SetActive(visible);
     }
 }

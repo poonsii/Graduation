@@ -47,6 +47,8 @@ public class PlantLocationConfirmPanel : MonoBehaviour
             adviceText.text = "Could not read plant data.";
         }
 
+        gameBootstrap.PreviewPlantLocation(plantId, spot.transform); // show the plant at this spot while the player decides.
+
         root.SetActive(true);
     }
 
@@ -65,7 +67,8 @@ public class PlantLocationConfirmPanel : MonoBehaviour
         gameBootstrap.UpdatePlantLocation(
             currentPlantInstanceId,
             currentSpot.GetLocationType(),
-            acceptedMismatch
+            acceptedMismatch,
+            currentSpot.transform
         );
 
         selector.FinishSelection();
@@ -74,6 +77,7 @@ public class PlantLocationConfirmPanel : MonoBehaviour
 
     public void OnChooseAnotherPressed()
     {
+        gameBootstrap.HidePlantPreview(currentPlantId); // hide it again until a new spot is picked.
         Hide();
         selector.EnableSelectionAgain();
     }

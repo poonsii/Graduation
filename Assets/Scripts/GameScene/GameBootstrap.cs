@@ -28,6 +28,7 @@ public class GameBootstrap : MonoBehaviour
         else
         {
             LoadOwnedPlants(currentData); // load saved plants.
+            HideUnplacedPlants();
             BeginOnboardingIfNeeded();
         }
     }
@@ -62,7 +63,20 @@ public class GameBootstrap : MonoBehaviour
         profileManager.Save(currentData); // write save file.
         registrationRequired = false; // registration not needed anymore.
         LoadOwnedPlants(currentData); // load the plants.
+        HideUnplacedPlants();
         BeginOnboardingIfNeeded();
+    }
+
+    private void HideUnplacedPlants()
+    {
+        if (currentData == null || currentData.savedPlants == null)
+            return;
+
+        foreach (SavedPlantState plantState in currentData.savedPlants)
+        {
+            if (plantState.selectedLightLocation == LightLocationType.Unknown)
+                inventoryManager.SetRoomPlantVisible(plantState.plantId, false); // stay hidden until the player picks a location.
+        }
     }
 
     private void BeginOnboardingIfNeeded()
@@ -86,7 +100,8 @@ public class GameBootstrap : MonoBehaviour
     public void UpdatePlantLocation(
     string uniquePlantInstanceId,
     LightLocationType selectedLightLocation,
-    bool playerAcceptedMismatch)
+    bool playerAcceptedMismatch,
+    Transform spotTransform)
     {
         SavedPlantState plantState = FindPlantState(uniquePlantInstanceId);
         if (plantState == null)
@@ -104,9 +119,23 @@ public class GameBootstrap : MonoBehaviour
         plantState.lightAdviceResult = PlantLocationAdvisor.GetAdvice(plant.requiredLight, selectedLightLocation); // calculate location advice from plant need.
         plantState.playerAcceptedMismatch = playerAcceptedMismatch; // save if the player ignored the advice.
 
+        inventoryManager.MovePlantToSpot(plantState.plantId, spotTransform); // physically place the plant at the chosen spot.
+        inventoryManager.SetRoomPlantVisible(plantState.plantId, true); // reveal it now that it has a confirmed location.
+
         RecalculateOnboardingComplete(plantState);
         profileManager.Save(currentData); // save updated plant state.
         inventoryManager.RefreshPlantCards(); // update the plant card with the new location info.
+    }
+
+    public void PreviewPlantLocation(string plantId, Transform spotTransform)
+    {
+        inventoryManager.MovePlantToSpot(plantId, spotTransform);
+        inventoryManager.SetRoomPlantVisible(plantId, true);
+    }
+
+    public void HidePlantPreview(string plantId)
+    {
+        inventoryManager.SetRoomPlantVisible(plantId, false);
     }
 
     public void UpdatePlantCare(

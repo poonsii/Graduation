@@ -2517,6 +2517,7 @@ MonoBehaviour:
   - {fileID: 558198502}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   selectedColor: {r: 0, g: 1, b: 0, a: 1}
+  markerVisual: {fileID: 558198499}
 --- !u!1 &165548719
 GameObject:
   m_ObjectHideFlags: 0
@@ -2908,6 +2909,7 @@ MonoBehaviour:
   - {fileID: 674136832}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   selectedColor: {r: 0, g: 1, b: 0, a: 1}
+  markerVisual: {fileID: 674136829}
 --- !u!1 &187404671
 GameObject:
   m_ObjectHideFlags: 0
@@ -10538,7 +10540,7 @@ GameObject:
   - component: {fileID: 710757130}
   - component: {fileID: 710757132}
   m_Layer: 5
-  m_Name: PlnatLocationConfirmPanel
+  m_Name: PlantLocationConfirmPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10556,8 +10558,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1375512771}
   - {fileID: 1487590345}
-  m_Father: {fileID: 711274546}
+  m_Father: {fileID: 1750600289}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -10585,112 +10588,6 @@ MonoBehaviour:
   plantDatabase: {fileID: 379591867}
   gameBootstrap: {fileID: 927299505}
   selector: {fileID: 1957554260}
---- !u!1 &711274545
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 711274546}
-  - component: {fileID: 711274548}
-  - component: {fileID: 711274547}
-  - component: {fileID: 711274549}
-  m_Layer: 5
-  m_Name: LocationPromptPanel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &711274546
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 711274545}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1375512771}
-  - {fileID: 710757130}
-  m_Father: {fileID: 1750600289}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &711274547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 711274545}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &711274548
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 711274545}
-  m_CullTransparentMesh: 1
---- !u!114 &711274549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 711274545}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 086316e7011b91549b9c31e9ca2d93ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlantCareQuizPanel
-  root: {fileID: 711274545}
-  plantNameText: {fileID: 0}
-  soilStepRoot: {fileID: 0}
-  soilOptions: []
-  soilAdviceRoot: {fileID: 0}
-  soilAdviceText: {fileID: 0}
-  soilAcceptButton: {fileID: 0}
-  soilChooseAnotherButton: {fileID: 0}
-  humidityStepRoot: {fileID: 0}
-  humidityOptions: []
-  humidityAdviceRoot: {fileID: 0}
-  humidityAdviceText: {fileID: 0}
-  humidityAcceptButton: {fileID: 0}
-  humidityChooseAnotherButton: {fileID: 0}
-  plantDatabase: {fileID: 379591867}
-  gameBootstrap: {fileID: 927299505}
 --- !u!1 &718063878
 GameObject:
   m_ObjectHideFlags: 0
@@ -14897,6 +14794,7 @@ MonoBehaviour:
   - {fileID: 775925239}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   selectedColor: {r: 0, g: 1, b: 0, a: 1}
+  markerVisual: {fileID: 775925236}
 --- !u!1 &1048832775
 GameObject:
   m_ObjectHideFlags: 0
@@ -19397,7 +19295,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1375512771
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19407,15 +19305,15 @@ RectTransform:
   m_GameObject: {fileID: 1375512770}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.71000004, y: 0.71000004, z: 0.71000004}
+  m_LocalScale: {x: 0.71, y: 0.71, z: 0.71}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 82210609}
-  m_Father: {fileID: 711274546}
+  m_Father: {fileID: 710757130}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -11, y: 434}
+  m_AnchoredPosition: {x: -11.000059, y: 1026}
   m_SizeDelta: {x: 618.2, y: 219}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1375512772
@@ -19708,6 +19606,7 @@ MonoBehaviour:
   - {fileID: 1265988045}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   selectedColor: {r: 0, g: 1, b: 0, a: 1}
+  markerVisual: {fileID: 1265988042}
 --- !u!1 &1391421324
 GameObject:
   m_ObjectHideFlags: 0
@@ -25514,7 +25413,7 @@ RectTransform:
   - {fileID: 512692972}
   - {fileID: 576393366}
   - {fileID: 360959117}
-  - {fileID: 711274546}
+  - {fileID: 710757130}
   - {fileID: 1379681179}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -28698,7 +28597,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   confirmPanel: {fileID: 710757132}
-  promptRoot: {fileID: 711274545}
+  allSpots:
+  - {fileID: 163572356}
+  - {fileID: 173586246}
+  - {fileID: 1045865206}
+  - {fileID: 1389899409}
+  promptRoot: {fileID: 1375512770}
   promptText: {fileID: 82210610}
   plantDatabase: {fileID: 379591867}
 --- !u!1 &1977062264
