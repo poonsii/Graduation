@@ -21,6 +21,16 @@ public class PlantLocationSelector : MonoBehaviour
     private bool selectionActive = false;
     private System.Action<string, string> onSelectionFinished;
 
+    private void Awake()
+    {
+        // guarantee the correct starting state regardless of whatever the scene file happened to save.
+        SetMarkersVisible(false);
+        HidePrompt();
+
+        if (confirmPanel != null)
+            confirmPanel.Hide();
+    }
+
     public void BeginSelection(string uniquePlantInstanceId, string plantId, System.Action<string, string> onFinished = null)
     {
         currentPlantInstanceId = uniquePlantInstanceId;
