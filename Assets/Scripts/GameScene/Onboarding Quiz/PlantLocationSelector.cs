@@ -57,6 +57,17 @@ public class PlantLocationSelector : MonoBehaviour
         }
     }
 
+    public Transform GetSpotTransform(LightLocationType locationType)
+    {
+        foreach (PlantLocationSpot spot in allSpots)
+        {
+            if (spot != null && spot.GetLocationType() == locationType)
+                return spot.transform;
+        }
+
+        return null;
+    }
+
     private void ShowPrompt(string plantId)
     {
         if (promptRoot == null)

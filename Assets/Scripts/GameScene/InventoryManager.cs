@@ -70,6 +70,18 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    public void SetPlantCardInteractable(string plantId, bool interactable)
+    {
+        foreach (RoomPlant roomPlant in roomPlants)
+        {
+            if (roomPlant != null && roomPlant.GetPlantId() == plantId)
+            {
+                roomPlant.SetCardInteractable(interactable);
+                return;
+            }
+        }
+    }
+
     public void MovePlantToSpot(string plantId, Transform spotTransform)
     {
         foreach (RoomPlant roomPlant in roomPlants)

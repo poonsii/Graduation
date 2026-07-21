@@ -10,6 +10,7 @@ public class GameBootstrap : MonoBehaviour
     [SerializeField] private PlantRegistrationUI registrationUI; // registration popup.
     [SerializeField] private PlantWorldDisplay plantWorldDisplay;
     [SerializeField] private PlantOnboardingFlowController onboardingFlowController; // walks the player through each plant one by one.
+    [SerializeField] private PlantLocationSelector locationSelector; // used to look up spot positions for plants that already have a saved location.
 
     private bool registrationRequired; // checks if registration is needed.
     private PlayerData currentData; // keeps the current save data in memory.
@@ -29,6 +30,7 @@ public class GameBootstrap : MonoBehaviour
         {
             LoadOwnedPlants(currentData); // load saved plants.
             HideUnplacedPlants();
+            RestorePlacedPlantPositions();
             BeginOnboardingIfNeeded();
         }
     }
@@ -76,6 +78,23 @@ public class GameBootstrap : MonoBehaviour
         {
             if (plantState.selectedLightLocation == LightLocationType.Unknown)
                 inventoryManager.SetRoomPlantVisible(plantState.plantId, false); // stay hidden until the player picks a location.
+        }
+    }
+
+    private void RestorePlacedPlantPositions()
+    {
+        if (currentData == null || currentData.savedPlants == null || locationSelector == null)
+            return;
+
+        foreach (SavedPlantState plantState in currentData.savedPlants)
+        {
+            if (plantState.selectedLightLocation == LightLocationType.Unknown)
+                continue;
+
+            Transform spotTransform = locationSelector.GetSpotTransform(plantState.selectedLightLocation);
+
+            if (spotTransform != null)
+                inventoryManager.MovePlantToSpot(plantState.plantId, spotTransform);
         }
     }
 
@@ -131,6 +150,11 @@ public class GameBootstrap : MonoBehaviour
     {
         inventoryManager.MovePlantToSpot(plantId, spotTransform);
         inventoryManager.SetRoomPlantVisible(plantId, true);
+    }
+
+    public void SetPlantCardInteractable(string plantId, bool interactable)
+    {
+        inventoryManager.SetPlantCardInteractable(plantId, interactable);
     }
 
     public void HidePlantPreview(string plantId)

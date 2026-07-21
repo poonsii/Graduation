@@ -105,6 +105,18 @@ public class RoomPlant : MonoBehaviour
         transform.rotation = spotTransform.rotation;
     }
 
+    public void SetCardInteractable(bool interactable)
+    {
+        if (clickObjects == null)
+            return;
+
+        foreach (ClickObject clickObject in clickObjects)
+        {
+            if (clickObject != null)
+                clickObject.enabled = interactable;
+        }
+    }
+
     public void SetOwned(bool owned)
     {
         isOwned = owned; // remember if the player owns it.

@@ -5,8 +5,10 @@ public class PlantOnboardingFlowController : MonoBehaviour
 {
     [SerializeField] private PlantLocationSelector locationSelector;
     [SerializeField] private PlantCareQuizPanel careQuizPanel;
+    [SerializeField] private GameBootstrap gameBootstrap;
 
     private Queue<SavedPlantState> pendingPlants;
+    private string currentPlantId;
 
     public void BeginOnboarding(List<SavedPlantState> plantsNeedingOnboarding)
     {
@@ -26,6 +28,18 @@ public class PlantOnboardingFlowController : MonoBehaviour
         SavedPlantState next = pendingPlants.Dequeue();
         Debug.Log("[Onboarding] Advancing to plant '" + next.plantId + "' (" + next.uniquePlantInstanceId + "). Location selector assigned: " + (locationSelector != null));
 
+        currentPlantId = next.plantId;
+
+        if (gameBootstrap != null)
+            gameBootstrap.SetPlantCardInteractable(currentPlantId, false); // lock the card while this plant is being onboarded.
+
+        if (next.selectedLightLocation != LightLocationType.Unknown)
+        {
+            // this plant already has a location from a previous session - don't make the player redo it.
+            OnPlantLocationConfirmed(next.uniquePlantInstanceId, next.plantId);
+            return;
+        }
+
         if (locationSelector != null)
             locationSelector.BeginSelection(next.uniquePlantInstanceId, next.plantId, OnPlantLocationConfirmed);
         else
@@ -42,6 +56,9 @@ public class PlantOnboardingFlowController : MonoBehaviour
 
     private void OnPlantCareQuizComplete()
     {
+        if (gameBootstrap != null && currentPlantId != null)
+            gameBootstrap.SetPlantCardInteractable(currentPlantId, true); // unlock now that this plant's onboarding is done.
+
         AdvanceToNextPlant();
     }
 }
