@@ -12,6 +12,12 @@ public class SavedPlantState
     public LightAdviceResult lightAdviceResult = LightAdviceResult.Unknown;
     public bool playerAcceptedMismatch = false;
     public PotSoilType potSoilType = PotSoilType.Unknown;
+    public PotSoilAdviceResult potSoilAdviceResult = PotSoilAdviceResult.Unknown;
+    public bool playerAcceptedSoilMismatch = false;
+
     public HumidityLevel humidityLevel = HumidityLevel.Unknown;
+    public HumidityAdviceResult humidityAdviceResult = HumidityAdviceResult.Unknown;
+    public bool playerAcceptedHumidityMismatch = false;
+
     public bool hasCompletedOnboarding = false;
 }

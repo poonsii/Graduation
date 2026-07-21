@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,21 +8,52 @@ public class PlantLocationSelector : MonoBehaviour
     [SerializeField] private LayerMask locationLayerMask;
     [SerializeField] private PlantLocationConfirmPanel confirmPanel;
 
+    [Header("Choose-a-location Prompt")]
+    [SerializeField] private GameObject promptRoot;
+    [SerializeField] private TMP_Text promptText;
+    [SerializeField] private PlantDatabase plantDatabase;
+
     private PlantLocationSpot currentSelectedSpot;
     private string currentPlantInstanceId;
     private string currentPlantId;
     private bool selectionActive = false;
+    private System.Action<string, string> onSelectionFinished;
 
-    public void BeginSelection(string uniquePlantInstanceId, string plantId)
+    public void BeginSelection(string uniquePlantInstanceId, string plantId, System.Action<string, string> onFinished = null)
     {
         currentPlantInstanceId = uniquePlantInstanceId;
         currentPlantId = plantId;
+        onSelectionFinished = onFinished;
         selectionActive = true;
+
+        Debug.Log("[Onboarding] Selection is now active for '" + plantId + "'. Tap/click one of the location spots in the room. Main camera assigned: " + (mainCamera != null) + ", layer mask value: " + locationLayerMask.value);
 
         if (confirmPanel != null)
             confirmPanel.Hide();
 
+        ShowPrompt(plantId);
         ClearCurrentSelection();
+    }
+
+    private void ShowPrompt(string plantId)
+    {
+        if (promptRoot == null)
+            return;
+
+        if (promptText != null)
+        {
+            PlantData plant = plantDatabase != null ? plantDatabase.GetById(plantId) : null;
+            string plantName = plant != null ? plant.displayName : plantId;
+            promptText.text = $"Choose a location in the room for your {plantName}.";
+        }
+
+        promptRoot.SetActive(true);
+    }
+
+    private void HidePrompt()
+    {
+        if (promptRoot != null)
+            promptRoot.SetActive(false);
     }
 
     private void Update()
@@ -75,6 +107,8 @@ public class PlantLocationSelector : MonoBehaviour
         currentSelectedSpot = spot;
         currentSelectedSpot.SetSelected(true);
 
+        HidePrompt(); // the confirm panel takes over from here.
+
         if (confirmPanel != null)
         {
             confirmPanel.Show(
@@ -91,11 +125,15 @@ public class PlantLocationSelector : MonoBehaviour
 
         if (confirmPanel != null)
             confirmPanel.Hide();
+
+        ShowPrompt(currentPlantId);
     }
 
     public void FinishSelection()
     {
         selectionActive = false;
+        HidePrompt();
+        onSelectionFinished?.Invoke(currentPlantInstanceId, currentPlantId); // let a listener (e.g. the onboarding flow) know this plant's location step is done.
     }
 
     private void ClearCurrentSelection()

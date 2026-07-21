@@ -9,6 +9,9 @@ public class PlantCardSpawner : MonoBehaviour
 
     public void SpawnCards(List<string> ownedPlantIds)
     {
+        if (cardParent == null)
+            return; // not set up yet - the static owned-plant cards handle display instead.
+
         foreach (Transform child in cardParent)
         {
             Destroy(child.gameObject); // remove old cards

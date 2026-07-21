@@ -32,3 +32,19 @@ public enum HumidityLevel
     Medium = 2,
     High = 3
 }
+
+public enum PotSoilAdviceResult
+{
+    Unknown = 0,
+    Good = 1,
+    Warning = 2,
+    Bad = 3
+}
+
+public enum HumidityAdviceResult
+{
+    Unknown = 0,
+    Good = 1,
+    Warning = 2,
+    Bad = 3
+}

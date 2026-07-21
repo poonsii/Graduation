@@ -9,6 +9,7 @@ public class GameBootstrap : MonoBehaviour
     [SerializeField] private PlantCardSpawner cardSpawner; // creates plant cards.
     [SerializeField] private PlantRegistrationUI registrationUI; // registration popup.
     [SerializeField] private PlantWorldDisplay plantWorldDisplay;
+    [SerializeField] private PlantOnboardingFlowController onboardingFlowController; // walks the player through each plant one by one.
 
     private bool registrationRequired; // checks if registration is needed.
     private PlayerData currentData; // keeps the current save data in memory.
@@ -27,6 +28,7 @@ public class GameBootstrap : MonoBehaviour
         else
         {
             LoadOwnedPlants(currentData); // load saved plants.
+            BeginOnboardingIfNeeded();
         }
     }
 
@@ -60,25 +62,35 @@ public class GameBootstrap : MonoBehaviour
         profileManager.Save(currentData); // write save file.
         registrationRequired = false; // registration not needed anymore.
         LoadOwnedPlants(currentData); // load the plants.
+        BeginOnboardingIfNeeded();
     }
 
-    public void UpdatePlantOnboardingState(
-    string uniquePlantInstanceId,
-    LightLocationType selectedLightLocation,
-    bool playerAcceptedMismatch,
-    PotSoilType potSoilType,
-    HumidityLevel humidityLevel)
+    private void BeginOnboardingIfNeeded()
     {
-        if (currentData == null || currentData.savedPlants == null)
-            return; // stop if there is no loaded save data.
-
-        SavedPlantState plantState = currentData.savedPlants.Find(p => p.uniquePlantInstanceId == uniquePlantInstanceId); // find the exact saved plant.
-
-        if (plantState == null)
+        if (currentData == null || currentData.savedPlants == null || onboardingFlowController == null)
         {
-            Debug.LogWarning("Could not find saved plant state for id: " + uniquePlantInstanceId);
+            Debug.LogWarning("[Onboarding] Stopped early - currentData null: " + (currentData == null)
+                + ", savedPlants null: " + (currentData?.savedPlants == null)
+                + ", onboardingFlowController assigned: " + (onboardingFlowController != null));
             return;
         }
+
+        List<SavedPlantState> pending = currentData.savedPlants.FindAll(p => !p.hasCompletedOnboarding); // plants still missing location or care info.
+
+        Debug.Log("[Onboarding] Plants still needing onboarding: " + pending.Count);
+
+        if (pending.Count > 0)
+            onboardingFlowController.BeginOnboarding(pending); // walk the player through them one by one.
+    }
+
+    public void UpdatePlantLocation(
+    string uniquePlantInstanceId,
+    LightLocationType selectedLightLocation,
+    bool playerAcceptedMismatch)
+    {
+        SavedPlantState plantState = FindPlantState(uniquePlantInstanceId);
+        if (plantState == null)
+            return;
 
         PlantData plant = plantDatabase.GetById(plantState.plantId); // get the plant data for this saved plant.
 
@@ -91,13 +103,66 @@ public class GameBootstrap : MonoBehaviour
         plantState.selectedLightLocation = selectedLightLocation; // save chosen light location.
         plantState.lightAdviceResult = PlantLocationAdvisor.GetAdvice(plant.requiredLight, selectedLightLocation); // calculate location advice from plant need.
         plantState.playerAcceptedMismatch = playerAcceptedMismatch; // save if the player ignored the advice.
-        plantState.potSoilType = potSoilType; // save chosen pot soil.
-        plantState.humidityLevel = humidityLevel; // save chosen humidity.
-        plantState.hasCompletedOnboarding =
-    selectedLightLocation != LightLocationType.Unknown &&
-    potSoilType != PotSoilType.Unknown &&
-    humidityLevel != HumidityLevel.Unknown;
+
+        RecalculateOnboardingComplete(plantState);
         profileManager.Save(currentData); // save updated plant state.
+        inventoryManager.RefreshPlantCards(); // update the plant card with the new location info.
+    }
+
+    public void UpdatePlantCare(
+    string uniquePlantInstanceId,
+    PotSoilType potSoilType,
+    HumidityLevel humidityLevel,
+    bool playerAcceptedSoilMismatch,
+    bool playerAcceptedHumidityMismatch)
+    {
+        SavedPlantState plantState = FindPlantState(uniquePlantInstanceId);
+        if (plantState == null)
+            return;
+
+        PlantData plant = plantDatabase.GetById(plantState.plantId); // get the plant data for this saved plant.
+
+        if (plant == null)
+        {
+            Debug.LogWarning("Could not find plant data for id: " + plantState.plantId);
+            return;
+        }
+
+        plantState.potSoilType = potSoilType; // save chosen pot soil.
+        plantState.potSoilAdviceResult = PlantSoilAdvisor.GetAdvice(plant.recommendedPotSoilType, potSoilType);
+        plantState.playerAcceptedSoilMismatch = playerAcceptedSoilMismatch;
+
+        plantState.humidityLevel = humidityLevel; // save chosen humidity.
+        plantState.humidityAdviceResult = PlantHumidityAdvisor.GetAdvice(plant.recommendedHumidityLevel, humidityLevel);
+        plantState.playerAcceptedHumidityMismatch = playerAcceptedHumidityMismatch;
+
+        RecalculateOnboardingComplete(plantState);
+        profileManager.Save(currentData); // save updated plant state.
+        inventoryManager.RefreshPlantCards(); // update the plant card with the new soil/humidity info.
+    }
+
+    private void RecalculateOnboardingComplete(SavedPlantState plantState)
+    {
+        plantState.hasCompletedOnboarding =
+            plantState.selectedLightLocation != LightLocationType.Unknown &&
+            plantState.potSoilType != PotSoilType.Unknown &&
+            plantState.humidityLevel != HumidityLevel.Unknown;
+    }
+
+    private SavedPlantState FindPlantState(string uniquePlantInstanceId)
+    {
+        if (currentData == null || currentData.savedPlants == null)
+        {
+            Debug.LogWarning("Could not find saved plant state for id: " + uniquePlantInstanceId);
+            return null; // stop if there is no loaded save data.
+        }
+
+        SavedPlantState plantState = currentData.savedPlants.Find(p => p.uniquePlantInstanceId == uniquePlantInstanceId);
+
+        if (plantState == null)
+            Debug.LogWarning("Could not find saved plant state for id: " + uniquePlantInstanceId);
+
+        return plantState;
     }
 
     public SavedPlantState GetSavedPlantState(string uniquePlantInstanceId)
@@ -106,6 +171,14 @@ public class GameBootstrap : MonoBehaviour
             return null; // stop if there is no loaded save data.
 
         return currentData.savedPlants.Find(p => p.uniquePlantInstanceId == uniquePlantInstanceId); // return the exact saved plant.
+    }
+
+    public SavedPlantState GetSavedPlantStateForPlant(string plantId)
+    {
+        if (currentData == null || currentData.savedPlants == null)
+            return null; // stop if there is no loaded save data.
+
+        return currentData.savedPlants.Find(p => p.plantId == plantId); // return the saved state for this plant type (used by the plant cards).
     }
 
     private void LoadOwnedPlants(PlayerData data)

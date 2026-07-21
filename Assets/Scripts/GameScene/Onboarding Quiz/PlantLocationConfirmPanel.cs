@@ -62,12 +62,10 @@ public class PlantLocationConfirmPanel : MonoBehaviour
 
         bool acceptedMismatch = currentAdviceResult == LightAdviceResult.Bad;
 
-        gameBootstrap.UpdatePlantOnboardingState(
+        gameBootstrap.UpdatePlantLocation(
             currentPlantInstanceId,
             currentSpot.GetLocationType(),
-            acceptedMismatch,
-            PotSoilType.Unknown,
-            HumidityLevel.Unknown
+            acceptedMismatch
         );
 
         selector.FinishSelection();
