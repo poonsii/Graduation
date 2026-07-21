@@ -93,8 +93,10 @@ public class GameBootstrap : MonoBehaviour
         plantState.playerAcceptedMismatch = playerAcceptedMismatch; // save if the player ignored the advice.
         plantState.potSoilType = potSoilType; // save chosen pot soil.
         plantState.humidityLevel = humidityLevel; // save chosen humidity.
-        plantState.hasCompletedOnboarding = true; // mark onboarding as done for this plant.
-
+        plantState.hasCompletedOnboarding =
+    selectedLightLocation != LightLocationType.Unknown &&
+    potSoilType != PotSoilType.Unknown &&
+    humidityLevel != HumidityLevel.Unknown;
         profileManager.Save(currentData); // save updated plant state.
     }
 

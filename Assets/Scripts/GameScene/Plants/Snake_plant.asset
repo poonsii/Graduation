@@ -17,3 +17,8 @@ MonoBehaviour:
   icon: {fileID: 0}
   cardPrefab: {fileID: 0}
   roomItemPrefab: {fileID: 0}
+  healthyModel: {fileID: 0}
+  unhealthyModel: {fileID: 0}
+  requiredLight: 2
+  recommendedPotSoilType: 2
+  recommendedHumidityLevel: 2
