@@ -13,8 +13,6 @@ public class OwnedPlantCardUI : MonoBehaviour
 
     [Header("Onboarding Info")]
     [SerializeField] private TMP_Text locationInfoText;
-    [SerializeField] private TMP_Text soilInfoText;
-    [SerializeField] private TMP_Text humidityInfoText;
 
     private void OnEnable()
     {
@@ -59,8 +57,6 @@ public class OwnedPlantCardUI : MonoBehaviour
             return;
 
         UpdateLocationText(state);
-        UpdateSoilText(state);
-        UpdateHumidityText(state);
     }
 
     private void UpdateLocationText(SavedPlantState state)
@@ -80,43 +76,5 @@ public class OwnedPlantCardUI : MonoBehaviour
 
         locationInfoText.text = LocalizedText.Get(
             "card_location", PlantAdviceText.GetLabel(state.selectedLightLocation), PlantAdviceText.GetLabel(state.lightAdviceResult)) + ignoredNote;
-    }
-
-    private void UpdateSoilText(SavedPlantState state)
-    {
-        if (soilInfoText == null)
-            return;
-
-        if (state.potSoilType == PotSoilType.Unknown)
-        {
-            soilInfoText.text = LocalizedText.Get("card_soil_not_set");
-            return;
-        }
-
-        string ignoredNote = state.potSoilAdviceResult == PotSoilAdviceResult.Bad && state.playerAcceptedSoilMismatch
-            ? LocalizedText.Get("card_kept_anyway")
-            : "";
-
-        soilInfoText.text = LocalizedText.Get(
-            "card_soil", PlantAdviceText.GetLabel(state.potSoilType), PlantAdviceText.GetLabel(state.potSoilAdviceResult)) + ignoredNote;
-    }
-
-    private void UpdateHumidityText(SavedPlantState state)
-    {
-        if (humidityInfoText == null)
-            return;
-
-        if (state.humidityLevel == HumidityLevel.Unknown)
-        {
-            humidityInfoText.text = LocalizedText.Get("card_humidity_not_set");
-            return;
-        }
-
-        string ignoredNote = state.humidityAdviceResult == HumidityAdviceResult.Bad && state.playerAcceptedHumidityMismatch
-            ? LocalizedText.Get("card_kept_anyway")
-            : "";
-
-        humidityInfoText.text = LocalizedText.Get(
-            "card_humidity", PlantAdviceText.GetLabel(state.humidityLevel), PlantAdviceText.GetLabel(state.humidityAdviceResult)) + ignoredNote;
     }
 }

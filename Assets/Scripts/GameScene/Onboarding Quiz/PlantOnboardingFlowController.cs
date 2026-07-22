@@ -4,7 +4,6 @@ using UnityEngine;
 public class PlantOnboardingFlowController : MonoBehaviour
 {
     [SerializeField] private PlantLocationSelector locationSelector;
-    [SerializeField] private PlantCareQuizPanel careQuizPanel;
     [SerializeField] private GameBootstrap gameBootstrap;
 
     private Queue<SavedPlantState> pendingPlants;
@@ -22,7 +21,7 @@ public class PlantOnboardingFlowController : MonoBehaviour
         if (pendingPlants == null || pendingPlants.Count == 0)
         {
             Debug.Log("[Onboarding] Queue empty - onboarding flow finished (or never started).");
-            return; // every plant has been placed and quizzed.
+            return; // every plant has been placed.
         }
 
         SavedPlantState next = pendingPlants.Dequeue();
@@ -48,16 +47,8 @@ public class PlantOnboardingFlowController : MonoBehaviour
 
     private void OnPlantLocationConfirmed(string uniquePlantInstanceId, string plantId)
     {
-        if (careQuizPanel != null)
-            careQuizPanel.Show(uniquePlantInstanceId, plantId, OnPlantCareQuizComplete);
-        else
-            AdvanceToNextPlant();
-    }
-
-    private void OnPlantCareQuizComplete()
-    {
-        if (gameBootstrap != null && currentPlantId != null)
-            gameBootstrap.SetPlantCardInteractable(currentPlantId, true); // unlock now that this plant's onboarding is done.
+        if (gameBootstrap != null)
+            gameBootstrap.SetPlantCardInteractable(plantId, true); // unlock now that this plant's onboarding is done.
 
         AdvanceToNextPlant();
     }

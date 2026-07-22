@@ -187,44 +187,9 @@ public class GameBootstrap : MonoBehaviour
         inventoryManager.SetRoomPlantVisible(plantId, false);
     }
 
-    public void UpdatePlantCare(
-    string uniquePlantInstanceId,
-    PotSoilType potSoilType,
-    HumidityLevel humidityLevel,
-    bool playerAcceptedSoilMismatch,
-    bool playerAcceptedHumidityMismatch)
-    {
-        SavedPlantState plantState = FindPlantState(uniquePlantInstanceId);
-        if (plantState == null)
-            return;
-
-        PlantData plant = plantDatabase.GetById(plantState.plantId); // get the plant data for this saved plant.
-
-        if (plant == null)
-        {
-            Debug.LogWarning("Could not find plant data for id: " + plantState.plantId);
-            return;
-        }
-
-        plantState.potSoilType = potSoilType; // save chosen pot soil.
-        plantState.potSoilAdviceResult = PlantSoilAdvisor.GetAdvice(plant.recommendedPotSoilType, potSoilType);
-        plantState.playerAcceptedSoilMismatch = playerAcceptedSoilMismatch;
-
-        plantState.humidityLevel = humidityLevel; // save chosen humidity.
-        plantState.humidityAdviceResult = PlantHumidityAdvisor.GetAdvice(plant.recommendedHumidityLevel, humidityLevel);
-        plantState.playerAcceptedHumidityMismatch = playerAcceptedHumidityMismatch;
-
-        RecalculateOnboardingComplete(plantState);
-        profileManager.Save(currentData); // save updated plant state.
-        inventoryManager.RefreshPlantCards(); // update the plant card with the new soil/humidity info.
-    }
-
     private void RecalculateOnboardingComplete(SavedPlantState plantState)
     {
-        plantState.hasCompletedOnboarding =
-            plantState.selectedLightLocation != LightLocationType.Unknown &&
-            plantState.potSoilType != PotSoilType.Unknown &&
-            plantState.humidityLevel != HumidityLevel.Unknown;
+        plantState.hasCompletedOnboarding = plantState.selectedLightLocation != LightLocationType.Unknown;
     }
 
     private SavedPlantState FindPlantState(string uniquePlantInstanceId)

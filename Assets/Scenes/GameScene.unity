@@ -2707,8 +2707,6 @@ MonoBehaviour:
   gameBootstrap: {fileID: 0}
   plantDatabase: {fileID: 0}
   locationInfoText: {fileID: 0}
-  soilInfoText: {fileID: 0}
-  humidityInfoText: {fileID: 0}
 --- !u!114 &165548726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3005,8 +3003,6 @@ MonoBehaviour:
   gameBootstrap: {fileID: 0}
   plantDatabase: {fileID: 0}
   locationInfoText: {fileID: 0}
-  soilInfoText: {fileID: 0}
-  humidityInfoText: {fileID: 0}
 --- !u!114 &187404674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3895,8 +3891,6 @@ MonoBehaviour:
   gameBootstrap: {fileID: 0}
   plantDatabase: {fileID: 0}
   locationInfoText: {fileID: 0}
-  soilInfoText: {fileID: 0}
-  humidityInfoText: {fileID: 0}
 --- !u!114 &250931637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13725,7 +13719,7 @@ GameObject:
   m_Component:
   - component: {fileID: 972046642}
   m_Layer: 0
-  m_Name: OnboardingQuiz
+  m_Name: OnboardingLocation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19045,7 +19039,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlantOnboardingFlowController
   locationSelector: {fileID: 1957554260}
-  careQuizPanel: {fileID: 0}
   gameBootstrap: {fileID: 927299505}
 --- !u!1 &1379681178
 GameObject:
@@ -21410,8 +21403,6 @@ MonoBehaviour:
   gameBootstrap: {fileID: 0}
   plantDatabase: {fileID: 0}
   locationInfoText: {fileID: 0}
-  soilInfoText: {fileID: 0}
-  humidityInfoText: {fileID: 0}
 --- !u!114 &1527420992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22745,8 +22736,6 @@ MonoBehaviour:
   gameBootstrap: {fileID: 0}
   plantDatabase: {fileID: 0}
   locationInfoText: {fileID: 0}
-  soilInfoText: {fileID: 0}
-  humidityInfoText: {fileID: 0}
 --- !u!114 &1597186947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23225,8 +23214,6 @@ MonoBehaviour:
   gameBootstrap: {fileID: 0}
   plantDatabase: {fileID: 0}
   locationInfoText: {fileID: 0}
-  soilInfoText: {fileID: 0}
-  humidityInfoText: {fileID: 0}
 --- !u!114 &1621451125
 MonoBehaviour:
   m_ObjectHideFlags: 0
