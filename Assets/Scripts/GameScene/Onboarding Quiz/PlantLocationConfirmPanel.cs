@@ -53,6 +53,7 @@ public class PlantLocationConfirmPanel : MonoBehaviour
         if (adviceText != null)
             adviceText.text = "";
 
+        spot.SetAdviceColor(currentAdviceResult); // green if it's a good fit, red otherwise.
         gameBootstrap.PreviewPlantLocation(plantId, spot.transform); // show the plant at this spot while the player decides.
 
         root.SetActive(true);
@@ -74,7 +75,8 @@ public class PlantLocationConfirmPanel : MonoBehaviour
             currentPlantInstanceId,
             currentSpot.GetLocationType(),
             acceptedMismatch,
-            currentSpot.transform
+            currentSpot.transform,
+            currentSpot.GetSpotId()
         );
 
         selector.FinishSelection();

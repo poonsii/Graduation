@@ -94,11 +94,31 @@ public class GameBootstrap : MonoBehaviour
             if (plantState.selectedLightLocation == LightLocationType.Unknown)
                 continue;
 
-            Transform spotTransform = locationSelector.GetSpotTransform(plantState.selectedLightLocation);
+            // prefer the exact spot; fall back to matching by light type for saves made before spot ids existed.
+            Transform spotTransform = !string.IsNullOrEmpty(plantState.selectedSpotId)
+                ? locationSelector.GetSpotTransformById(plantState.selectedSpotId)
+                : locationSelector.GetSpotTransform(plantState.selectedLightLocation);
 
             if (spotTransform != null)
                 inventoryManager.MovePlantToSpot(plantState.plantId, spotTransform);
         }
+    }
+
+    public bool IsSpotTaken(string spotId, string excludingInstanceId)
+    {
+        if (string.IsNullOrEmpty(spotId) || currentData == null || currentData.savedPlants == null)
+            return false;
+
+        foreach (SavedPlantState plantState in currentData.savedPlants)
+        {
+            if (plantState.uniquePlantInstanceId == excludingInstanceId)
+                continue;
+
+            if (plantState.selectedSpotId == spotId)
+                return true;
+        }
+
+        return false;
     }
 
     private void BeginOnboardingIfNeeded()
@@ -123,7 +143,8 @@ public class GameBootstrap : MonoBehaviour
     string uniquePlantInstanceId,
     LightLocationType selectedLightLocation,
     bool playerAcceptedMismatch,
-    Transform spotTransform)
+    Transform spotTransform,
+    string spotId)
     {
         SavedPlantState plantState = FindPlantState(uniquePlantInstanceId);
         if (plantState == null)
@@ -138,6 +159,7 @@ public class GameBootstrap : MonoBehaviour
         }
 
         plantState.selectedLightLocation = selectedLightLocation; // save chosen light location.
+        plantState.selectedSpotId = spotId; // save exactly which spot, so it can't be double-booked or lost among duplicate light types.
         plantState.lightAdviceResult = PlantLocationAdvisor.GetAdvice(plant.requiredLight, selectedLightLocation); // calculate location advice from plant need.
         plantState.playerAcceptedMismatch = playerAcceptedMismatch; // save if the player ignored the advice.
 

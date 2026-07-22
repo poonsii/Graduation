@@ -14,6 +14,7 @@ public class PlantLocationSelector : MonoBehaviour
     [SerializeField] private GameObject promptRoot;
     [SerializeField] private TMP_Text promptText;
     [SerializeField] private PlantDatabase plantDatabase;
+    [SerializeField] private GameBootstrap gameBootstrap;
 
     private PlantLocationSpot currentSelectedSpot;
     private string currentPlantInstanceId;
@@ -68,6 +69,17 @@ public class PlantLocationSelector : MonoBehaviour
         return null;
     }
 
+    public Transform GetSpotTransformById(string spotId)
+    {
+        foreach (PlantLocationSpot spot in allSpots)
+        {
+            if (spot != null && spot.GetSpotId() == spotId)
+                return spot.transform;
+        }
+
+        return null;
+    }
+
     private void ShowPrompt(string plantId)
     {
         if (promptRoot == null)
@@ -77,7 +89,12 @@ public class PlantLocationSelector : MonoBehaviour
         {
             PlantData plant = plantDatabase != null ? plantDatabase.GetById(plantId) : null;
             string plantName = plant != null ? plant.displayName : plantId;
+
+            Debug.Log("[Onboarding] ShowPrompt - plantId: '" + plantId + "', plantDatabase assigned: " + (plantDatabase != null)
+                + ", plant found: " + (plant != null) + ", plantName resolved to: '" + plantName + "'");
+
             promptText.text = LocalizedText.Get("location_prompt", plantName);
+            Debug.Log("[Onboarding] ShowPrompt - final text: '" + promptText.text + "'");
         }
 
         promptRoot.SetActive(true);
@@ -125,11 +142,18 @@ public class PlantLocationSelector : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, locationLayerMask))
         {
             PlantLocationSpot spot = hit.collider.GetComponent<PlantLocationSpot>();
-            if (spot != null)
+            if (spot != null && !IsSpotTakenByAnotherPlant(spot))
             {
                 SelectSpot(spot);
             }
         }
+    }
+
+    private bool IsSpotTakenByAnotherPlant(PlantLocationSpot spot)
+    {
+        bool taken = gameBootstrap != null && gameBootstrap.IsSpotTaken(spot.GetSpotId(), currentPlantInstanceId);
+        Debug.Log("[Onboarding] Checking spot '" + spot.GetSpotId() + "' - gameBootstrap assigned: " + (gameBootstrap != null) + ", taken: " + taken);
+        return taken;
     }
 
     private void SelectSpot(PlantLocationSpot spot)
