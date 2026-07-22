@@ -13,7 +13,7 @@ public class PlantLocationSpot : MonoBehaviour
     [SerializeField] private GameObject markerVisual; // the visible marker (e.g. a sphere) - separate from the collider, which stays active for raycasting.
 
     public LightLocationType GetLocationType() => lightLocationType;
-    public string GetDisplayName() => string.IsNullOrEmpty(displayName) ? lightLocationType.ToString() : displayName;
+    public string GetDisplayName() => string.IsNullOrEmpty(displayName) ? PlantAdviceText.GetLabel(lightLocationType) : displayName;
 
     public void SetSelected(bool selected)
     {

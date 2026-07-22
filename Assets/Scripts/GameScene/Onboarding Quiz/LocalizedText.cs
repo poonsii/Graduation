@@ -1,4 +1,5 @@
 using UnityEngine.Localization;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public static class LocalizedText
 {
@@ -11,6 +12,7 @@ public static class LocalizedText
         if (arguments != null && arguments.Length > 0)
             localizedString.Arguments = arguments;
 
-        return localizedString.GetLocalizedString();
+        AsyncOperationHandle<string> handle = localizedString.GetLocalizedStringAsync();
+        return handle.WaitForCompletion(); // force full resolution instead of trusting the convenience method to already be ready.
     }
 }

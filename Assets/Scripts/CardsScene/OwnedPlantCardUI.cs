@@ -79,7 +79,7 @@ public class OwnedPlantCardUI : MonoBehaviour
             : "";
 
         locationInfoText.text = LocalizedText.Get(
-            "card_location", state.selectedLightLocation.ToString(), PlantAdviceText.GetLabel(state.lightAdviceResult)) + ignoredNote;
+            "card_location", PlantAdviceText.GetLabel(state.selectedLightLocation), PlantAdviceText.GetLabel(state.lightAdviceResult)) + ignoredNote;
     }
 
     private void UpdateSoilText(SavedPlantState state)
@@ -98,7 +98,7 @@ public class OwnedPlantCardUI : MonoBehaviour
             : "";
 
         soilInfoText.text = LocalizedText.Get(
-            "card_soil", state.potSoilType.ToString(), PlantAdviceText.GetLabel(state.potSoilAdviceResult)) + ignoredNote;
+            "card_soil", PlantAdviceText.GetLabel(state.potSoilType), PlantAdviceText.GetLabel(state.potSoilAdviceResult)) + ignoredNote;
     }
 
     private void UpdateHumidityText(SavedPlantState state)
@@ -117,6 +117,6 @@ public class OwnedPlantCardUI : MonoBehaviour
             : "";
 
         humidityInfoText.text = LocalizedText.Get(
-            "card_humidity", state.humidityLevel.ToString(), PlantAdviceText.GetLabel(state.humidityAdviceResult)) + ignoredNote;
+            "card_humidity", PlantAdviceText.GetLabel(state.humidityLevel), PlantAdviceText.GetLabel(state.humidityAdviceResult)) + ignoredNote;
     }
 }
