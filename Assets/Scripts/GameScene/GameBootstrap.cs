@@ -227,6 +227,11 @@ public class GameBootstrap : MonoBehaviour
         return currentData.savedPlants.Find(p => p.plantId == plantId); // return the saved state for this plant type (used by the plant cards).
     }
 
+    public PlantData GetPlantData(string plantId)
+    {
+        return plantDatabase != null ? plantDatabase.GetById(plantId) : null;
+    }
+
     public void MarkCalendarIntroSeen(string uniquePlantInstanceId)
     {
         SavedPlantState plantState = FindPlantState(uniquePlantInstanceId);

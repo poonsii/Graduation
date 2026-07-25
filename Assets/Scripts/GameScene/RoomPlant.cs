@@ -14,10 +14,8 @@ public class RoomPlant : MonoBehaviour
 
     [Header("Plant Setup")]
     [SerializeField] private PlantVisualController visualController; // switches between healthy and unhealthy looks.
-    [SerializeField] private float unhealthyAfterSeconds = 20f; // how long before the plant becomes unhealthy.
-
-    [Header("Day Settings")]
-    [SerializeField] private float secondsPerDay = 60f; // how many seconds count as one day
+    [SerializeField] private float unhealthyAfterSeconds = 20f; // fallback only - used if the calendar isn't wired up.
+    [SerializeField] private PlantData plantData; // expand this to see/edit the watering & fertilizing days used by the calendar.
 
     [Header("UI")]
     [SerializeField] private GameObject plantUiPanel;
@@ -276,13 +274,47 @@ public class RoomPlant : MonoBehaviour
 
     private void UpdatePlantState()
     {
-        currentDay = Mathf.FloorToInt(neglectTimer / secondsPerDay) + 1; // convert time into days.
-        isUnhealthy = neglectTimer >= unhealthyAfterSeconds; // check if the plant is unhealthy.
+        currentDay = ComputeCurrentDayFromCalendar(); // real days since it was last watered, instead of a compressed timer.
+        isUnhealthy = IsOverdueByCalendar(); // unhealthy once the calendar says care is overdue (e.g. water not logged within its window).
 
         if (visualController != null)
             visualController.SetHealthy(!isUnhealthy); // switch plant look.
 
         RefreshDayString();
+    }
+
+    private PlantData ResolvePlantData()
+    {
+        if (plantData != null)
+            return plantData;
+
+        return gameBootstrap != null ? gameBootstrap.GetPlantData(plantId) : null;
+    }
+
+    private bool IsOverdueByCalendar()
+    {
+        if (gameBootstrap == null)
+            return neglectTimer >= unhealthyAfterSeconds; // fall back to the old timer-based check if the calendar isn't wired up.
+
+        SavedPlantState state = gameBootstrap.GetSavedPlantStateForPlant(plantId);
+
+        return CalendarBadgeManager.IsOverdueForCare(state, ResolvePlantData(), CalendarClock.Now);
+    }
+
+    private int ComputeCurrentDayFromCalendar()
+    {
+        if (gameBootstrap == null)
+            return currentDay; // calendar isn't wired up - leave the day counter as is.
+
+        SavedPlantState state = gameBootstrap.GetSavedPlantStateForPlant(plantId);
+
+        if (state == null || string.IsNullOrEmpty(state.lastWateredDate))
+            return 1; // no watering logged yet.
+
+        if (!DateTime.TryParseExact(state.lastWateredDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime lastWatered))
+            return 1;
+
+        return (CalendarClock.Now.Date - lastWatered.Date).Days + 1; // day 1 = the day it was watered.
     }
 
     private void CheckReminder()

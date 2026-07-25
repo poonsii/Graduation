@@ -3459,7 +3459,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &188049870
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6144,7 +6144,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &360959117
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6661,7 +6661,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &407733018
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10329,7 +10329,7 @@ MonoBehaviour:
   plantId: snake_plant
   visualController: {fileID: 593317034}
   unhealthyAfterSeconds: 160
-  secondsPerDay: 60
+  plantData: {fileID: 11400000, guid: 3b3c124ea40540c408cdb1db050b9a5c, type: 2}
   plantUiPanel: {fileID: 68972434}
   dayTexts:
   - {fileID: 686312624}
@@ -13234,7 +13234,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &728297697
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17656,7 +17656,7 @@ MonoBehaviour:
   plantId: monstera
   visualController: {fileID: 983473992}
   unhealthyAfterSeconds: 20
-  secondsPerDay: 60
+  plantData: {fileID: 11400000, guid: bf73de5bdeff8a846826540b22942e5c, type: 2}
   plantUiPanel: {fileID: 938216927}
   dayTexts:
   - {fileID: 2084720469}
@@ -31187,7 +31187,7 @@ MonoBehaviour:
   plantId: orchid
   visualController: {fileID: 1744519675}
   unhealthyAfterSeconds: 120
-  secondsPerDay: 60
+  plantData: {fileID: 11400000, guid: 67e78f87a4ce6ce4ea861b6ca68edd92, type: 2}
   plantUiPanel: {fileID: 693480745}
   dayTexts:
   - {fileID: 40637558}
