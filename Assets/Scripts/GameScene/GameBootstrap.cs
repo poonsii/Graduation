@@ -244,7 +244,7 @@ public class GameBootstrap : MonoBehaviour
         if (plantState == null)
             return new List<string>();
 
-        string todayString = DateTime.Now.ToString("yyyy-MM-dd");
+        string todayString = CalendarClock.Now.ToString("yyyy-MM-dd");
 
         CalendarLogEntry entry = new CalendarLogEntry();
         entry.date = todayString;
@@ -257,7 +257,7 @@ public class GameBootstrap : MonoBehaviour
         else
             plantState.lastFertilizedDate = todayString;
 
-        List<string> newlyEarnedBadges = CalendarBadgeManager.RefreshBadges(plantState, plantDatabase.GetById(plantId), DateTime.Now);
+        List<string> newlyEarnedBadges = CalendarBadgeManager.RefreshBadges(plantState, plantDatabase.GetById(plantId), CalendarClock.Now);
 
         profileManager.Save(currentData); // persist the new log, dates and badges.
         inventoryManager.RefreshPlantCards(); // let the plant card show the new last-watered date.
@@ -272,7 +272,7 @@ public class GameBootstrap : MonoBehaviour
         if (plantState == null)
             return false;
 
-        List<string> newlyEarned = CalendarBadgeManager.RefreshBadges(plantState, plantDatabase.GetById(plantId), DateTime.Now);
+        List<string> newlyEarned = CalendarBadgeManager.RefreshBadges(plantState, plantDatabase.GetById(plantId), CalendarClock.Now);
         profileManager.Save(currentData); // the streak may have just reset even though nothing was logged.
 
         return newlyEarned.Count > 0;

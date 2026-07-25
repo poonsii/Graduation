@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
@@ -39,6 +41,12 @@ public class RoomPlant : MonoBehaviour
     [SerializeField] private GameBootstrap gameBootstrap; // used to read the calendar's saved plant state (last watered date, etc).
     [SerializeField] private TMP_Text[] lastWateredTexts;
     [SerializeField] private PlantCalendarController calendarController; // this plant's calendar screen, if one exists.
+
+    [Header("Calendar Week Preview")]
+    [SerializeField] private RectTransform weekPreviewContainer; // needs a Grid Layout Group, fixed column count 7.
+    [SerializeField] private CalendarDayCell weekPreviewDayCellPrefab; // can be a smaller variant of the main calendar's day cell.
+
+    private readonly List<CalendarDayCell> weekPreviewCells = new List<CalendarDayCell>();
 
     private float neglectTimer = 0f;
     private bool isUnhealthy = false;
@@ -101,12 +109,21 @@ public class RoomPlant : MonoBehaviour
         return plantId; // give back the plant id
     }
 
-    public void RefreshCareInfo() // pulls the calendar's last-watered date onto this plant's card - called by InventoryManager whenever it changes.
+    public void RefreshCareInfo() // pulls the calendar's care info onto this plant's card - called by InventoryManager whenever it changes.
     {
-        if (gameBootstrap == null || lastWateredTexts == null)
+        if (gameBootstrap == null)
             return;
 
         SavedPlantState state = gameBootstrap.GetSavedPlantStateForPlant(plantId);
+
+        RefreshLastWateredText(state);
+        RefreshWeekPreview(state);
+    }
+
+    private void RefreshLastWateredText(SavedPlantState state)
+    {
+        if (lastWateredTexts == null)
+            return;
 
         // TODO: route through LocalizedText once translations are set up for the calendar system.
         string text = state != null && !string.IsNullOrEmpty(state.lastWateredDate)
@@ -117,6 +134,48 @@ public class RoomPlant : MonoBehaviour
         {
             if (lastWateredText != null)
                 lastWateredText.text = text;
+        }
+    }
+
+    private void RefreshWeekPreview(SavedPlantState state)
+    {
+        if (weekPreviewContainer == null || weekPreviewDayCellPrefab == null)
+            return;
+
+        foreach (CalendarDayCell cell in weekPreviewCells)
+        {
+            if (cell != null)
+                Destroy(cell.gameObject);
+        }
+
+        weekPreviewCells.Clear();
+
+        HashSet<string> wateredDates = new HashSet<string>();
+        HashSet<string> fertilizedDates = new HashSet<string>();
+
+        if (state != null)
+        {
+            foreach (CalendarLogEntry entry in state.careLog)
+            {
+                if (entry.actionType == CareActionType.Watered)
+                    wateredDates.Add(entry.date);
+                else
+                    fertilizedDates.Add(entry.date);
+            }
+        }
+
+        DateTime today = CalendarClock.Now.Date;
+        int daysSinceMonday = ((int)today.DayOfWeek + 6) % 7; // Monday = 0 .. Sunday = 6
+        DateTime monday = today.AddDays(-daysSinceMonday);
+
+        for (int i = 0; i < 7; i++)
+        {
+            DateTime day = monday.AddDays(i);
+            string dayString = day.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+            CalendarDayCell cell = Instantiate(weekPreviewDayCellPrefab, weekPreviewContainer);
+            cell.Setup(day.Day, day.Date == today, wateredDates.Contains(dayString), fertilizedDates.Contains(dayString));
+            weekPreviewCells.Add(cell);
         }
     }
 

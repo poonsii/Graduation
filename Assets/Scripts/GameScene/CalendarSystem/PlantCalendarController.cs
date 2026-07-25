@@ -99,7 +99,7 @@ public class PlantCalendarController : MonoBehaviour
 
         gameBootstrap.RefreshCalendarBadges(plantId); // catch up the streak even if nothing was logged just now, e.g. after being away for a while.
 
-        DateTime today = DateTime.Now;
+        DateTime today = CalendarClock.Now;
 
         RefreshMonthTexts(today);
         RefreshCalendarGrid(today);
@@ -244,7 +244,7 @@ public class PlantCalendarController : MonoBehaviour
         if (!string.IsNullOrEmpty(lastDateString)
             && DateTime.TryParseExact(lastDateString, DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime lastDate))
         {
-            daysSinceLastCare = (DateTime.Now.Date - lastDate.Date).Days;
+            daysSinceLastCare = (CalendarClock.Now.Date - lastDate.Date).Days;
         }
 
         CareTimingResult timing = CarePointsCalculator.ClassifyTiming(daysSinceLastCare, minDays, maxDays);
