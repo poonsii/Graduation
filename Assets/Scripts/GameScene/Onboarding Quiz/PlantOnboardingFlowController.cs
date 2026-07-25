@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlantOnboardingFlowController : MonoBehaviour
 {
     [SerializeField] private PlantLocationSelector locationSelector;
+    [SerializeField] private PlantCalendarOnboardingStep calendarOnboardingStep; // optional routine-logging step shown right after the location is picked.
     [SerializeField] private GameBootstrap gameBootstrap;
 
     private Queue<SavedPlantState> pendingPlants;
@@ -48,7 +49,18 @@ public class PlantOnboardingFlowController : MonoBehaviour
     private void OnPlantLocationConfirmed(string uniquePlantInstanceId, string plantId)
     {
         if (gameBootstrap != null)
-            gameBootstrap.SetPlantCardInteractable(plantId, true); // unlock now that this plant's onboarding is done.
+            gameBootstrap.SetPlantCardInteractable(plantId, true); // unlock now that the location step is done.
+
+        if (calendarOnboardingStep != null)
+            calendarOnboardingStep.BeginStep(uniquePlantInstanceId, plantId, OnCalendarStepFinished);
+        else
+            AdvanceToNextPlant(); // no calendar step wired up, skip straight to the next plant.
+    }
+
+    private void OnCalendarStepFinished(string uniquePlantInstanceId, string plantId)
+    {
+        if (gameBootstrap != null)
+            gameBootstrap.MarkCalendarIntroSeen(uniquePlantInstanceId); // this plant's onboarding is fully done now, whether it was logged or skipped.
 
         AdvanceToNextPlant();
     }

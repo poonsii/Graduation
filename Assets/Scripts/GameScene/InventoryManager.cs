@@ -96,6 +96,15 @@ public class InventoryManager : MonoBehaviour
         Debug.LogWarning("Could not find RoomPlant to move for plant id: " + plantId);
     }
 
+    public void RefreshRoomPlantCareInfo()
+    {
+        foreach (RoomPlant roomPlant in roomPlants)
+        {
+            if (roomPlant != null)
+                roomPlant.RefreshCareInfo(); // update the last-watered text with the latest calendar log.
+        }
+    }
+
     public void RefreshPlantCards()
     {
         Debug.Log("Refreshing plant cards. Total cards: " + plantCards.Count); // check card count.

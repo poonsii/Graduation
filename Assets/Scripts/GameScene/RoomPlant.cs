@@ -35,6 +35,11 @@ public class RoomPlant : MonoBehaviour
     [SerializeField] private LocalizedString dayLocalizedString;
     [SerializeField] private LocalizedString reminderLocalizedString;
 
+    [Header("Calendar Info")]
+    [SerializeField] private GameBootstrap gameBootstrap; // used to read the calendar's saved plant state (last watered date, etc).
+    [SerializeField] private TMP_Text[] lastWateredTexts;
+    [SerializeField] private PlantCalendarController calendarController; // this plant's calendar screen, if one exists.
+
     private float neglectTimer = 0f;
     private bool isUnhealthy = false;
     private int currentDay = 1;
@@ -94,6 +99,31 @@ public class RoomPlant : MonoBehaviour
     public string GetPlantId()
     {
         return plantId; // give back the plant id
+    }
+
+    public void RefreshCareInfo() // pulls the calendar's last-watered date onto this plant's card - called by InventoryManager whenever it changes.
+    {
+        if (gameBootstrap == null || lastWateredTexts == null)
+            return;
+
+        SavedPlantState state = gameBootstrap.GetSavedPlantStateForPlant(plantId);
+
+        // TODO: route through LocalizedText once translations are set up for the calendar system.
+        string text = state != null && !string.IsNullOrEmpty(state.lastWateredDate)
+            ? "Last watered: " + state.lastWateredDate
+            : "Not watered yet";
+
+        foreach (TMP_Text lastWateredText in lastWateredTexts)
+        {
+            if (lastWateredText != null)
+                lastWateredText.text = text;
+        }
+    }
+
+    public void OnOpenCalendarPressed() // lets the player log care later even if they skipped it during onboarding.
+    {
+        if (calendarController != null)
+            calendarController.Open();
     }
 
     public void MoveToSpot(Transform spotTransform)
