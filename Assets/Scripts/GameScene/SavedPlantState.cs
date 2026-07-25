@@ -9,9 +9,9 @@ public class SavedPlantState
     public bool isUnhealthy;
 
     public LightLocationType selectedLightLocation = LightLocationType.Unknown;
+    public string selectedSpotId = ""; // which exact spot, since multiple spots can share the same LightLocationType.
     public LightAdviceResult lightAdviceResult = LightAdviceResult.Unknown;
     public bool playerAcceptedMismatch = false;
-    public PotSoilType potSoilType = PotSoilType.Unknown;
-    public HumidityLevel humidityLevel = HumidityLevel.Unknown;
+
     public bool hasCompletedOnboarding = false;
 }

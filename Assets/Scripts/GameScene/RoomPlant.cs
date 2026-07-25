@@ -96,6 +96,27 @@ public class RoomPlant : MonoBehaviour
         return plantId; // give back the plant id
     }
 
+    public void MoveToSpot(Transform spotTransform)
+    {
+        if (spotTransform == null)
+            return;
+
+        transform.position = spotTransform.position;
+        transform.rotation = spotTransform.rotation;
+    }
+
+    public void SetCardInteractable(bool interactable)
+    {
+        if (clickObjects == null)
+            return;
+
+        foreach (ClickObject clickObject in clickObjects)
+        {
+            if (clickObject != null)
+                clickObject.enabled = interactable;
+        }
+    }
+
     public void SetOwned(bool owned)
     {
         isOwned = owned; // remember if the player owns it.

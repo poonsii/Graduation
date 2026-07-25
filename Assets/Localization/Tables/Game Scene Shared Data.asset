@@ -221,6 +221,90 @@ MonoBehaviour:
     m_Key: shop
     m_Metadata:
       m_Items: []
+  - m_Id: 20447446368034816
+    m_Key: advice_good
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20447502533959680
+    m_Key: advice_warning
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20447505860042752
+    m_Key: advice_bad
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20447508846387200
+    m_Key: advice_unknown
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20447754951368704
+    m_Key: location_prompt
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20447870332477440
+    m_Key: location_confirm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20447956156325888
+    m_Key: location_confirm_no_data
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20448001781964800
+    m_Key: care_soil_advice
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20448071088644096
+    m_Key: care_humidity_advice
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20460614192504832
+    m_Key: light_directsun
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20460649789562880
+    m_Key: light_brightindirect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20460664138276864
+    m_Key: light_mediumlight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20460665677586432
+    m_Key: light_lowlight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810717679460352
+    m_Key: monday
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810767692341248
+    m_Key: tuesday
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810779553832960
+    m_Key: wednesday
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810794871431168
+    m_Key: thursday
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810806514819072
+    m_Key: friday
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810816086220800
+    m_Key: saturday
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810825468878848
+    m_Key: sunday
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810966615597056
+    m_Key: month
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

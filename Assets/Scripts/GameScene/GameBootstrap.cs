@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 
 public class GameBootstrap : MonoBehaviour
 {
@@ -9,12 +10,16 @@ public class GameBootstrap : MonoBehaviour
     [SerializeField] private PlantCardSpawner cardSpawner; // creates plant cards.
     [SerializeField] private PlantRegistrationUI registrationUI; // registration popup.
     [SerializeField] private PlantWorldDisplay plantWorldDisplay;
+    [SerializeField] private PlantOnboardingFlowController onboardingFlowController; // walks the player through each plant one by one.
+    [SerializeField] private PlantLocationSelector locationSelector; // used to look up spot positions for plants that already have a saved location.
 
     private bool registrationRequired; // checks if registration is needed.
     private PlayerData currentData; // keeps the current save data in memory.
 
     private void Start()
     {
+        LocalizationSettings.InitializationOperation.WaitForCompletion(); // make sure locales/tables are ready before any onboarding text is requested.
+
         currentData = profileManager.Load(); // load saved data.
 
         if (currentData == null)
@@ -27,6 +32,9 @@ public class GameBootstrap : MonoBehaviour
         else
         {
             LoadOwnedPlants(currentData); // load saved plants.
+            HideUnplacedPlants();
+            RestorePlacedPlantPositions();
+            BeginOnboardingIfNeeded();
         }
     }
 
@@ -60,25 +68,87 @@ public class GameBootstrap : MonoBehaviour
         profileManager.Save(currentData); // write save file.
         registrationRequired = false; // registration not needed anymore.
         LoadOwnedPlants(currentData); // load the plants.
+        HideUnplacedPlants();
+        BeginOnboardingIfNeeded();
     }
 
-    public void UpdatePlantOnboardingState(
+    private void HideUnplacedPlants()
+    {
+        if (currentData == null || currentData.savedPlants == null)
+            return;
+
+        foreach (SavedPlantState plantState in currentData.savedPlants)
+        {
+            if (plantState.selectedLightLocation == LightLocationType.Unknown)
+                inventoryManager.SetRoomPlantVisible(plantState.plantId, false); // stay hidden until the player picks a location.
+        }
+    }
+
+    private void RestorePlacedPlantPositions()
+    {
+        if (currentData == null || currentData.savedPlants == null || locationSelector == null)
+            return;
+
+        foreach (SavedPlantState plantState in currentData.savedPlants)
+        {
+            if (plantState.selectedLightLocation == LightLocationType.Unknown)
+                continue;
+
+            // prefer the exact spot; fall back to matching by light type for saves made before spot ids existed.
+            Transform spotTransform = !string.IsNullOrEmpty(plantState.selectedSpotId)
+                ? locationSelector.GetSpotTransformById(plantState.selectedSpotId)
+                : locationSelector.GetSpotTransform(plantState.selectedLightLocation);
+
+            if (spotTransform != null)
+                inventoryManager.MovePlantToSpot(plantState.plantId, spotTransform);
+        }
+    }
+
+    public bool IsSpotTaken(string spotId, string excludingInstanceId)
+    {
+        if (string.IsNullOrEmpty(spotId) || currentData == null || currentData.savedPlants == null)
+            return false;
+
+        foreach (SavedPlantState plantState in currentData.savedPlants)
+        {
+            if (plantState.uniquePlantInstanceId == excludingInstanceId)
+                continue;
+
+            if (plantState.selectedSpotId == spotId)
+                return true;
+        }
+
+        return false;
+    }
+
+    private void BeginOnboardingIfNeeded()
+    {
+        if (currentData == null || currentData.savedPlants == null || onboardingFlowController == null)
+        {
+            Debug.LogWarning("[Onboarding] Stopped early - currentData null: " + (currentData == null)
+                + ", savedPlants null: " + (currentData?.savedPlants == null)
+                + ", onboardingFlowController assigned: " + (onboardingFlowController != null));
+            return;
+        }
+
+        List<SavedPlantState> pending = currentData.savedPlants.FindAll(p => !p.hasCompletedOnboarding); // plants still missing location or care info.
+
+        Debug.Log("[Onboarding] Plants still needing onboarding: " + pending.Count);
+
+        if (pending.Count > 0)
+            onboardingFlowController.BeginOnboarding(pending); // walk the player through them one by one.
+    }
+
+    public void UpdatePlantLocation(
     string uniquePlantInstanceId,
     LightLocationType selectedLightLocation,
     bool playerAcceptedMismatch,
-    PotSoilType potSoilType,
-    HumidityLevel humidityLevel)
+    Transform spotTransform,
+    string spotId)
     {
-        if (currentData == null || currentData.savedPlants == null)
-            return; // stop if there is no loaded save data.
-
-        SavedPlantState plantState = currentData.savedPlants.Find(p => p.uniquePlantInstanceId == uniquePlantInstanceId); // find the exact saved plant.
-
+        SavedPlantState plantState = FindPlantState(uniquePlantInstanceId);
         if (plantState == null)
-        {
-            Debug.LogWarning("Could not find saved plant state for id: " + uniquePlantInstanceId);
             return;
-        }
 
         PlantData plant = plantDatabase.GetById(plantState.plantId); // get the plant data for this saved plant.
 
@@ -89,15 +159,53 @@ public class GameBootstrap : MonoBehaviour
         }
 
         plantState.selectedLightLocation = selectedLightLocation; // save chosen light location.
+        plantState.selectedSpotId = spotId; // save exactly which spot, so it can't be double-booked or lost among duplicate light types.
         plantState.lightAdviceResult = PlantLocationAdvisor.GetAdvice(plant.requiredLight, selectedLightLocation); // calculate location advice from plant need.
         plantState.playerAcceptedMismatch = playerAcceptedMismatch; // save if the player ignored the advice.
-        plantState.potSoilType = potSoilType; // save chosen pot soil.
-        plantState.humidityLevel = humidityLevel; // save chosen humidity.
-        plantState.hasCompletedOnboarding =
-    selectedLightLocation != LightLocationType.Unknown &&
-    potSoilType != PotSoilType.Unknown &&
-    humidityLevel != HumidityLevel.Unknown;
+
+        inventoryManager.MovePlantToSpot(plantState.plantId, spotTransform); // physically place the plant at the chosen spot.
+        inventoryManager.SetRoomPlantVisible(plantState.plantId, true); // reveal it now that it has a confirmed location.
+
+        RecalculateOnboardingComplete(plantState);
         profileManager.Save(currentData); // save updated plant state.
+        inventoryManager.RefreshPlantCards(); // update the plant card with the new location info.
+    }
+
+    public void PreviewPlantLocation(string plantId, Transform spotTransform)
+    {
+        inventoryManager.MovePlantToSpot(plantId, spotTransform);
+        inventoryManager.SetRoomPlantVisible(plantId, true);
+    }
+
+    public void SetPlantCardInteractable(string plantId, bool interactable)
+    {
+        inventoryManager.SetPlantCardInteractable(plantId, interactable);
+    }
+
+    public void HidePlantPreview(string plantId)
+    {
+        inventoryManager.SetRoomPlantVisible(plantId, false);
+    }
+
+    private void RecalculateOnboardingComplete(SavedPlantState plantState)
+    {
+        plantState.hasCompletedOnboarding = plantState.selectedLightLocation != LightLocationType.Unknown;
+    }
+
+    private SavedPlantState FindPlantState(string uniquePlantInstanceId)
+    {
+        if (currentData == null || currentData.savedPlants == null)
+        {
+            Debug.LogWarning("Could not find saved plant state for id: " + uniquePlantInstanceId);
+            return null; // stop if there is no loaded save data.
+        }
+
+        SavedPlantState plantState = currentData.savedPlants.Find(p => p.uniquePlantInstanceId == uniquePlantInstanceId);
+
+        if (plantState == null)
+            Debug.LogWarning("Could not find saved plant state for id: " + uniquePlantInstanceId);
+
+        return plantState;
     }
 
     public SavedPlantState GetSavedPlantState(string uniquePlantInstanceId)
@@ -106,6 +214,14 @@ public class GameBootstrap : MonoBehaviour
             return null; // stop if there is no loaded save data.
 
         return currentData.savedPlants.Find(p => p.uniquePlantInstanceId == uniquePlantInstanceId); // return the exact saved plant.
+    }
+
+    public SavedPlantState GetSavedPlantStateForPlant(string plantId)
+    {
+        if (currentData == null || currentData.savedPlants == null)
+            return null; // stop if there is no loaded save data.
+
+        return currentData.savedPlants.Find(p => p.plantId == plantId); // return the saved state for this plant type (used by the plant cards).
     }
 
     private void LoadOwnedPlants(PlayerData data)

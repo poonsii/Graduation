@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -6,22 +8,102 @@ public class PlantLocationSelector : MonoBehaviour
     [SerializeField] private Camera mainCamera;
     [SerializeField] private LayerMask locationLayerMask;
     [SerializeField] private PlantLocationConfirmPanel confirmPanel;
+    [SerializeField] private List<PlantLocationSpot> allSpots; // every pickable spot - shown only while choosing a location.
+
+    [Header("Choose-a-location Prompt")]
+    [SerializeField] private GameObject promptRoot;
+    [SerializeField] private TMP_Text promptText;
+    [SerializeField] private PlantDatabase plantDatabase;
+    [SerializeField] private GameBootstrap gameBootstrap;
 
     private PlantLocationSpot currentSelectedSpot;
     private string currentPlantInstanceId;
     private string currentPlantId;
     private bool selectionActive = false;
+    private System.Action<string, string> onSelectionFinished;
 
-    public void BeginSelection(string uniquePlantInstanceId, string plantId)
+    private void Awake()
+    {
+        // guarantee the correct starting state regardless of whatever the scene file happened to save.
+        SetMarkersVisible(false);
+        HidePrompt();
+
+        if (confirmPanel != null)
+            confirmPanel.Hide();
+    }
+
+    public void BeginSelection(string uniquePlantInstanceId, string plantId, System.Action<string, string> onFinished = null)
     {
         currentPlantInstanceId = uniquePlantInstanceId;
         currentPlantId = plantId;
+        onSelectionFinished = onFinished;
         selectionActive = true;
+
+        Debug.Log("[Onboarding] Selection is now active for '" + plantId + "'. Tap/click one of the location spots in the room. Main camera assigned: " + (mainCamera != null) + ", layer mask value: " + locationLayerMask.value);
 
         if (confirmPanel != null)
             confirmPanel.Hide();
 
+        ShowPrompt(plantId);
+        SetMarkersVisible(true);
         ClearCurrentSelection();
+    }
+
+    private void SetMarkersVisible(bool visible)
+    {
+        foreach (PlantLocationSpot spot in allSpots)
+        {
+            if (spot != null)
+                spot.SetMarkerVisible(visible);
+        }
+    }
+
+    public Transform GetSpotTransform(LightLocationType locationType)
+    {
+        foreach (PlantLocationSpot spot in allSpots)
+        {
+            if (spot != null && spot.GetLocationType() == locationType)
+                return spot.transform;
+        }
+
+        return null;
+    }
+
+    public Transform GetSpotTransformById(string spotId)
+    {
+        foreach (PlantLocationSpot spot in allSpots)
+        {
+            if (spot != null && spot.GetSpotId() == spotId)
+                return spot.transform;
+        }
+
+        return null;
+    }
+
+    private void ShowPrompt(string plantId)
+    {
+        if (promptRoot == null)
+            return;
+
+        if (promptText != null)
+        {
+            PlantData plant = plantDatabase != null ? plantDatabase.GetById(plantId) : null;
+            string plantName = plant != null ? plant.displayName : plantId;
+
+            Debug.Log("[Onboarding] ShowPrompt - plantId: '" + plantId + "', plantDatabase assigned: " + (plantDatabase != null)
+                + ", plant found: " + (plant != null) + ", plantName resolved to: '" + plantName + "'");
+
+            promptText.text = LocalizedText.Get("location_prompt", plantName);
+            Debug.Log("[Onboarding] ShowPrompt - final text: '" + promptText.text + "'");
+        }
+
+        promptRoot.SetActive(true);
+    }
+
+    private void HidePrompt()
+    {
+        if (promptRoot != null)
+            promptRoot.SetActive(false);
     }
 
     private void Update()
@@ -60,11 +142,18 @@ public class PlantLocationSelector : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, locationLayerMask))
         {
             PlantLocationSpot spot = hit.collider.GetComponent<PlantLocationSpot>();
-            if (spot != null)
+            if (spot != null && !IsSpotTakenByAnotherPlant(spot))
             {
                 SelectSpot(spot);
             }
         }
+    }
+
+    private bool IsSpotTakenByAnotherPlant(PlantLocationSpot spot)
+    {
+        bool taken = gameBootstrap != null && gameBootstrap.IsSpotTaken(spot.GetSpotId(), currentPlantInstanceId);
+        Debug.Log("[Onboarding] Checking spot '" + spot.GetSpotId() + "' - gameBootstrap assigned: " + (gameBootstrap != null) + ", taken: " + taken);
+        return taken;
     }
 
     private void SelectSpot(PlantLocationSpot spot)
@@ -74,6 +163,8 @@ public class PlantLocationSelector : MonoBehaviour
 
         currentSelectedSpot = spot;
         currentSelectedSpot.SetSelected(true);
+
+        HidePrompt(); // the confirm panel takes over from here.
 
         if (confirmPanel != null)
         {
@@ -91,11 +182,17 @@ public class PlantLocationSelector : MonoBehaviour
 
         if (confirmPanel != null)
             confirmPanel.Hide();
+
+        ShowPrompt(currentPlantId);
+        SetMarkersVisible(true);
     }
 
     public void FinishSelection()
     {
         selectionActive = false;
+        HidePrompt();
+        SetMarkersVisible(false);
+        onSelectionFinished?.Invoke(currentPlantInstanceId, currentPlantId); // let a listener (e.g. the onboarding flow) know this plant's location step is done.
     }
 
     private void ClearCurrentSelection()

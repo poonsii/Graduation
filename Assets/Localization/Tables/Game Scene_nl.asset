@@ -234,6 +234,94 @@ MonoBehaviour:
     m_Localized: WINKEL
     m_Metadata:
       m_Items: []
+  - m_Id: 20447446368034816
+    m_Localized: een goede match
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20447502533959680
+    m_Localized: "een ok\xE9 match, maar niet ideaal"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20447505860042752
+    m_Localized: geen goede match
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20447508846387200
+    m_Localized: niet beschikbaar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20447754951368704
+    m_Localized: Kies de locatie die het dichtst bij je {0} in het echt staat.
+    m_Metadata:
+      m_Items:
+      - rid: 1352283350861611388
+  - m_Id: 20447870332477440
+    m_Localized: Je {0} staat in {1}, wat {2} is.
+    m_Metadata:
+      m_Items:
+      - rid: 1352283350861611388
+  - m_Id: 20447956156325888
+    m_Localized: Kon plantgegevens niet lezen.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20448001781964800
+    m_Localized: Dit type grond is {0} voor je plant.
+    m_Metadata:
+      m_Items:
+      - rid: 1352283350861611388
+  - m_Id: 20448071088644096
+    m_Localized: Dit vochtigheidsniveau is {0} voor je plant.
+    m_Metadata:
+      m_Items:
+      - rid: 1352283350861611388
+  - m_Id: 20460614192504832
+    m_Localized: een plek met direct zonlicht
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20460649789562880
+    m_Localized: een plek met helder indirect licht
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20460664138276864
+    m_Localized: een plek met matig licht
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20460665677586432
+    m_Localized: een plek met weinig licht
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810717679460352
+    m_Localized: MA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810767692341248
+    m_Localized: DI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810779553832960
+    m_Localized: WO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810794871431168
+    m_Localized: DO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810806514819072
+    m_Localized: VRIJ
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810816086220800
+    m_Localized: ZAT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810825468878848
+    m_Localized: ZON
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810966615597056
+    m_Localized: Maand
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -243,3 +331,7 @@ MonoBehaviour:
         m_Entries: 
         m_SharedEntries:
         - id: 35313197056
+        - id: 20447754951368704
+        - id: 20447870332477440
+        - id: 20448001781964800
+        - id: 20448071088644096

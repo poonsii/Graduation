@@ -28,9 +28,8 @@ public class PlantLocationConfirmPanel : MonoBehaviour
         currentSpot = spot;
 
         PlantData plant = plantDatabase.GetById(plantId);
-
-        plantNameText.text = plant != null ? plant.displayName : plantId;
-        locationNameText.text = spot.GetDisplayName();
+        string plantName = plant != null ? plant.displayName : plantId;
+        string locationName = spot.GetDisplayName();
 
         if (plant != null)
         {
@@ -39,13 +38,23 @@ public class PlantLocationConfirmPanel : MonoBehaviour
                 spot.GetLocationType()
             );
 
-            adviceText.text = GetAdviceText(currentAdviceResult);
+            string adviceWord = PlantAdviceText.GetLabel(currentAdviceResult);
+            plantNameText.text = LocalizedText.Get("location_confirm", plantName, locationName, adviceWord);
         }
         else
         {
             currentAdviceResult = LightAdviceResult.Unknown;
-            adviceText.text = "Could not read plant data.";
+            plantNameText.text = LocalizedText.Get("location_confirm_no_data");
         }
+
+        if (locationNameText != null)
+            locationNameText.text = "";
+
+        if (adviceText != null)
+            adviceText.text = "";
+
+        spot.SetAdviceColor(currentAdviceResult); // green if it's a good fit, red otherwise.
+        gameBootstrap.PreviewPlantLocation(plantId, spot.transform); // show the plant at this spot while the player decides.
 
         root.SetActive(true);
     }
@@ -62,12 +71,12 @@ public class PlantLocationConfirmPanel : MonoBehaviour
 
         bool acceptedMismatch = currentAdviceResult == LightAdviceResult.Bad;
 
-        gameBootstrap.UpdatePlantOnboardingState(
+        gameBootstrap.UpdatePlantLocation(
             currentPlantInstanceId,
             currentSpot.GetLocationType(),
             acceptedMismatch,
-            PotSoilType.Unknown,
-            HumidityLevel.Unknown
+            currentSpot.transform,
+            currentSpot.GetSpotId()
         );
 
         selector.FinishSelection();
@@ -76,22 +85,8 @@ public class PlantLocationConfirmPanel : MonoBehaviour
 
     public void OnChooseAnotherPressed()
     {
+        gameBootstrap.HidePlantPreview(currentPlantId); // hide it again until a new spot is picked.
         Hide();
         selector.EnableSelectionAgain();
-    }
-
-    private string GetAdviceText(LightAdviceResult result)
-    {
-        switch (result)
-        {
-            case LightAdviceResult.Good:
-                return "This location fits the plant well.";
-            case LightAdviceResult.Warning:
-                return "This location may work, but it is not ideal.";
-            case LightAdviceResult.Bad:
-                return "This location does not match the plant's needs very well.";
-            default:
-                return "No advice available.";
-        }
     }
 }
