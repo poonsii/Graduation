@@ -287,6 +287,38 @@ MonoBehaviour:
     m_Localized: a spot with low light
     m_Metadata:
       m_Items: []
+  - m_Id: 21810717679460352
+    m_Localized: MO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810767692341248
+    m_Localized: TU
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810779553832960
+    m_Localized: WED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810794871431168
+    m_Localized: THU
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810806514819072
+    m_Localized: FRI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810816086220800
+    m_Localized: SAT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810825468878848
+    m_Localized: SUN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810966615597056
+    m_Localized: Month
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

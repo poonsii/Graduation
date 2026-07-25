@@ -273,6 +273,38 @@ MonoBehaviour:
     m_Key: light_lowlight
     m_Metadata:
       m_Items: []
+  - m_Id: 21810717679460352
+    m_Key: monday
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810767692341248
+    m_Key: tuesday
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810779553832960
+    m_Key: wednesday
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810794871431168
+    m_Key: thursday
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810806514819072
+    m_Key: friday
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810816086220800
+    m_Key: saturday
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810825468878848
+    m_Key: sunday
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21810966615597056
+    m_Key: month
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
