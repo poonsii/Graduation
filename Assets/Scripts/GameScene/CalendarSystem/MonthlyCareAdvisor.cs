@@ -6,12 +6,12 @@ public static class MonthlyCareAdvisor
     {
         switch (month)
         {
-            case 1: case 2: return "Winter rest";
-            case 3: case 4: return "Spring wake-up";
-            case 5: case 6: return "Active growth";
-            case 7: case 8: return "Peak summer";
-            case 9: case 10: return "Fall transition";
-            case 11: case 12: return "Winter prep";
+            case 1: case 2: return LocalizedText.Get("calendar_season_name_winter_rest");
+            case 3: case 4: return LocalizedText.Get("calendar_season_name_spring");
+            case 5: case 6: return LocalizedText.Get("calendar_season_name_growth");
+            case 7: case 8: return LocalizedText.Get("calendar_season_name_summer");
+            case 9: case 10: return LocalizedText.Get("calendar_season_name_fall");
+            case 11: case 12: return LocalizedText.Get("calendar_season_name_winter_prep");
             default: return "";
         }
     }
@@ -20,12 +20,12 @@ public static class MonthlyCareAdvisor
     {
         switch (month)
         {
-            case 1: case 2: return "Water sparingly, skip fertilizer, maximize light.";
-            case 3: case 4: return "Increase watering, start feeding, repot if needed.";
-            case 5: case 6: return "Water more often, feed every 2-3 weeks.";
-            case 7: case 8: return "Water frequently, keep feeding, watch for heat stress.";
-            case 9: case 10: return "Reduce watering, taper fertilizer, watch for pests.";
-            case 11: case 12: return "Water much less, stop fertilizer, boost humidity.";
+            case 1: case 2: return LocalizedText.Get("calendar_season_tips_winter_rest");
+            case 3: case 4: return LocalizedText.Get("calendar_season_tips_spring");
+            case 5: case 6: return LocalizedText.Get("calendar_season_tips_growth");
+            case 7: case 8: return LocalizedText.Get("calendar_season_tips_summer");
+            case 9: case 10: return LocalizedText.Get("calendar_season_tips_fall");
+            case 11: case 12: return LocalizedText.Get("calendar_season_tips_winter_prep");
             default: return "";
         }
     }

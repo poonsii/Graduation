@@ -24,13 +24,16 @@ public class CalendarPointsNotificationUI : MonoBehaviour
     public void ShowPoints(CareActionType actionType, int points)
     {
         string sign = points >= 0 ? "+" : ""; // an unlog can pass a negative amount and still read correctly.
-        QueueMessage(sign + points + " points");
+        QueueMessage(LocalizedText.Get("calendar_points_popup", sign + points));
     }
 
     public void ShowBadgeEarned(string badgeId)
     {
-        string badgeName = badgeId == CalendarBadgeIds.WeekStreak ? "1 Week Streak" : "Plant Planner";
-        QueueMessage("Badge earned: " + badgeName + "!");
+        string badgeName = badgeId == CalendarBadgeIds.WeekStreak
+            ? LocalizedText.Get("calendar_badge_name_week_streak")
+            : LocalizedText.Get("calendar_badge_name_plant_planner");
+
+        QueueMessage(LocalizedText.Get("calendar_badge_earned_popup", badgeName));
     }
 
     private void QueueMessage(string message)

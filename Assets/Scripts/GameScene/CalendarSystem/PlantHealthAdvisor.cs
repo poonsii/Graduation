@@ -39,9 +39,9 @@ public static class PlantHealthAdvisor
     {
         switch (status)
         {
-            case PlantHealthStatus.Good: return "Good";
-            case PlantHealthStatus.NeedsAttention: return "Needs attention";
-            default: return "Doing bad";
+            case PlantHealthStatus.Good: return LocalizedText.Get("plant_health_good");
+            case PlantHealthStatus.NeedsAttention: return LocalizedText.Get("plant_health_needs_attention");
+            default: return LocalizedText.Get("plant_health_bad");
         }
     }
 

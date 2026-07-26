@@ -119,10 +119,9 @@ public class PlantCalendarController : MonoBehaviour
 
         if (monthText != null)
         {
-            // TODO: route through LocalizedText once translations are set up for the calendar system.
-            string seasonSuffix = humiditySeason && fertilizingSeason ? " - humidity & fertilizing season"
-                : humiditySeason ? " - humidity season"
-                : fertilizingSeason ? " - fertilizing season"
+            string seasonSuffix = humiditySeason && fertilizingSeason ? LocalizedText.Get("calendar_season_suffix_both")
+                : humiditySeason ? LocalizedText.Get("calendar_season_suffix_humidity")
+                : fertilizingSeason ? LocalizedText.Get("calendar_season_suffix_fertilizing")
                 : "";
 
             monthText.text = monthName + seasonSuffix;
@@ -130,7 +129,7 @@ public class PlantCalendarController : MonoBehaviour
 
         if (monthInformationText != null)
         {
-            string careWindow = "Water every " + currentPlantData.wateringMinDays + "-" + currentPlantData.wateringMaxDays + " days.";
+            string careWindow = LocalizedText.Get("calendar_care_window", currentPlantData.wateringMinDays, currentPlantData.wateringMaxDays);
             string estimate = BuildNextWateringEstimateText(today);
 
             monthInformationText.text = careWindow + "\n" + estimate;
@@ -147,35 +146,35 @@ public class PlantCalendarController : MonoBehaviour
     private string BuildNextWateringEstimateText(DateTime today)
     {
         if (string.IsNullOrEmpty(currentState.lastWateredDate))
-            return "Not watered yet."; // nothing logged yet, so no estimate to give.
+            return LocalizedText.Get("calendar_water_unknown"); // nothing logged yet, so no estimate to give.
 
         if (!DateTime.TryParseExact(currentState.lastWateredDate, DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime lastWatered))
-            return "Not watered yet.";
+            return LocalizedText.Get("calendar_water_unknown");
 
         DateTime estimate = lastWatered.AddDays(currentPlantData.wateringMinDays); // earliest day of the ideal window.
         int daysUntil = (estimate.Date - today.Date).Days;
 
         if (daysUntil <= 0)
-            return "Water due now.";
+            return LocalizedText.Get("calendar_water_due_now");
 
-        return "Water again in about " + daysUntil + " day(s).";
+        return LocalizedText.Get("calendar_water_estimate", daysUntil);
     }
 
     private string BuildNextFertilizingEstimateText(DateTime today)
     {
         if (string.IsNullOrEmpty(currentState.lastFertilizedDate))
-            return "Not fertilized yet."; // nothing logged yet, so no estimate to give.
+            return LocalizedText.Get("calendar_fertilize_unknown"); // nothing logged yet, so no estimate to give.
 
         if (!DateTime.TryParseExact(currentState.lastFertilizedDate, DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime lastFertilized))
-            return "Not fertilized yet.";
+            return LocalizedText.Get("calendar_fertilize_unknown");
 
         DateTime estimate = lastFertilized.AddDays(currentPlantData.fertilizingMinDays); // earliest day of the ideal window.
         int daysUntil = (estimate.Date - today.Date).Days;
 
         if (daysUntil <= 0)
-            return "Fertilizing due now.";
+            return LocalizedText.Get("calendar_fertilize_due_now");
 
-        return "Fertilize again in about " + daysUntil + " day(s).";
+        return LocalizedText.Get("calendar_fertilize_estimate", daysUntil);
     }
 
     private void RefreshCalendarGrid(DateTime today)

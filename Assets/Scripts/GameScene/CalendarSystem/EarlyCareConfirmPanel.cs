@@ -17,10 +17,11 @@ public class EarlyCareConfirmPanel : MonoBehaviour
 
         if (questionText != null)
         {
-            // TODO: route through LocalizedText once translations are set up for the calendar system.
-            string actionLabel = actionType == CareActionType.Watered ? "watered" : "fertilized";
+            string actionLabel = actionType == CareActionType.Watered
+                ? LocalizedText.Get("calendar_action_watered")
+                : LocalizedText.Get("calendar_action_fertilized");
 
-            questionText.text = "It's early to log " + actionLabel + " again - was this actually needed?";
+            questionText.text = LocalizedText.Get("calendar_early_confirm_question", actionLabel);
         }
 
         if (root != null)

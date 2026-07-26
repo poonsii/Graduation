@@ -30,8 +30,7 @@ public class PlantCalendarOnboardingStep : MonoBehaviour
             PlantData plant = plantDatabase != null ? plantDatabase.GetById(plantId) : null;
             string plantName = plant != null ? plant.displayName : plantId;
 
-            // TODO: route through LocalizedText once translations are set up for the calendar system.
-            promptText.text = "Want to log " + plantName + "'s care routine now?";
+            promptText.text = LocalizedText.Get("calendar_onboarding_prompt", plantName);
         }
 
         if (promptRoot != null)

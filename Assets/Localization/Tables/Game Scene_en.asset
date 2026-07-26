@@ -319,6 +319,157 @@ MonoBehaviour:
     m_Localized: Month
     m_Metadata:
       m_Items: []
+  - m_Id: 22222752443572224
+    m_Localized: 'Select these icons to log it inside the calendar above. Each icon
+      is used to log a specific thing you have done that day.
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22223208045649920
+    m_Localized: Earn badges by keeping track of your calendar!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22226892724936704
+    m_Localized: '- humidity & fertilizing season'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22226948366573568
+    m_Localized: '- humidity season'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22226949633253376
+    m_Localized: '- fertilizing season'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22226951017373696
+    m_Localized: Water every {0}-{1} days.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22226952388911104
+    m_Localized: Not watered yet.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22226953810780160
+    m_Localized: Water due now.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227176129863680
+    m_Localized: Water again in about {0} day(s).
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227177560121344
+    m_Localized: Not fertilized yet.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227181603430400
+    m_Localized: Fertilizing due now.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227321881927680
+    m_Localized: Fertilize again in about {0} day(s).
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227368065409024
+    m_Localized: Winter rest
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227401129107456
+    m_Localized: 'Spring '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227401842139136
+    m_Localized: Active growth
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227402592919552
+    m_Localized: Peak summer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227403184316416
+    m_Localized: Fall transition
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227503583371264
+    m_Localized: Winter prep
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227708072468480
+    m_Localized: Water sparingly, skip fertilizer, maximize light.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227733867438080
+    m_Localized: Increase watering, start feeding, repot if needed.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227735440302080
+    m_Localized: Water more often, feed every 2-3 weeks.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227746668453888
+    m_Localized: Water frequently, keep feeding, watch for heat stress.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227747926745088
+    m_Localized: Reduce watering, taper fertilizer, watch for pests.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227749587689472
+    m_Localized: Water much less, stop fertilizer, boost humidity.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227750191669248
+    m_Localized: watered
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228127431565312
+    m_Localized: fertilized
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228128543055872
+    m_Localized: It's early to log {0} again, was this actually needed?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228280049704960
+    m_Localized: '{0} points'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228354922225664
+    m_Localized: 1 Week Streak
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228357149401088
+    m_Localized: Plant Planner
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228359640817664
+    m_Localized: 'Badge earned: {0}!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228362220314624
+    m_Localized: Want to log {0}'s care routine now?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228549424685056
+    m_Localized: Consider relocating.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228548736819200
+    m_Localized: 'Locatie licht: {0}'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228547642105856
+    m_Localized: 'Light location: not set yet'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228545700143104
+    m_Localized: Not watered yet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228541241597952
+    m_Localized: 'Laatst water gegeven: {0}'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

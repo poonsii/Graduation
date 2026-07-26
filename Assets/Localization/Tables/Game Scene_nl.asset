@@ -322,6 +322,156 @@ MonoBehaviour:
     m_Localized: Maand
     m_Metadata:
       m_Items: []
+  - m_Id: 22222752443572224
+    m_Localized: Selecteer deze iconen om ze in de bovenstaande kalender te registreren.
+      Elk icoon wordt gebruikt om een specifieke activeit van de verzorging vast
+      te leggen.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22223208045649920
+    m_Localized: Verdien badges door je kalendar bij te houden!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22226892724936704
+    m_Localized: '- vochtigheids- en bemestingsseizoen'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22226948366573568
+    m_Localized: '- vochtigheidsseizoen'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22226949633253376
+    m_Localized: '- bemestingsseizoen'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22226951017373696
+    m_Localized: Geef elke {0}-{1} dagen water.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22226952388911104
+    m_Localized: Nog niet water gegeven.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22226953810780160
+    m_Localized: Nu water geven.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227176129863680
+    m_Localized: Over ongeveer {0} dag(en) weer water geven.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227177560121344
+    m_Localized: Nog niet bemest.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227181603430400
+    m_Localized: Nu bemesten.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227321881927680
+    m_Localized: Over ongeveer {0} dag(en) weer bemesten.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227368065409024
+    m_Localized: Winterrust
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227401129107456
+    m_Localized: Lente
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227401842139136
+    m_Localized: Actieve groei
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227402592919552
+    m_Localized: Hoogzomer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227403184316416
+    m_Localized: Herfstovergang
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227503583371264
+    m_Localized: Wintervoorbereiding
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227708072468480
+    m_Localized: Geef weinig water, sla bemesting over, geef zoveel mogelijk licht.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227733867438080
+    m_Localized: Geef meer water, begin met bemesten, verpot indien nodig.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227735440302080
+    m_Localized: Geef vaker water, bemest elke 2-3 weken.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227746668453888
+    m_Localized: Geef vaak water, blijf bemesten, let op hittestress.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227747926745088
+    m_Localized: Geef minder water, bouw bemesting af, let op ongedierte.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227749587689472
+    m_Localized: Geef veel minder water, stop met bemesten, verhoog de luchtvochtigheid.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227750191669248
+    m_Localized: water gegeven
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228127431565312
+    m_Localized: bemest
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228128543055872
+    m_Localized: Het is vroeg om opnieuw {0} te loggen, was dit echt nodig?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228280049704960
+    m_Localized: '{0} punten'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228354922225664
+    m_Localized: 1 Week op Rij
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228357149401088
+    m_Localized: Plantenplanner
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228359640817664
+    m_Localized: 'Badge behaald: {0}!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228362220314624
+    m_Localized: Wil je nu de verzorgingsroutine van {0} loggen?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228541241597952
+    m_Localized: 'Last watered: {0}'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228545700143104
+    m_Localized: Nog niet water gegeven
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228547642105856
+    m_Localized: 'Locatie licht: nog niet ingesteld'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228548736819200
+    m_Localized: 'Light location: {0}'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228549424685056
+    m_Localized: Overweeg de plant te verplaatsen.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

@@ -146,10 +146,9 @@ public class RoomPlant : MonoBehaviour
         if (lastWateredTexts == null)
             return;
 
-        // TODO: route through LocalizedText once translations are set up for the calendar system.
         string text = state != null && !string.IsNullOrEmpty(state.lastWateredDate)
-            ? "Last watered: " + state.lastWateredDate
-            : "Not watered yet";
+            ? LocalizedText.Get("card_last_watered", state.lastWateredDate)
+            : LocalizedText.Get("card_last_watered_unknown");
 
         foreach (TMP_Text lastWateredText in lastWateredTexts)
         {
@@ -167,14 +166,14 @@ public class RoomPlant : MonoBehaviour
 
         if (state == null || state.selectedLightLocation == LightLocationType.Unknown)
         {
-            text = "Light location: not set yet"; // TODO: route through LocalizedText once translations are set up for the calendar system.
+            text = LocalizedText.Get("card_light_location_unknown");
         }
         else
         {
-            text = "Light location: " + PlantAdviceText.GetLabel(state.selectedLightLocation);
+            text = LocalizedText.Get("card_light_location", PlantAdviceText.GetLabel(state.selectedLightLocation));
 
             if (state.lightAdviceResult == LightAdviceResult.Warning || state.lightAdviceResult == LightAdviceResult.Bad)
-                text += "\nConsider relocating it for better health."; // not the best spot for this plant.
+                text += "\n" + LocalizedText.Get("card_light_location_advice"); // not the best spot for this plant.
         }
 
         foreach (TMP_Text lightLocationText in lightLocationTexts)

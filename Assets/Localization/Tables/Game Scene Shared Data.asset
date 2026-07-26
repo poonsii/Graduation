@@ -305,6 +305,158 @@ MonoBehaviour:
     m_Key: month
     m_Metadata:
       m_Items: []
+  - m_Id: 22222752443572224
+    m_Key: Icons text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22223208045649920
+    m_Key: Badges text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22226892724936704
+    m_Key: calendar_season_suffix_both
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22226948366573568
+    m_Key: calendar_season_suffix_humidity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22226949633253376
+    m_Key: calendar_season_suffix_fertilizing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22226951017373696
+    m_Key: calendar_care_window
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22226952388911104
+    m_Key: calendar_water_unknown
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22226953810780160
+    m_Key: calendar_water_due_now
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227176129863680
+    m_Key: calendar_water_estimate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227177560121344
+    m_Key: calendar_fertilize_unknown
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227181603430400
+    m_Key: calendar_fertilize_due_now
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227321881927680
+    m_Key: calendar_fertilize_estimate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227368065409024
+    m_Key: calendar_season_name_winter_rest
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227401129107456
+    m_Key: calendar_season_name_spring
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227401842139136
+    m_Key: calendar_season_name_growth
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227402592919552
+    m_Key: calendar_season_name_summer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227403184316416
+    m_Key: calendar_season_name_fall
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227503583371264
+    m_Key: calendar_season_name_winter_prep
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227708072468480
+    m_Key: calendar_season_tips_winter_rest
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227733867438080
+    m_Key: calendar_season_tips_spring
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227735440302080
+    m_Key: calendar_season_tips_growth
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227746668453888
+    m_Key: calendar_season_tips_summer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227747926745088
+    m_Key: calendar_season_tips_fall
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227749587689472
+    m_Key: calendar_season_tips_winter_prep
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22227750191669248
+    m_Key: calendar_action_watered
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228127431565312
+    m_Key: calendar_action_fertilized
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228128543055872
+    m_Key: calendar_early_confirm_question
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228275666657280
+    m_Key: New Entry
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228280049704960
+    m_Key: calendar_points_popup
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228354922225664
+    m_Key: calendar_badge_name_week_streak
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228357149401088
+    m_Key: calendar_badge_name_plant_planner
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228359640817664
+    m_Key: calendar_badge_earned_popup
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228362220314624
+    m_Key: calendar_onboarding_prompt
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228541241597952
+    m_Key: card_last_watered
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228545700143104
+    m_Key: card_last_watered_unknown
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228547642105856
+    m_Key: card_light_location_unknown
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228548736819200
+    m_Key: card_light_location
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22228549424685056
+    m_Key: card_light_location_advice
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
