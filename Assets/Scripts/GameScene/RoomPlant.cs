@@ -44,6 +44,9 @@ public class RoomPlant : MonoBehaviour
     [SerializeField] private RectTransform weekPreviewContainer; // needs a Grid Layout Group, fixed column count 7.
     [SerializeField] private CalendarDayCell weekPreviewDayCellPrefab; // can be a smaller variant of the main calendar's day cell.
 
+    [Header("Light Location Info")]
+    [SerializeField] private TMP_Text[] lightLocationTexts; // shows the chosen location, and a short warning if it isn't a good fit.
+
     private readonly List<CalendarDayCell> weekPreviewCells = new List<CalendarDayCell>();
 
     private float neglectTimer = 0f;
@@ -107,7 +110,7 @@ public class RoomPlant : MonoBehaviour
         return plantId; // give back the plant id
     }
 
-    public void RefreshCareInfo() // pulls the calendar's care info onto this plant's card - called by InventoryManager whenever it changes.
+    public void RefreshCardInfo() // pulls the calendar/location info onto this plant's card - called by InventoryManager whenever it changes.
     {
         if (gameBootstrap == null)
             return;
@@ -116,6 +119,7 @@ public class RoomPlant : MonoBehaviour
 
         RefreshLastWateredText(state);
         RefreshWeekPreview(state);
+        RefreshLightLocationText(state);
     }
 
     private void RefreshLastWateredText(SavedPlantState state)
@@ -132,6 +136,32 @@ public class RoomPlant : MonoBehaviour
         {
             if (lastWateredText != null)
                 lastWateredText.text = text;
+        }
+    }
+
+    private void RefreshLightLocationText(SavedPlantState state)
+    {
+        if (lightLocationTexts == null)
+            return;
+
+        string text;
+
+        if (state == null || state.selectedLightLocation == LightLocationType.Unknown)
+        {
+            text = "Light location: not set yet"; // TODO: route through LocalizedText once translations are set up for the calendar system.
+        }
+        else
+        {
+            text = "Light location: " + PlantAdviceText.GetLabel(state.selectedLightLocation);
+
+            if (state.lightAdviceResult == LightAdviceResult.Warning || state.lightAdviceResult == LightAdviceResult.Bad)
+                text += "\nConsider relocating it for better health."; // not the best spot for this plant.
+        }
+
+        foreach (TMP_Text lightLocationText in lightLocationTexts)
+        {
+            if (lightLocationText != null)
+                lightLocationText.text = text;
         }
     }
 

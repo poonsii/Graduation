@@ -21,8 +21,9 @@ public class PlantCalendarController : MonoBehaviour
     [SerializeField] private PlantDatabase plantDatabase;
 
     [Header("Month")]
-    [SerializeField] private TMP_Text monthText; // "Month text" placeholder - current month name plus season tags.
+    [SerializeField] private TMP_Text monthText; 
     [SerializeField] private TMP_Text monthInformationText; // watering window + next watering estimate.
+    [SerializeField] private TMP_Text seasonInfoText; // the separate "Month information text" box - short seasonal name + tips.
 
     [Header("Calendar Grid")]
     [SerializeField] private RectTransform calendarGridContainer; // empty rect over the grid area, needs a GridLayoutGroup.
@@ -135,6 +136,9 @@ public class PlantCalendarController : MonoBehaviour
 
             monthInformationText.text = careWindow + "\n" + estimate;
         }
+
+        if (seasonInfoText != null)
+            seasonInfoText.text = MonthlyCareAdvisor.GetSeasonName(today.Month) + "\n" + MonthlyCareAdvisor.GetShortTips(today.Month);
     }
 
     private string BuildNextWateringEstimateText(DateTime today)

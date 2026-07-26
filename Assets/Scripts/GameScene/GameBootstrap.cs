@@ -170,6 +170,7 @@ public class GameBootstrap : MonoBehaviour
         RecalculateOnboardingComplete(plantState);
         profileManager.Save(currentData); // save updated plant state.
         inventoryManager.RefreshPlantCards(); // update the plant card with the new location info.
+        inventoryManager.RefreshRoomPlantCardInfo(); // update the room plant's card with the new location info.
     }
 
     public void PreviewPlantLocation(string plantId, Transform spotTransform)
@@ -266,7 +267,7 @@ public class GameBootstrap : MonoBehaviour
 
         profileManager.Save(currentData); // persist the new log, dates and badges.
         inventoryManager.RefreshPlantCards(); // let the plant card show the new last-watered date.
-        inventoryManager.RefreshRoomPlantCareInfo(); // let the 3D room plant show the new last-watered date.
+        inventoryManager.RefreshRoomPlantCardInfo(); // let the 3D room plant show the new last-watered date.
 
         return newlyEarnedBadges;
     }
@@ -298,7 +299,7 @@ public class GameBootstrap : MonoBehaviour
 
         inventoryManager.RefreshRoomPlants(); // update room plants
         inventoryManager.RefreshPlantCards(); // update cards
-        inventoryManager.RefreshRoomPlantCareInfo(); // show each plant's last-watered date
+        inventoryManager.RefreshRoomPlantCardInfo(); // show each plant's last-watered date
         cardSpawner.SpawnCards(data.ownedPlantIds); // spawn owned cards
 
         if (plantWorldDisplay != null)
