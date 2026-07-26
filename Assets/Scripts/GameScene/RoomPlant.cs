@@ -47,6 +47,9 @@ public class RoomPlant : MonoBehaviour
     [Header("Light Location Info")]
     [SerializeField] private TMP_Text[] lightLocationTexts; // shows the chosen location, and a short warning if it isn't a good fit.
 
+    [Header("Plant Health Status")]
+    [SerializeField] private TMP_Text[] plantHealthStatusTexts; // "Good" / "Needs attention" / "Doing bad".
+
     private readonly List<CalendarDayCell> weekPreviewCells = new List<CalendarDayCell>();
 
     private float neglectTimer = 0f;
@@ -120,6 +123,22 @@ public class RoomPlant : MonoBehaviour
         RefreshLastWateredText(state);
         RefreshWeekPreview(state);
         RefreshLightLocationText(state);
+        RefreshPlantHealthStatusText(state);
+    }
+
+    private void RefreshPlantHealthStatusText(SavedPlantState state)
+    {
+        if (plantHealthStatusTexts == null)
+            return;
+
+        PlantHealthStatus status = PlantHealthAdvisor.GetStatus(state, ResolvePlantData(), CalendarClock.Now);
+        string label = PlantHealthAdvisor.GetLabel(status);
+
+        foreach (TMP_Text statusText in plantHealthStatusTexts)
+        {
+            if (statusText != null)
+                statusText.text = label;
+        }
     }
 
     private void RefreshLastWateredText(SavedPlantState state)

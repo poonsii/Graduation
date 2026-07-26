@@ -244,18 +244,25 @@ public class GameBootstrap : MonoBehaviour
         profileManager.Save(currentData);
     }
 
-    public List<string> LogPlantCare(string plantId, CareActionType actionType, int pointsEarned)
+    public CareLogResult LogPlantCare(string plantId, CareActionType actionType, int pointsEarned)
     {
+        CareLogResult result = new CareLogResult();
+
         SavedPlantState plantState = GetSavedPlantStateForPlant(plantId);
         if (plantState == null)
-            return new List<string>();
+            return result;
 
-        string todayString = CalendarClock.Now.ToString("yyyy-MM-dd");
+        DateTime now = CalendarClock.Now;
+        string todayString = now.ToString("yyyy-MM-dd");
+
+        // the 24-hour cooldown lives in PlayerPrefs, not the save file, so resetting plants can't
+        // be used to keep re-earning these points.
+        bool canAwardPoints = CalendarRewardTracker.CanAwardCarePoints(plantId, actionType, now);
 
         CalendarLogEntry entry = new CalendarLogEntry();
         entry.date = todayString;
         entry.actionType = actionType;
-        entry.pointsEarned = pointsEarned;
+        entry.pointsEarned = canAwardPoints ? pointsEarned : 0;
         plantState.careLog.Add(entry); // keep a full history of logged care.
 
         if (actionType == CareActionType.Watered)
@@ -263,16 +270,42 @@ public class GameBootstrap : MonoBehaviour
         else
             plantState.lastFertilizedDate = todayString;
 
-        List<string> newlyEarnedBadges = CalendarBadgeManager.RefreshBadges(plantState, plantDatabase.GetById(plantId), CalendarClock.Now);
+        List<string> newlyEarnedBadges = CalendarBadgeManager.RefreshBadges(plantState, plantDatabase.GetById(plantId), now);
 
-        if (PointsManager.Instance != null)
-            PointsManager.Instance.AddPoints(pointsEarned); // actually award the points the calendar just computed.
+        if (canAwardPoints)
+        {
+            if (PointsManager.Instance != null)
+                PointsManager.Instance.AddPoints(pointsEarned);
+
+            CalendarRewardTracker.MarkCarePointsAwarded(plantId, actionType, now);
+        }
+
+        AwardBadgeBonuses(plantId, newlyEarnedBadges);
 
         profileManager.Save(currentData); // persist the new log, dates and badges.
         inventoryManager.RefreshPlantCards(); // let the plant card show the new last-watered date.
         inventoryManager.RefreshRoomPlantCardInfo(); // let the 3D room plant show the new last-watered date.
 
-        return newlyEarnedBadges;
+        result.pointsAwarded = entry.pointsEarned;
+        result.newlyEarnedBadges = newlyEarnedBadges;
+        return result;
+    }
+
+    private void AwardBadgeBonuses(string plantId, List<string> newlyEarnedBadges)
+    {
+        if (newlyEarnedBadges == null || newlyEarnedBadges.Count == 0)
+            return;
+
+        foreach (string badgeId in newlyEarnedBadges)
+        {
+            if (CalendarRewardTracker.HasEverAwardedBadgeBonus(plantId, badgeId))
+                continue; // already got the one-time bonus for this badge before, even across resets.
+
+            if (PointsManager.Instance != null)
+                PointsManager.Instance.AddPoints(CalendarRewardTracker.BadgeBonusPoints);
+
+            CalendarRewardTracker.MarkBadgeBonusAwarded(plantId, badgeId);
+        }
     }
 
     public bool UnlogPlantCare(string plantId, CareActionType actionType)
@@ -324,6 +357,9 @@ public class GameBootstrap : MonoBehaviour
             return false;
 
         List<string> newlyEarned = CalendarBadgeManager.RefreshBadges(plantState, plantDatabase.GetById(plantId), CalendarClock.Now);
+
+        AwardBadgeBonuses(plantId, newlyEarned);
+
         profileManager.Save(currentData); // the streak may have just reset even though nothing was logged.
 
         return newlyEarned.Count > 0;

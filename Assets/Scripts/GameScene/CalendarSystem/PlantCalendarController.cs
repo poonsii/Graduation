@@ -307,15 +307,15 @@ public class PlantCalendarController : MonoBehaviour
 
     private void FinishLogCare(CareActionType actionType, int points)
     {
-        List<string> newlyEarnedBadges = gameBootstrap.LogPlantCare(plantId, actionType, points);
+        CareLogResult result = gameBootstrap.LogPlantCare(plantId, actionType, points);
 
         Refresh();
 
         if (pointsNotification != null)
         {
-            pointsNotification.ShowPoints(actionType, points);
+            pointsNotification.ShowPoints(actionType, result.pointsAwarded); // reflects the 24-hour cooldown, not the theoretical amount.
 
-            foreach (string badgeId in newlyEarnedBadges)
+            foreach (string badgeId in result.newlyEarnedBadges)
                 pointsNotification.ShowBadgeEarned(badgeId);
         }
     }
