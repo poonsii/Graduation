@@ -21,7 +21,7 @@ public class PlantCalendarController : MonoBehaviour
     [SerializeField] private PlantDatabase plantDatabase;
 
     [Header("Month")]
-    [SerializeField] private TMP_Text monthText; 
+    [SerializeField] private TMP_Text monthText; // "Month text" placeholder - current month name plus season tags.
     [SerializeField] private TMP_Text monthInformationText; // watering window + next watering estimate.
     [SerializeField] private TMP_Text seasonInfoText; // the separate "Month information text" box - short seasonal name + tips.
 
@@ -36,7 +36,6 @@ public class PlantCalendarController : MonoBehaviour
     [Header("Badges")]
     [SerializeField] private Image plantPlannerBadgeImage;
     [SerializeField] private Image weekStreakBadgeImage;
-    [SerializeField] [Range(0f, 1f)] private float lockedBadgeAlpha = 0.3f; // dims a badge that hasn't been earned yet.
 
     [Header("Popups")]
     [SerializeField] private EarlyCareConfirmPanel earlyCareConfirmPanel;
@@ -138,7 +137,11 @@ public class PlantCalendarController : MonoBehaviour
         }
 
         if (seasonInfoText != null)
-            seasonInfoText.text = MonthlyCareAdvisor.GetSeasonName(today.Month) + "\n" + MonthlyCareAdvisor.GetShortTips(today.Month);
+        {
+            seasonInfoText.text = MonthlyCareAdvisor.GetSeasonName(today.Month)
+                + "\n" + MonthlyCareAdvisor.GetShortTips(today.Month)
+                + "\n" + BuildNextFertilizingEstimateText(today);
+        }
     }
 
     private string BuildNextWateringEstimateText(DateTime today)
@@ -156,6 +159,23 @@ public class PlantCalendarController : MonoBehaviour
             return "Water due now.";
 
         return "Water again in about " + daysUntil + " day(s).";
+    }
+
+    private string BuildNextFertilizingEstimateText(DateTime today)
+    {
+        if (string.IsNullOrEmpty(currentState.lastFertilizedDate))
+            return "Not fertilized yet."; // nothing logged yet, so no estimate to give.
+
+        if (!DateTime.TryParseExact(currentState.lastFertilizedDate, DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime lastFertilized))
+            return "Not fertilized yet.";
+
+        DateTime estimate = lastFertilized.AddDays(currentPlantData.fertilizingMinDays); // earliest day of the ideal window.
+        int daysUntil = (estimate.Date - today.Date).Days;
+
+        if (daysUntil <= 0)
+            return "Fertilizing due now.";
+
+        return "Fertilize again in about " + daysUntil + " day(s).";
     }
 
     private void RefreshCalendarGrid(DateTime today)
@@ -219,26 +239,44 @@ public class PlantCalendarController : MonoBehaviour
         if (badgeImage == null)
             return;
 
-        Color color = badgeImage.color;
-        color.a = earned ? 1f : lockedBadgeAlpha; // dim badges that haven't been earned yet instead of hiding them completely.
-        badgeImage.color = color;
+        badgeImage.enabled = earned; // only show the badge once it's earned - leaves its own artwork colors untouched.
     }
 
     public void OnWaterIconPressed()
     {
-        TryLogCare(CareActionType.Watered);
+        ToggleCare(CareActionType.Watered);
     }
 
     public void OnFertilizeIconPressed()
     {
-        TryLogCare(CareActionType.Fertilized);
+        ToggleCare(CareActionType.Fertilized);
     }
 
-    private void TryLogCare(CareActionType actionType)
+    private void ToggleCare(CareActionType actionType)
     {
         if (currentState == null || currentPlantData == null)
             return;
 
+        if (IsLoggedToday(actionType))
+            UnlogCare(actionType); // pressed again - undo today's log instead of logging a second time.
+        else
+            TryLogCare(actionType);
+    }
+
+    private bool IsLoggedToday(CareActionType actionType)
+    {
+        string todayString = CalendarClock.Now.ToString(DateFormat, CultureInfo.InvariantCulture);
+        return currentState.careLog.Exists(entry => entry.date == todayString && entry.actionType == actionType);
+    }
+
+    private void UnlogCare(CareActionType actionType)
+    {
+        gameBootstrap.UnlogPlantCare(plantId, actionType);
+        Refresh();
+    }
+
+    private void TryLogCare(CareActionType actionType)
+    {
         string lastDateString = actionType == CareActionType.Watered ? currentState.lastWateredDate : currentState.lastFertilizedDate;
         int minDays = actionType == CareActionType.Watered ? currentPlantData.wateringMinDays : currentPlantData.fertilizingMinDays;
         int maxDays = actionType == CareActionType.Watered ? currentPlantData.wateringMaxDays : currentPlantData.fertilizingMaxDays;

@@ -265,11 +265,56 @@ public class GameBootstrap : MonoBehaviour
 
         List<string> newlyEarnedBadges = CalendarBadgeManager.RefreshBadges(plantState, plantDatabase.GetById(plantId), CalendarClock.Now);
 
+        if (PointsManager.Instance != null)
+            PointsManager.Instance.AddPoints(pointsEarned); // actually award the points the calendar just computed.
+
         profileManager.Save(currentData); // persist the new log, dates and badges.
         inventoryManager.RefreshPlantCards(); // let the plant card show the new last-watered date.
         inventoryManager.RefreshRoomPlantCardInfo(); // let the 3D room plant show the new last-watered date.
 
         return newlyEarnedBadges;
+    }
+
+    public bool UnlogPlantCare(string plantId, CareActionType actionType)
+    {
+        SavedPlantState plantState = GetSavedPlantStateForPlant(plantId);
+        if (plantState == null)
+            return false;
+
+        string todayString = CalendarClock.Now.ToString("yyyy-MM-dd");
+
+        CalendarLogEntry entry = plantState.careLog.Find(e => e.date == todayString && e.actionType == actionType);
+        if (entry == null)
+            return false; // nothing logged today for this action - nothing to undo.
+
+        plantState.careLog.Remove(entry);
+
+        if (PointsManager.Instance != null)
+            PointsManager.Instance.AddPoints(-entry.pointsEarned); // undo the reward this entry gave.
+
+        RecomputeLastActionDate(plantState, actionType);
+
+        profileManager.Save(currentData);
+        inventoryManager.RefreshPlantCards();
+        inventoryManager.RefreshRoomPlantCardInfo();
+
+        return true;
+    }
+
+    private void RecomputeLastActionDate(SavedPlantState plantState, CareActionType actionType)
+    {
+        string mostRecentDate = ""; // yyyy-MM-dd strings sort correctly as plain text.
+
+        foreach (CalendarLogEntry entry in plantState.careLog)
+        {
+            if (entry.actionType == actionType && string.Compare(entry.date, mostRecentDate, StringComparison.Ordinal) > 0)
+                mostRecentDate = entry.date;
+        }
+
+        if (actionType == CareActionType.Watered)
+            plantState.lastWateredDate = mostRecentDate;
+        else
+            plantState.lastFertilizedDate = mostRecentDate;
     }
 
     public bool RefreshCalendarBadges(string plantId)

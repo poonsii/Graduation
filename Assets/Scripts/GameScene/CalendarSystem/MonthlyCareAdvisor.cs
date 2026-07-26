@@ -1,5 +1,5 @@
-// short, generic month-by-month indoor plant care advice - not tied to a specific plant,
-// same idea as a typical "month-by-month plant care" reference chart.
+// short month-by-month indoor plant care advice which is not tied to a specific plant,
+
 public static class MonthlyCareAdvisor
 {
     public static string GetSeasonName(int month)
@@ -20,12 +20,12 @@ public static class MonthlyCareAdvisor
     {
         switch (month)
         {
-            case 1: case 2: return "Water sparingly, skip fertilizer, maximize light.";
-            case 3: case 4: return "Increase watering, start feeding, repot if needed.";
-            case 5: case 6: return "Water more often, feed every 2-3 weeks.";
-            case 7: case 8: return "Water frequently, keep feeding, watch for heat stress.";
-            case 9: case 10: return "Reduce watering, taper fertilizer, watch for pests.";
-            case 11: case 12: return "Water much less, stop fertilizer, boost humidity.";
+            case 1: case 2: return "Water sparingly, skip fertilizer, and maximize light.";
+            case 3: case 4: return "Increase watering, start feeding, and repot if needed.";
+            case 5: case 6: return "Water more often, and feed every 2-3 weeks.";
+            case 7: case 8: return "Water frequently, keep feeding,and watch for heat stress.";
+            case 9: case 10: return "Reduce watering, taper fertilizer, and watch for pests.";
+            case 11: case 12: return "Water much less, stop fertilizer, and boost humidity.";
             default: return "";
         }
     }

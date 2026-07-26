@@ -20,7 +20,7 @@ public class EarlyCareConfirmPanel : MonoBehaviour
             // TODO: route through LocalizedText once translations are set up for the calendar system.
             string actionLabel = actionType == CareActionType.Watered ? "watered" : "fertilized";
 
-            questionText.text = "It's early to log " + actionLabel + " again - was this actually needed?";
+            questionText.text = "It's early to log " + actionLabel + " again, was this actually needed?";
         }
 
         if (root != null)
