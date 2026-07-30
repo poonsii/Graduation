@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
@@ -169,6 +170,7 @@ public class GameBootstrap : MonoBehaviour
         RecalculateOnboardingComplete(plantState);
         profileManager.Save(currentData); // save updated plant state.
         inventoryManager.RefreshPlantCards(); // update the plant card with the new location info.
+        inventoryManager.RefreshRoomPlantCardInfo(); // update the room plant's card with the new location info.
     }
 
     public void PreviewPlantLocation(string plantId, Transform spotTransform)
@@ -189,7 +191,9 @@ public class GameBootstrap : MonoBehaviour
 
     private void RecalculateOnboardingComplete(SavedPlantState plantState)
     {
-        plantState.hasCompletedOnboarding = plantState.selectedLightLocation != LightLocationType.Unknown;
+        // the plant still needs onboarding until both the location and the calendar step are done.
+        plantState.hasCompletedOnboarding = plantState.selectedLightLocation != LightLocationType.Unknown
+            && plantState.hasCompletedCalendarIntro;
     }
 
     private SavedPlantState FindPlantState(string uniquePlantInstanceId)
@@ -224,6 +228,143 @@ public class GameBootstrap : MonoBehaviour
         return currentData.savedPlants.Find(p => p.plantId == plantId); // return the saved state for this plant type (used by the plant cards).
     }
 
+    public PlantData GetPlantData(string plantId)
+    {
+        return plantDatabase != null ? plantDatabase.GetById(plantId) : null;
+    }
+
+    public void MarkCalendarIntroSeen(string uniquePlantInstanceId)
+    {
+        SavedPlantState plantState = FindPlantState(uniquePlantInstanceId);
+        if (plantState == null)
+            return;
+
+        plantState.hasCompletedCalendarIntro = true; // remember this step was shown, whether the player logged something or skipped it.
+        RecalculateOnboardingComplete(plantState);
+        profileManager.Save(currentData);
+    }
+
+    public CareLogResult LogPlantCare(string plantId, CareActionType actionType, int pointsEarned)
+    {
+        CareLogResult result = new CareLogResult();
+
+        SavedPlantState plantState = GetSavedPlantStateForPlant(plantId);
+        if (plantState == null)
+            return result;
+
+        DateTime now = CalendarClock.Now;
+        string todayString = now.ToString("yyyy-MM-dd");
+
+        // the 24-hour cooldown lives in PlayerPrefs, not the save file, so resetting plants can't
+        // be used to keep re-earning these points.
+        bool canAwardPoints = CalendarRewardTracker.CanAwardCarePoints(plantId, actionType, now);
+
+        CalendarLogEntry entry = new CalendarLogEntry();
+        entry.date = todayString;
+        entry.actionType = actionType;
+        entry.pointsEarned = canAwardPoints ? pointsEarned : 0;
+        plantState.careLog.Add(entry); // keep a full history of logged care.
+
+        if (actionType == CareActionType.Watered)
+            plantState.lastWateredDate = todayString;
+        else
+            plantState.lastFertilizedDate = todayString;
+
+        List<string> newlyEarnedBadges = CalendarBadgeManager.RefreshBadges(plantState, plantDatabase.GetById(plantId), now);
+
+        if (canAwardPoints)
+        {
+            if (PointsManager.Instance != null)
+                PointsManager.Instance.AddPoints(pointsEarned);
+
+            CalendarRewardTracker.MarkCarePointsAwarded(plantId, actionType, now);
+        }
+
+        AwardBadgeBonuses(plantId, newlyEarnedBadges);
+
+        profileManager.Save(currentData); // persist the new log, dates and badges.
+        inventoryManager.RefreshPlantCards(); // let the plant card show the new last-watered date.
+        inventoryManager.RefreshRoomPlantCardInfo(); // let the 3D room plant show the new last-watered date.
+
+        result.pointsAwarded = entry.pointsEarned;
+        result.newlyEarnedBadges = newlyEarnedBadges;
+        return result;
+    }
+
+    private void AwardBadgeBonuses(string plantId, List<string> newlyEarnedBadges)
+    {
+        if (newlyEarnedBadges == null || newlyEarnedBadges.Count == 0)
+            return;
+
+        foreach (string badgeId in newlyEarnedBadges)
+        {
+            if (CalendarRewardTracker.HasEverAwardedBadgeBonus(plantId, badgeId))
+                continue; // already got the one-time bonus for this badge before, even across resets.
+
+            if (PointsManager.Instance != null)
+                PointsManager.Instance.AddPoints(CalendarRewardTracker.BadgeBonusPoints);
+
+            CalendarRewardTracker.MarkBadgeBonusAwarded(plantId, badgeId);
+        }
+    }
+
+    public bool UnlogPlantCare(string plantId, CareActionType actionType)
+    {
+        SavedPlantState plantState = GetSavedPlantStateForPlant(plantId);
+        if (plantState == null)
+            return false;
+
+        string todayString = CalendarClock.Now.ToString("yyyy-MM-dd");
+
+        CalendarLogEntry entry = plantState.careLog.Find(e => e.date == todayString && e.actionType == actionType);
+        if (entry == null)
+            return false; // nothing logged today for this action - nothing to undo.
+
+        plantState.careLog.Remove(entry);
+
+        if (PointsManager.Instance != null)
+            PointsManager.Instance.AddPoints(-entry.pointsEarned); // undo the reward this entry gave.
+
+        RecomputeLastActionDate(plantState, actionType);
+
+        profileManager.Save(currentData);
+        inventoryManager.RefreshPlantCards();
+        inventoryManager.RefreshRoomPlantCardInfo();
+
+        return true;
+    }
+
+    private void RecomputeLastActionDate(SavedPlantState plantState, CareActionType actionType)
+    {
+        string mostRecentDate = ""; // yyyy-MM-dd strings sort correctly as plain text.
+
+        foreach (CalendarLogEntry entry in plantState.careLog)
+        {
+            if (entry.actionType == actionType && string.Compare(entry.date, mostRecentDate, StringComparison.Ordinal) > 0)
+                mostRecentDate = entry.date;
+        }
+
+        if (actionType == CareActionType.Watered)
+            plantState.lastWateredDate = mostRecentDate;
+        else
+            plantState.lastFertilizedDate = mostRecentDate;
+    }
+
+    public bool RefreshCalendarBadges(string plantId)
+    {
+        SavedPlantState plantState = GetSavedPlantStateForPlant(plantId);
+        if (plantState == null)
+            return false;
+
+        List<string> newlyEarned = CalendarBadgeManager.RefreshBadges(plantState, plantDatabase.GetById(plantId), CalendarClock.Now);
+
+        AwardBadgeBonuses(plantId, newlyEarned);
+
+        profileManager.Save(currentData); // the streak may have just reset even though nothing was logged.
+
+        return newlyEarned.Count > 0;
+    }
+
     private void LoadOwnedPlants(PlayerData data)
     {
         inventoryManager.Clear(); // clear old owned plants.
@@ -239,6 +380,7 @@ public class GameBootstrap : MonoBehaviour
 
         inventoryManager.RefreshRoomPlants(); // update room plants
         inventoryManager.RefreshPlantCards(); // update cards
+        inventoryManager.RefreshRoomPlantCardInfo(); // show each plant's last-watered date
         cardSpawner.SpawnCards(data.ownedPlantIds); // spawn owned cards
 
         if (plantWorldDisplay != null)

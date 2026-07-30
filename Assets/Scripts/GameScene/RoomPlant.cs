@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
@@ -12,10 +14,8 @@ public class RoomPlant : MonoBehaviour
 
     [Header("Plant Setup")]
     [SerializeField] private PlantVisualController visualController; // switches between healthy and unhealthy looks.
-    [SerializeField] private float unhealthyAfterSeconds = 20f; // how long before the plant becomes unhealthy.
-
-    [Header("Day Settings")]
-    [SerializeField] private float secondsPerDay = 60f; // how many seconds count as one day
+    [SerializeField] private float unhealthyAfterSeconds = 20f; // fallback only - used if the calendar isn't wired up.
+    [SerializeField] private PlantData plantData; // expand this to see/edit the watering & fertilizing days used by the calendar.
 
     [Header("UI")]
     [SerializeField] private GameObject plantUiPanel;
@@ -34,6 +34,23 @@ public class RoomPlant : MonoBehaviour
     [Header("Localization")]
     [SerializeField] private LocalizedString dayLocalizedString;
     [SerializeField] private LocalizedString reminderLocalizedString;
+
+    [Header("Calendar Info")]
+    [SerializeField] private GameBootstrap gameBootstrap; // used to read the calendar's saved plant state (last watered date, etc).
+    [SerializeField] private TMP_Text[] lastWateredTexts;
+    [SerializeField] private PlantCalendarController calendarController; // this plant's calendar screen, if one exists.
+
+    [Header("Calendar Week Preview")]
+    [SerializeField] private RectTransform weekPreviewContainer; // needs a Grid Layout Group, fixed column count 7.
+    [SerializeField] private CalendarDayCell weekPreviewDayCellPrefab; // can be a smaller variant of the main calendar's day cell.
+
+    [Header("Light Location Info")]
+    [SerializeField] private TMP_Text[] lightLocationTexts; // shows the chosen location, and a short warning if it isn't a good fit.
+
+    [Header("Plant Health Status")]
+    [SerializeField] private TMP_Text[] plantHealthStatusTexts; // "Good" / "Needs attention" / "Doing bad".
+
+    private readonly List<CalendarDayCell> weekPreviewCells = new List<CalendarDayCell>();
 
     private float neglectTimer = 0f;
     private bool isUnhealthy = false;
@@ -94,6 +111,124 @@ public class RoomPlant : MonoBehaviour
     public string GetPlantId()
     {
         return plantId; // give back the plant id
+    }
+
+    public void RefreshCardInfo() // pulls the calendar/location info onto this plant's card - called by InventoryManager whenever it changes.
+    {
+        if (gameBootstrap == null)
+            return;
+
+        SavedPlantState state = gameBootstrap.GetSavedPlantStateForPlant(plantId);
+
+        RefreshLastWateredText(state);
+        RefreshWeekPreview(state);
+        RefreshLightLocationText(state);
+        RefreshPlantHealthStatusText(state);
+    }
+
+    private void RefreshPlantHealthStatusText(SavedPlantState state)
+    {
+        if (plantHealthStatusTexts == null)
+            return;
+
+        PlantHealthStatus status = PlantHealthAdvisor.GetStatus(state, ResolvePlantData(), CalendarClock.Now);
+        string label = PlantHealthAdvisor.GetLabel(status);
+
+        foreach (TMP_Text statusText in plantHealthStatusTexts)
+        {
+            if (statusText != null)
+                statusText.text = label;
+        }
+    }
+
+    private void RefreshLastWateredText(SavedPlantState state)
+    {
+        if (lastWateredTexts == null)
+            return;
+
+        string text = state != null && !string.IsNullOrEmpty(state.lastWateredDate)
+            ? LocalizedText.Get("card_last_watered", state.lastWateredDate)
+            : LocalizedText.Get("card_last_watered_unknown");
+
+        foreach (TMP_Text lastWateredText in lastWateredTexts)
+        {
+            if (lastWateredText != null)
+                lastWateredText.text = text;
+        }
+    }
+
+    private void RefreshLightLocationText(SavedPlantState state)
+    {
+        if (lightLocationTexts == null)
+            return;
+
+        string text;
+
+        if (state == null || state.selectedLightLocation == LightLocationType.Unknown)
+        {
+            text = LocalizedText.Get("card_light_location_unknown");
+        }
+        else
+        {
+            text = LocalizedText.Get("card_light_location", PlantAdviceText.GetLabel(state.selectedLightLocation));
+
+            if (state.lightAdviceResult == LightAdviceResult.Warning || state.lightAdviceResult == LightAdviceResult.Bad)
+                text += "\n" + LocalizedText.Get("card_light_location_advice"); // not the best spot for this plant.
+        }
+
+        foreach (TMP_Text lightLocationText in lightLocationTexts)
+        {
+            if (lightLocationText != null)
+                lightLocationText.text = text;
+        }
+    }
+
+    private void RefreshWeekPreview(SavedPlantState state)
+    {
+        if (weekPreviewContainer == null || weekPreviewDayCellPrefab == null)
+            return;
+
+        foreach (CalendarDayCell cell in weekPreviewCells)
+        {
+            if (cell != null)
+                Destroy(cell.gameObject);
+        }
+
+        weekPreviewCells.Clear();
+
+        HashSet<string> wateredDates = new HashSet<string>();
+        HashSet<string> fertilizedDates = new HashSet<string>();
+
+        if (state != null)
+        {
+            foreach (CalendarLogEntry entry in state.careLog)
+            {
+                if (entry.actionType == CareActionType.Watered)
+                    wateredDates.Add(entry.date);
+                else
+                    fertilizedDates.Add(entry.date);
+            }
+        }
+
+        DateTime today = CalendarClock.Now.Date;
+        int daysSinceMonday = ((int)today.DayOfWeek + 6) % 7; // Monday = 0 .. Sunday = 6
+        DateTime monday = today.AddDays(-daysSinceMonday);
+
+        for (int i = 0; i < 7; i++)
+        {
+            DateTime day = monday.AddDays(i);
+            string dayString = day.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+            CalendarDayCell cell = Instantiate(weekPreviewDayCellPrefab, weekPreviewContainer);
+            cell.Setup(day.Day, day.Date == today, wateredDates.Contains(dayString), fertilizedDates.Contains(dayString));
+            weekPreviewCells.Add(cell);
+        }
+    }
+
+    public void OnOpenCalendarPressed() // lets the player log care later even if they skipped it during onboarding.
+    {
+        if (calendarController != null)
+            calendarController.Open();
     }
 
     public void MoveToSpot(Transform spotTransform)
@@ -187,13 +322,47 @@ public class RoomPlant : MonoBehaviour
 
     private void UpdatePlantState()
     {
-        currentDay = Mathf.FloorToInt(neglectTimer / secondsPerDay) + 1; // convert time into days.
-        isUnhealthy = neglectTimer >= unhealthyAfterSeconds; // check if the plant is unhealthy.
+        currentDay = ComputeCurrentDayFromCalendar(); // real days since it was last watered, instead of a compressed timer.
+        isUnhealthy = IsOverdueByCalendar(); // unhealthy once the calendar says care is overdue (e.g. water not logged within its window).
 
         if (visualController != null)
             visualController.SetHealthy(!isUnhealthy); // switch plant look.
 
         RefreshDayString();
+    }
+
+    private PlantData ResolvePlantData()
+    {
+        if (plantData != null)
+            return plantData;
+
+        return gameBootstrap != null ? gameBootstrap.GetPlantData(plantId) : null;
+    }
+
+    private bool IsOverdueByCalendar()
+    {
+        if (gameBootstrap == null)
+            return neglectTimer >= unhealthyAfterSeconds; // fall back to the old timer-based check if the calendar isn't wired up.
+
+        SavedPlantState state = gameBootstrap.GetSavedPlantStateForPlant(plantId);
+
+        return CalendarBadgeManager.IsOverdueForCare(state, ResolvePlantData(), CalendarClock.Now);
+    }
+
+    private int ComputeCurrentDayFromCalendar()
+    {
+        if (gameBootstrap == null)
+            return currentDay; // calendar isn't wired up - leave the day counter as is.
+
+        SavedPlantState state = gameBootstrap.GetSavedPlantStateForPlant(plantId);
+
+        if (state == null || string.IsNullOrEmpty(state.lastWateredDate))
+            return 1; // no watering logged yet.
+
+        if (!DateTime.TryParseExact(state.lastWateredDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime lastWatered))
+            return 1;
+
+        return (CalendarClock.Now.Date - lastWatered.Date).Days + 1; // day 1 = the day it was watered.
     }
 
     private void CheckReminder()
