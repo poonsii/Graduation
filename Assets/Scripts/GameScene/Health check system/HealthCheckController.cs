@@ -28,7 +28,7 @@ public class HealthCheckController : MonoBehaviour
 
     [Header("Leaf Check")]
     [SerializeField] private GameObject leafCheckRoot;
-    [SerializeField] private GameObject leafCheckModel; // e.g. MDL_MonsteraLeafCheck.
+    [SerializeField] private GameObject leafCheckModel; //MDL_MonsteraLeafCheck.
     [SerializeField] private TMP_Text leafInstructionText;
     [SerializeField] private TMP_Text leafQuestionText;
     [SerializeField] private GameObject leafAdviceRoot;
@@ -36,7 +36,7 @@ public class HealthCheckController : MonoBehaviour
 
     [Header("Pest Check")]
     [SerializeField] private GameObject pestCheckRoot;
-    [SerializeField] private GameObject pestCheckModel; // e.g. MDL_MonsteraPestsCheck.
+    [SerializeField] private GameObject pestCheckModel; // MDL_MonsteraPestsCheck.
     [SerializeField] private TMP_Text pestInstructionText;
     [SerializeField] private TMP_Text pestQuestionText;
     [SerializeField] private GameObject pestAdviceRoot;
