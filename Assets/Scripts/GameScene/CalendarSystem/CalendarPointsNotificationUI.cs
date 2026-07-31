@@ -23,7 +23,12 @@ public class CalendarPointsNotificationUI : MonoBehaviour
 
     public void ShowPoints(CareActionType actionType, int points)
     {
-        string sign = points >= 0 ? "+" : ""; // an unlog can pass a negative amount and still read correctly.
+        ShowPoints(points);
+    }
+
+    public void ShowPoints(int points)
+    {
+        string sign = points >= 0 ? "+" : ""; // an unlog (or a health check retraction) can pass a negative amount and still read correctly.
         QueueMessage(LocalizedText.Get("calendar_points_popup", sign + points));
     }
 

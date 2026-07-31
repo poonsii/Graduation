@@ -40,6 +40,9 @@ public class RoomPlant : MonoBehaviour
     [SerializeField] private TMP_Text[] lastWateredTexts;
     [SerializeField] private PlantCalendarController calendarController; // this plant's calendar screen, if one exists.
 
+    [Header("Health Check")]
+    [SerializeField] private HealthCheckController healthCheckController; // this plant's health check screen, if one exists.
+
     [Header("Calendar Week Preview")]
     [SerializeField] private RectTransform weekPreviewContainer; // needs a Grid Layout Group, fixed column count 7.
     [SerializeField] private CalendarDayCell weekPreviewDayCellPrefab; // can be a smaller variant of the main calendar's day cell.
@@ -229,6 +232,12 @@ public class RoomPlant : MonoBehaviour
     {
         if (calendarController != null)
             calendarController.Open();
+    }
+
+    public void OnOpenHealthCheckPressed() // opens the health check flow for this plant from its plant card.
+    {
+        if (healthCheckController != null)
+            healthCheckController.Open();
     }
 
     public void MoveToSpot(Transform spotTransform)
