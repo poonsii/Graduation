@@ -19,6 +19,8 @@ public class HealthCheckController : MonoBehaviour
 
     [Header("Screen")]
     [SerializeField] private GameObject screenRoot; // whole health check panel - shown/hidden as one.
+    [SerializeField] private GameObject backgroundRoot; // the camera-space background canvas behind the 3D model - shown/hidden alongside the screen.
+    [SerializeField] private GameObject[] otherUiToHide; // persistent UI (top bar, bottom plant switcher, etc.) that isn't covered by the background anymore and needs hiding explicitly while a check is open.
 
     [Header("Intro")]
     [SerializeField] private GameObject introRoot;
@@ -52,6 +54,7 @@ public class HealthCheckController : MonoBehaviour
     private bool startPointsAwarded;
     private bool anyTaskCompleted; // true once at least one check was answered instead of skipped.
     private DateTime sessionNow;
+    private bool[] otherUiPreviousStates; // each entry's own state right before it was hidden, so closing restores it instead of forcing everything back on.
 
     public string GetPlantId() => plantId;
 
@@ -70,6 +73,11 @@ public class HealthCheckController : MonoBehaviour
 
         if (screenRoot != null)
             screenRoot.SetActive(true);
+
+        if (backgroundRoot != null)
+            backgroundRoot.SetActive(true);
+
+        HideOtherUi();
 
         ShowOnly(introRoot);
     }
@@ -199,8 +207,42 @@ public class HealthCheckController : MonoBehaviour
         if (screenRoot != null)
             screenRoot.SetActive(false);
 
+        if (backgroundRoot != null)
+            backgroundRoot.SetActive(false);
+
+        RestoreOtherUi();
+
         if (cameraMover != null)
             cameraMover.MoveToOriginalPose();
+    }
+
+    private void HideOtherUi()
+    {
+        if (otherUiToHide == null)
+            return;
+
+        otherUiPreviousStates = new bool[otherUiToHide.Length];
+
+        for (int i = 0; i < otherUiToHide.Length; i++)
+        {
+            if (otherUiToHide[i] == null)
+                continue;
+
+            otherUiPreviousStates[i] = otherUiToHide[i].activeSelf; // remember what it was before hiding it.
+            otherUiToHide[i].SetActive(false);
+        }
+    }
+
+    private void RestoreOtherUi()
+    {
+        if (otherUiToHide == null || otherUiPreviousStates == null)
+            return;
+
+        for (int i = 0; i < otherUiToHide.Length; i++)
+        {
+            if (otherUiToHide[i] != null)
+                otherUiToHide[i].SetActive(otherUiPreviousStates[i]); // back to whatever it was before, not forced on.
+        }
     }
 
     // shows exactly one of this plant's health check screens (and its matching 3D model), hides the rest.

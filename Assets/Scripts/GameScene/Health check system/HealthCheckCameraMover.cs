@@ -1,27 +1,23 @@
-using System;
-using System.Collections;
 using UnityEngine;
 
-// smoothly moves the main camera to a health check "stage" spot and back again, since each check
-// shows the plant from a dedicated camera angle instead of the normal room view. Shared by every
-// plant's HealthCheckController, since they all move the same camera.
+// snaps the main camera to a health check "stage" spot and back again, since each check shows the
+// plant from a dedicated camera angle instead of the normal room view. Also disables the room's
+// swipe/zoom camera control while a check is open - otherwise it overwrites the camera's position
+// every frame and fights with this. Shared by every plant's HealthCheckController, since they all
+// move the same camera.
 public class HealthCheckCameraMover : MonoBehaviour
 {
     [SerializeField] private Transform cameraTransform;
-    [SerializeField] private float moveDuration = 0.75f;
+    [SerializeField] private SwipeRotate roomCameraControl; // the room's drag/zoom control - disabled while a health check is open.
 
-    private Coroutine moveCoroutine;
     private Vector3 originalPosition;
     private Quaternion originalRotation;
     private bool hasOriginalPose;
 
-    public void MoveTo(Transform target, Action onComplete = null)
+    public void MoveTo(Transform target)
     {
         if (cameraTransform == null || target == null)
-        {
-            onComplete?.Invoke();
             return;
-        }
 
         if (!hasOriginalPose)
         {
@@ -31,49 +27,23 @@ public class HealthCheckCameraMover : MonoBehaviour
             hasOriginalPose = true;
         }
 
-        StartMove(target.position, target.rotation, onComplete);
+        if (roomCameraControl != null)
+            roomCameraControl.enabled = false; // stop it from overwriting the camera position every frame.
+
+        cameraTransform.position = target.position;
+        cameraTransform.rotation = target.rotation;
     }
 
-    public void MoveToOriginalPose(Action onComplete = null)
+    public void MoveToOriginalPose()
     {
         if (cameraTransform == null || !hasOriginalPose)
-        {
-            onComplete?.Invoke();
             return;
-        }
 
-        StartMove(originalPosition, originalRotation, onComplete);
-    }
+        cameraTransform.position = originalPosition;
+        cameraTransform.rotation = originalRotation;
+        hasOriginalPose = false;
 
-    private void StartMove(Vector3 targetPosition, Quaternion targetRotation, Action onComplete)
-    {
-        if (moveCoroutine != null)
-            StopCoroutine(moveCoroutine);
-
-        moveCoroutine = StartCoroutine(MoveRoutine(targetPosition, targetRotation, onComplete));
-    }
-
-    private IEnumerator MoveRoutine(Vector3 targetPosition, Quaternion targetRotation, Action onComplete)
-    {
-        Vector3 startPosition = cameraTransform.position;
-        Quaternion startRotation = cameraTransform.rotation;
-        float elapsed = 0f;
-
-        while (elapsed < moveDuration)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / moveDuration));
-
-            cameraTransform.position = Vector3.Lerp(startPosition, targetPosition, t);
-            cameraTransform.rotation = Quaternion.Slerp(startRotation, targetRotation, t);
-
-            yield return null;
-        }
-
-        cameraTransform.position = targetPosition;
-        cameraTransform.rotation = targetRotation;
-
-        moveCoroutine = null;
-        onComplete?.Invoke();
+        if (roomCameraControl != null)
+            roomCameraControl.enabled = true; // hand control back to the player.
     }
 }

@@ -236,6 +236,8 @@ public class RoomPlant : MonoBehaviour
 
     public void OnOpenHealthCheckPressed() // opens the health check flow for this plant from its plant card.
     {
+        CloseAllPlantCards(); // the health check screen takes over - don't leave the plant card open behind it.
+
         if (healthCheckController != null)
             healthCheckController.Open();
     }
