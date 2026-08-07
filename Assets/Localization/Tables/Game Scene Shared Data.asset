@@ -457,6 +457,58 @@ MonoBehaviour:
     m_Key: card_light_location_advice
     m_Metadata:
       m_Items: []
+  - m_Id: 30000000000000000
+    m_Key: healthcheck_intro_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30001000000000000
+    m_Key: healthcheck_leaf_instruction
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30002000000000000
+    m_Key: healthcheck_leaf_question
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30003000000000000
+    m_Key: healthcheck_leaf_advice_yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30004000000000000
+    m_Key: healthcheck_leaf_advice_no
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30005000000000000
+    m_Key: healthcheck_pest_instruction
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30006000000000000
+    m_Key: healthcheck_pest_question
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30007000000000000
+    m_Key: healthcheck_pest_advice_yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30008000000000000
+    m_Key: healthcheck_pest_advice_no
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30009000000000000
+    m_Key: healthcheck_root_instruction
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30010000000000000
+    m_Key: healthcheck_root_question
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30011000000000000
+    m_Key: healthcheck_root_advice_yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30012000000000000
+    m_Key: healthcheck_root_advice_no
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -470,6 +470,64 @@ MonoBehaviour:
     m_Localized: 'Laatst water gegeven: {0}'
     m_Metadata:
       m_Items: []
+  - m_Id: 30000000000000000
+    m_Localized: Time for {0}'s health check! Inspect its leaves, look for pests,
+      and check the roots. Answer honestly so we can give you the best advice.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30001000000000000
+    m_Localized: Inspect your real life plant and check if you notice any dead leaves,
+      yellow leaves, brown tips, spots, curling, or loss of variegation.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30002000000000000
+    m_Localized: Do you see any of these symptoms on your real life plant?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30003000000000000
+    m_Localized: Remove any dead or damaged leaves and keep an eye on your plant,
+      it needs a little extra care.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30004000000000000
+    m_Localized: Good job! Your plant's leaves are looking healthy.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30005000000000000
+    m_Localized: Inspect your real life plant and check leaf tops, undersides, stems,
+      and soil for webbing.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30006000000000000
+    m_Localized: Do you see any pests with these colors on your real life plant?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30007000000000000
+    m_Localized: Treat your plant for pests as soon as possible to stop them from
+      spreading.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30008000000000000
+    m_Localized: Good job! No pests found, keep it up.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30009000000000000
+    m_Localized: Check if roots are growing out of the pot like this on your real
+      life plant.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30010000000000000
+    m_Localized: Do you see roots growing out of the pot like this?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30011000000000000
+    m_Localized: It might be time to repot your plant into a bigger pot.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30012000000000000
+    m_Localized: Good job! Your plant's roots have plenty of room.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

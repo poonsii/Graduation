@@ -472,6 +472,66 @@ MonoBehaviour:
     m_Localized: Overweeg de plant te verplaatsen.
     m_Metadata:
       m_Items: []
+  - m_Id: 30000000000000000
+    m_Localized: Tijd voor de gezondheidscheck van {0}! Inspecteer de bladeren, kijk
+      of er ongedierte is en controleer de wortels. Antwoord eerlijk zodat we je
+      het beste advies kunnen geven.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30001000000000000
+    m_Localized: Bekijk je plant in het echt en controleer of je dode bladeren, gele
+      bladeren, bruine punten, vlekken, krullende bladeren of verlies van bladeren
+      opmerkt.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30002000000000000
+    m_Localized: Zie je een van deze symptomen op je echte plant?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30003000000000000
+    m_Localized: Verwijder dode of beschadigde bladeren en houd je plant goed in
+      de gaten - hij heeft wat extra zorg nodig.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30004000000000000
+    m_Localized: Goed gedaan! De bladeren van je plant zien er gezond uit.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30005000000000000
+    m_Localized: Bekijk je plant in het echt en controleer de bovenkant en onderkant
+      van de bladeren, de stengels en de aarde op webben.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30006000000000000
+    m_Localized: Zie je ongedierte met deze kleuren op je echte plant?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30007000000000000
+    m_Localized: Behandel je plant zo snel mogelijk tegen ongedierte om verspreiding
+      te voorkomen.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30008000000000000
+    m_Localized: Goed gedaan! Geen ongedierte gevonden - blijf zo doorgaan.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30009000000000000
+    m_Localized: Controleer of er wortels uit de pot groeien zoals hier op je echte
+      plant.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30010000000000000
+    m_Localized: Zie je wortels uit de pot groeien zoals dit?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30011000000000000
+    m_Localized: Het is misschien tijd om je plant in een grotere pot te zetten.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30012000000000000
+    m_Localized: Goed gedaan! De wortels van je plant hebben genoeg ruimte.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
