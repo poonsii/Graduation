@@ -532,6 +532,77 @@ MonoBehaviour:
     m_Localized: Goed gedaan! De wortels van je plant hebben genoeg ruimte.
     m_Metadata:
       m_Items: []
+  - m_Id: 1071834130
+    m_Localized: Hallo! Ik ben Nibbles en ik ga je vergezellen op je plantenverzorgingsreis.
+      Hier is een introductie om je wegwijs te maken in deze plantenverzorgings-app!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1712744719
+    m_Localized: Allereerst ga je de planten registreren. Kies de planten die je
+      in het echt bezit.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1776578904
+    m_Localized: Als je je planten hebt geregistreerd, moet je ze in deze nieuwe
+      kamer van je plaatsen!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1958980926
+    m_Localized: Daarna kun je je plantenverzorgingsroutine al bijhouden in de kalender
+      die aan je wordt getoond.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1123700868
+    m_Localized: 'En je verdient zelfs punten en badges met deze kalender! '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1672578907
+    m_Localized: Nu dat gedaan is, kun je deze kalender ook terugvinden in de plantenkaart.
+      Daar zie je nog veel meer informatie over je plant!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1927649558
+    m_Localized: Nu je planten geregistreerd zijn en verzorgd worden, kun je ze weer
+      zien in je kamer. Ik ben daar ook!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2022487120
+    m_Localized: Je kunt deze kamer van jou naar wens aanpassen. Met de punten die
+      je verdient kun je decoratie-items kopen, en ik kan veranderen in een vlinder
+      en door je kamer vliegen!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1621118472
+    m_Localized: Over punten gesproken, zoals ik al zei kun je die verdienen met
+      de kalender en het bijhouden van je plantenverzorging. Maar je kunt ook een
+      gezondheidscheck doen voor elke plant!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2006899465
+    m_Localized: Bij deze gezondheidschecks controleer je de symptomen die op je
+      scherm worden getoond, en kijk je of je plant ze heeft. Er is elke keer advies
+      over wat je moet doen!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1782733317
+    m_Localized: En dat is alles! \nWacht eens even.... De kamer is best ver weg,
+      toch? Als je op deze knop klikt, wordt dit gereset.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1166370321
+    m_Localized: Daar gaan we! Ik wens je veel succes in je nieuwe kamer en veel
+      plezier met de verzorging van je planten! Onthoud, ik hoop binnenkort een vlinder
+      te worden!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1181392704
+    m_Localized: Overslaan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1886936032
+    m_Localized: "TUTORIAL \nOPNIEUW"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

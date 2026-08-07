@@ -7,6 +7,7 @@ public class PlayerData
     public int saveVersion = 1;
 
     public bool hasFinishedPlantRegistration;
+    public bool hasSeenTutorial;
     public List<string> ownedPlantIds = new List<string>();
     public List<SavedPlantState> savedPlants = new List<SavedPlantState>();
 }

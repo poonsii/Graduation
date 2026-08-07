@@ -528,6 +528,76 @@ MonoBehaviour:
     m_Localized: Good job! Your plant's roots have plenty of room.
     m_Metadata:
       m_Items: []
+  - m_Id: 1071834130
+    m_Localized: Hello!  I am Nibbles and I will be joining your plant care journey.
+      Here is an introduction to getting you known with this plant care app!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1712744719
+    m_Localized: First of all, you will be registering the plants. Choose the plants
+      that you own in real life.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1776578904
+    m_Localized: When you have registered your plants, you will need to place them
+      inside this new room of yours!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1958980926
+    m_Localized: After that is done, you may already log your plant care routine
+      inside the calendar prompted to you.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1123700868
+    m_Localized: 'And you even earn points and badges using this calendar! '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1672578907
+    m_Localized: Now with that done, you can access this calendar back inside the
+      plant card. Where you can see much more information on your plant!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1927649558
+    m_Localized: Now that the plants have been registered and taking care of, you
+      can see them again in your room. I am inside there too!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2022487120
+    m_Localized: You can change things up in this room of yours. With the points
+      you earn you can buy decoration items, and I can turn into a butterfly and
+      fly in your room!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1621118472
+    m_Localized: Talking about points, as I have said you can earn them using the
+      calendar and logging your plant care. But you can also do a health check for
+      each plant!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2006899465
+    m_Localized: Inside these health checks you check the symptoms shown on your
+      screen, and check if your plant has them. There will be advice on what to do
+      each time!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1782733317
+    m_Localized: And that is all! \nWait a second.... The room is quite far away
+      is it not? If you click on this button it will reset.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1166370321
+    m_Localized: There we go! I wish you goodluck in your new room and have fun taking
+      care of your plants! Just remember, I hope to become a butterfly soon!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1181392704
+    m_Localized: Skip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1886936032
+    m_Localized: "REPLAY \nTUTORIAL"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

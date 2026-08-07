@@ -43,6 +43,13 @@ public class PlayerProfileManager : MonoBehaviour
         }
     }
 
+    public void RequestTutorialReplay()
+    {
+        PlayerData data = Load();
+        data.hasSeenTutorial = false;
+        Save(data); // GameScene's TutorialController checks this flag on load and shows the tutorial from the start.
+    }
+
     public void ResetPlantData()
     {
         DeleteSave(); 

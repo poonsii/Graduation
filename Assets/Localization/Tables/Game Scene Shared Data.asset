@@ -509,6 +509,62 @@ MonoBehaviour:
     m_Key: healthcheck_root_advice_no
     m_Metadata:
       m_Items: []
+  - m_Id: 1071834130
+    m_Key: tutorial_introduction
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1712744719
+    m_Key: tutorial_registering_plants
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1776578904
+    m_Key: tutorial_onboarding_location
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1958980926
+    m_Key: tutorial_plant_calendar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1123700868
+    m_Key: tutorial_plant_calendar_2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1672578907
+    m_Key: tutorial_plant_cards
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1927649558
+    m_Key: tutorial_the_room
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2022487120
+    m_Key: tutorial_shop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1621118472
+    m_Key: tutorial_health_check
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2006899465
+    m_Key: tutorial_health_check_2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1782733317
+    m_Key: tutorial_back_in_room
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1166370321
+    m_Key: tutorial_back_in_room_2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1181392704
+    m_Key: tutorial_skip_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1886936032
+    m_Key: tutorial_replay_button
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
