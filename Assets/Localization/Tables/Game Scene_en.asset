@@ -248,7 +248,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 20447754951368704
-    m_Localized: Choose the location closest to your real life {0}.
+    m_Localized: Choose the location closest to your real life {0}. Click on the
+      white circles.
     m_Metadata:
       m_Items:
       - rid: 1352283350861611389

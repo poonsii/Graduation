@@ -251,7 +251,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 20447754951368704
-    m_Localized: Kies de locatie die het dichtst bij je {0} in het echt staat.
+    m_Localized: Kies de locatie die het dichtst bij je {0} in het echt staat. Gebruik
+      de witte rondjes.
     m_Metadata:
       m_Items:
       - rid: 1352283350861611388

@@ -8,9 +8,9 @@ public class PlantLocationSelector : MonoBehaviour
     [SerializeField] private Camera mainCamera;
     [SerializeField] private LayerMask locationLayerMask;
     [SerializeField] private PlantLocationConfirmPanel confirmPanel;
-    [SerializeField] private List<PlantLocationSpot> allSpots; // every pickable spot - shown only while choosing a location.
+    [SerializeField] private List<PlantLocationSpot> allSpots; // every pickable spot, shown only while choosing a location.
 
-    [Header("Choose-a-location Prompt")]
+    [Header("Choose a location Prompt")]
     [SerializeField] private GameObject promptRoot;
     [SerializeField] private TMP_Text promptText;
     [SerializeField] private PlantDatabase plantDatabase;
@@ -90,11 +90,11 @@ public class PlantLocationSelector : MonoBehaviour
             PlantData plant = plantDatabase != null ? plantDatabase.GetById(plantId) : null;
             string plantName = plant != null ? plant.displayName : plantId;
 
-            Debug.Log("[Onboarding] ShowPrompt - plantId: '" + plantId + "', plantDatabase assigned: " + (plantDatabase != null)
+            Debug.Log("[onboarding] ShowPrompt - plantId: '" + plantId + "', plantDatabase assigned: " + (plantDatabase != null)
                 + ", plant found: " + (plant != null) + ", plantName resolved to: '" + plantName + "'");
 
             promptText.text = LocalizedText.Get("location_prompt", plantName);
-            Debug.Log("[Onboarding] ShowPrompt - final text: '" + promptText.text + "'");
+            Debug.Log("[onboarding] ShowPrompt - final text: '" + promptText.text + "'");
         }
 
         promptRoot.SetActive(true);
